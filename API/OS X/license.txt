@@ -1,0 +1,15 @@
+This software is copyright © 2011, Opticon Inc. All Rights Reserved.
+
+This software may only be used on installations that include hardware 
+(such as bar code readers) directly or indirectly supplied by 
+Opticon Inc.
+
+The physical media and physical documentation (if any) are warranted for 
+one year after purchase. The liability of Opticon Inc. is 
+limited to replacement of defective media or documentation.
+
+Opticon Inc. does not warrant that this software is error 
+free, or that it meets any user's particular standards, requirements, or needs.
+
+Opticon Inc. will in no event be liable for any direct, indirect, 
+consequential or incidental damages arising out of use of this software.

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+<meta name="ROBOTS" content="NOINDEX" />
+<title>Documentation for OPN Framework (opn_interface.h)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ascii" />
+
+	<meta name="generator" content="HeaderDoc" />
+<meta name="xcode-display" content="render" />
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; }.param_indent { margin-left: 40px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.hd_tocAccess { font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }--></style></head>
+<body bgcolor="#edf2f6" link="#000099" vlink="#660066"
+leftmargin="0" topmargin="0" marginwidth="0"
+marginheight="0">
+<table width="100%" cellpadding=0 cellspacing=0 border=0><tr height=51 width="100%" bgcolor="#466C9B"><td width="100%">&nbsp;</td></tr><tr><td><br><table border="0" cellpadding="0" cellspacing="2" width="148">
+<tr><td width="15">&nbsp;</td><td colspan="2"><font size="5" color="#330066"><b>Header:</b></font></td></tr>
+<tr><td width="15">&nbsp;</td><td width="15">&nbsp;</td><td><b><font size="+1">OPN Framework</font></b></td></tr>
+<tr><td></td><td colspan="2">
+<h4><br><nobr><a href="index.html#top" target="doc">Introduction</a></nobr></h4>
+<h4><a href="index.html#HeaderDoc_functions" target="doc">Functions</a></h4>
+&nbsp;&nbsp;<font size="-1"><i>Barcode Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getBarcode" target="doc">getBarcode</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/isDataAvailable" target="doc">isDataAvailable</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/readData" target="doc">readData</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>Creation / Destruction Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/CreateOPNInterface" target="doc">CreateOPNInterface</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/DestroyOPNInterface" target="doc">DestroyOPNInterface</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>Getter / Setter Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getASCIIMode" target="doc">getASCIIMode</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getCodeType" target="doc">getCodeType</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getDeviceID" target="doc">getDeviceID</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getUSBEventClass" target="doc">getUSBEventClass</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getUSBEventKindDataAvailable" target="doc">getUSBEventKindDataAvailable</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getUSBEventKindInsert" target="doc">getUSBEventKindInsert</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getUSBEventKindRemove" target="doc">getUSBEventKindRemove</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getCDCEventClass" target="doc">getCDCEventClass</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getCDCEventKindDataAvailable" target="doc">getCDCEventKindDataAvailable</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getCDCEventKindInsert" target="doc">getCDCEventKindInsert</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getCDCEventKindRemove" target="doc">getCDCEventKindRemove</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getLibraryVersion" target="doc">getLibraryVersion</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getConnectedDeviceClass" target="doc">getConnectedDeviceClass</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getConnectedDeviceName" target="doc">getConnectedDeviceName</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getProtocolVersion" target="doc">getProtocolVersion</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getRetryCount" target="doc">getRetryCount</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getRTCMode" target="doc">getRTCMode</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getSoftwareVersion" target="doc">getSoftwareVersion</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getSystemStatus" target="doc">getSystemStatus</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/setRetryCount" target="doc">setRetryCount</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>Miscellaneous Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/timeStamp2String" target="doc">timeStamp2String</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>OPN Command Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/clearDataCmd" target="doc">clearDataCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getParamCmd" target="doc">getParamCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/getTimeCmd" target="doc">getTimeCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/interrogateCmd" target="doc">interrogateCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/powerDownCmd" target="doc">powerDownCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/setDefaultsCmd" target="doc">setDefaultsCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/setParamCmd" target="doc">setParamCmd</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/setTimeCmd" target="doc">setTimeCmd</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>Polling Functions:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/disablePolling" target="doc">disablePolling</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/func/enablePolling" target="doc">enablePolling</a></nobr><br>
+<h4><a href="index.html#HeaderDoc_defines" target="doc">#defines
+</a></h4>
+&nbsp;&nbsp;<font size="-1"><i>Buffer Sizes:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/DEVICE_ID_SIZE" target="doc">DEVICE_ID_SIZE</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/LIBRARY_VERSION_SIZE" target="doc">LIBRARY_VERSION_SIZE</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/SOFTWARE_VERSION_SIZE" target="doc">SOFTWARE_VERSION_SIZE</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/TIME_BUFFER_SIZE" target="doc">TIME_BUFFER_SIZE</a></nobr><br>
+&nbsp;&nbsp;<font size="-1"><i>Function Status Codes:</i></font><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/BAD_PARAM" target="doc">BAD_PARAM</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/COMMAND_LRC_ERROR" target="doc">COMMAND_LRC_ERROR</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/COMMUNICATIONS_ERROR" target="doc">COMMUNICATIONS_ERROR</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/GENERAL_ERROR" target="doc">GENERAL_ERROR</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/INVALID_COMMAND_NUMBER" target="doc">INVALID_COMMAND_NUMBER</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/RECEIVED_CHARACTER_ERROR" target="doc">RECEIVED_CHARACTER_ERROR</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/SETUP_ERROR" target="doc">SETUP_ERROR</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/STATUS_OK" target="doc">STATUS_OK</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/COMPOSITE_CLASS" target="doc">COMPOSITE_CLASS</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/COMMUNICATION_CLASS" target="doc">COMMUNICATION_CLASS</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/OPN_2001" target="doc">OPN_2001</a></nobr><br>
+<nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html#//apple_ref/c/macro/OPN_2003" target="doc">OPN_2003</a></nobr><br>
+</td></tr>
+</table><p>&nbsp;<p>
+</td></tr></table>
+</body></html>

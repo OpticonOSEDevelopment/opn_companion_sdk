@@ -1,0 +1,781 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Opticon.csp2Ex.net</name>
+    </assembly>
+    <members>
+        <member name="T:Opticon.csp2">
+            
+             <summary>
+             <para>.NET Wrapper class for interfacing the Opticon OPN-2001 and Symbol CS1504.</para>
+             <para>This assambly requires Opticon's version of csp2.dll </para>
+             </summary>
+            
+        </member>
+        <member name="M:Opticon.csp2.Init(System.Int32)">
+            
+             <summary>
+             Opens the serial port
+             </summary>
+             <param name="nComPort">serial port number</param>          
+             <remarks>
+             <para>COM1=1</para>
+             <para>COM2=2</para>
+             <para>etc.</para>
+             </remarks>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>           0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.Restore">
+            
+             <summary>
+             Closes a COM port that was opened by Init
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>       0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.Restore(System.Int32)">
+            
+             <summary>
+             Closes the specified COM port
+             </summary>
+             <param name="nComPort">serial port number</param>          
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>       0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.WakeUp">
+            
+             <summary>
+             Tries to wakeup the CS1504 by setting the DTR line high
+             </summary>
+             <remarks>
+             This function is not needed when using the Opticon OPN-2001
+             </remarks>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>           0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.WakeUp(System.Int32)">
+            
+             <summary>
+             Tries to wakeup the specified CS1504 by setting the DTR line high
+             </summary>
+             <param name="nComPort">serial port number</param>          
+             <remarks>
+             This function is not needed when using the Opticon OPN-2001
+             </remarks>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>           0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.DataAvailable">
+            
+             <summary>
+             Checks the CTS line to see if data is available
+             </summary>
+             <remarks>
+             CS1504 need a csp2Wakeup first.
+             </remarks>
+             <returns>
+             <para>&gt;0L		Data available</para>
+             <para>0L	    No data available</para>
+             <para>&lt;0L       on failure</para> 
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.DataAvailable(System.Int32)">
+            
+             <summary>
+             Checks the CTS line to see if data is available on the specified COM port
+             </summary>
+             <param name="nComPort">serial port number</param>          
+             <remarks>
+             CS1504 need a csp2Wakeup first.
+             </remarks>
+             <returns>
+             <para>&gt;0L		Data available</para>
+             <para>0L	    No data available</para>
+             <para>&lt;0L       on failure</para> 
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.ReadData">
+            
+             <summary>
+             <para>Read all data from the OPN-2001 or CS1504 and store it in an 
+             internal buffer. To read data from the internal buffer use</para>
+             one of the functions below.
+            	* csp2GetPacket()
+            	* csp2GetDeviceId()
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.ReadData(System.Int32)">
+            
+             <summary>
+             <para>Read all data from the specified OPN-2001 or CS1504 and store it in an 
+             internal buffer. To read data from the internal buffer use</para>
+             <param name="nComPort">serial port number</param>    
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.ClearData">
+            
+             <summary>
+             Removes all collected data from the OPN-2001 or CS1504
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.ClearData(System.Int32)">
+            
+             <summary>
+             Removes all collected data from the specified OPN-2001 or CS1504
+             </summary>
+             <param name="nComPort">serial port number</param>    
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.PowerDown">
+            
+             <summmary>
+             Set the CS1504 in a powerdown mode
+             </summmary>
+             <remarks>
+             This function is not reqired for the OPN-2001
+             </remarks>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.PowerDown(System.Int32)">
+            
+             <summmary>
+             Set the CS1504 in a powerdown mode
+             </summmary>
+             <param name="nComPort">serial port number</param>    
+             <remarks>
+             This function is not reqired for the OPN-2001
+             </remarks>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetTime(System.DateTime@)">
+            
+             <summary>
+             Get the time from the OPN-2001 or CS1504
+             </summary>
+             <param name="Time">returns a System.DateTime object</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetTime(System.DateTime@,System.Int32)">
+            
+             <summary>
+             Get the time from the specifid OPN-2001 or CS1504
+             </summary>
+             <param name="Time">returns a System.DateTime object</param>
+             <param name="nComPort">serial port number</param>    
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.SetTime(System.DateTime)">
+            
+             <summary>
+             Set the time from the OPN-2001 or CS1504
+             </summary>
+             <param name="Time">System.DateTime object</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.SetTime(System.DateTime,System.Int32)">
+            
+             <summary>
+             Set the time from the specifed OPN-2001 or CS1504
+             </summary>
+             <param name="Time">System.DateTime object</param>
+             <param name="nComPort">serial port number</param>    
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.SetDefaults">
+            
+             <summary>
+             Set the OPN-2001 or CS1504 int default mode
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.SetDefaults(System.Int32)">
+            
+             <summary>
+             Set the specified OPN-2001 or CS1504 int default mode
+             </summary>
+             <param name="nComPort">serial port number</param>    
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.TimeStampToDateTime(System.Byte[])">
+            
+             <summary>
+             Converts a timesatmp array to a System.DateTime object.
+             </summary>
+             <param name="Stamp">Byte[] length at least 4 </param>
+             <returns> System.DateTime</returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetPacket(Opticon.csp2.BarCodeDataPacket@,System.Int32)">
+            
+             <summary>
+             Get data that was stored in the internal buffer by the csp2ReadData function
+             </summary>
+             <param name="aPacket"><see cref="T:Opticon.csp2.BarCodeDataPacket"/> object</param>
+             <param name="nBarcodeNumber">Requested barcode number starting from 0L</param>
+             <remarks>ReadData must have been called before this function can be used.</remarks>
+             <returns> 
+             <para>&gt;=0L on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetPacket(Opticon.csp2.BarCodeDataPacket@,System.Int32,System.Int32)">
+            
+             <summary>
+             Get data that was stored in the internal buffer by the csp2ReadDataEx function
+             </summary>
+             <param name="aPacket"><see cref="T:Opticon.csp2.BarCodeDataPacket"/> object</param>
+             <param name="nBarcodeNumber">Requested barcode number starting from 0L</param>
+             <param name="nComPort">serial port number</param>
+             <remarks>ReadDataEx must have been called before this function can be used.</remarks>
+             <returns> 
+             <para>&gt;=0L on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetDeviceId(System.String@)">
+            
+             <summary>
+             Get the device ID number from the OPN-2001 or CS1504
+             </summary>
+             <param name="DeviceId">System.String to receive Id</param>
+             <returns> 
+             <para>&gt;=0L on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetDeviceId(System.String@,System.Int32)">
+            
+             <summary>
+             Get the device ID number from the specified OPN-2001 or CS1504
+             </summary>
+             <param name="DeviceId">System.String to receive Id</param>
+             <param name="nComPort">serial port number</param>
+             <returns> 
+             <para>&gt;=0L on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetProtocol">
+            
+             <summary>
+             Get the protocol number of the OPN-2001 or CS1504
+             </summary>
+             <returns> 
+             <para>&gt;=0L Protocol version number</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetProtocol(System.Int32)">
+            
+             <summary>
+             Get the protocol number of the specified OPN-2001 or CS1504
+             </summary>
+             <param name="nComPort">serial port number</param>
+             <returns> 
+             <para>&gt;=0L Protocol version number</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetSystemStatus">
+            
+             <summary>
+             Get the systemstatus of the OPN-2001 or CS1504 
+             </summary>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetSystemStatus(System.Int32)">
+            
+             <summary>
+             Get the systemstatus of the specified OPN-2001 or CS1504 
+             </summary>
+             <param name="nComPort">serial port number</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetSwVersion(System.Text.StringBuilder,System.Int32)">
+            
+             <summary>
+             Get the software version string from OPN-2001 or CS1504
+             </summary>
+             <param name="szSwVersion"> Buffer where the software version is copied into</param>
+             <param name="nMaxLength"> Maximum size of szSwVersion</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetSwVersion(System.Text.StringBuilder,System.Int32,System.Int32)">
+            
+             <summary>
+             Get the software version string from the specified OPN-2001 or CS1504
+             </summary>
+             <param name="szSwVersion"> Buffer where the software version is copied into</param>
+             <param name="nMaxLength"> Maximum size of szSwVersion</param>
+             <param name="nComPort">serial port number</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetASCIIMode">
+            
+             <summary>
+             Returns a value corresponding to the ASCII MODE parameter of the OPN-2001 or CS1504
+             </summary>
+             <returns> 
+             <para>&gt;=0L current ASCII mode information</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetASCIIMode(System.Int32)">
+            
+             <summary>
+             Returns a value corresponding to the ASCII MODE parameter of the specified OPN-2001 or CS1504
+             </summary>
+             <param name="nComPort">serial port number</param>
+             <returns> 
+             <para>&gt;=0L current ASCII mode information</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetRTCMode">
+            
+             <summary>
+             Returns a value corresponding to the ARTC value parameter of the OPN-2001 or CS1504
+             </summary>
+             <returns> 
+             <para>&gt;=0L current RTC storage information</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetRTCMode(System.Int32)">
+            
+             <summary>
+             Returns a value corresponding to the ARTC value parameter of the specified OPN-2001 or CS1504
+             </summary>
+             <returns> 
+             <para>&gt;=0L current RTC storage information</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.SetRetryCount(System.Int32)">
+            
+             <summary>
+             Set the number of communication retries 
+             </summary>
+             <param name="nRetryCount"> 
+             <para>Specifies the number interrogation retry counts</para>
+             <para>Range from [ 1..9 ] is supported</para>
+             </param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetRetryCount">
+            
+             <summary>
+             Get number of communication retries 
+             </summary>
+             <returns> 
+             The number of retries
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.GetDllVersion(System.Text.StringBuilder,System.Int32)">
+            
+             <summary>
+             Get the software version of the DLL 
+             </summary>
+             <param name="szDllVersion"> Buffer where the software version is copied into</param>
+             <param name="nMaxLength"> Maximum size of szSwVersion</param>
+             <returns> 
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+             </returns>
+            
+        </member>
+        <member name="M:Opticon.csp2.TimeStampToStr(System.Byte[],System.Text.StringBuilder,System.Int32)">
+            <remarks>
+            <para>Obsolete functions GetPacket() and TimeStampToDateTime() return a DateTime object.</para>
+            <para>The value result buffer needs to be at leat 21 bytes big. time format: HH:MM:SS AM MM/DD/YYYY </para>
+            </remarks>
+            <summary>
+            Convert the packed timestamp to a readable format.
+            </summary>
+            <param name="Stamp"></param>
+            <param name="szTimeStampResult"></param>
+            <param name="nMaxLength"></param>
+            <returns> 
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.TimeStampToStrEx(System.Byte[],System.Text.StringBuilder,System.Int32)">
+            <summary>
+            See csp2.TimeStampToStr()
+            </summary>
+        </member>
+        <member name="M:Opticon.csp2.GetCodeType(System.Int32,System.Char[],System.Int32)">
+            <summary>
+            convert the OPN-2001 or CS1504 code id to a readable format
+            </summary>
+            <param name="CodeID">Integer value of the code ID</param>
+            <param name="CodeType">Result buffer</param>
+            <param name="nMaxLength">Maximum size of the result buffer</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.ReadRawData(System.Byte[],System.Int32)">
+            <summary>
+            <para>Read all data from the OPN-2001 or CS1504 and store it in an 
+            internal buffer. nMaxLength data bytes are copied into the Buffer</para>
+            </summary>
+            <param name="aBuffer">Buffer where the read data is copied into</param>
+            <param name="nMaxLength">Maximum size of the Buffer
+            <para>nMaxLength == 0L will only returns the requred buffer size</para></param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.ReadRawData(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            <para>Read all data from the specified OPN-2001 or CS1504 and store it in an 
+            internal buffer. nMaxLength data bytes are copied into the Buffer</para>
+            </summary>
+            <param name="aBuffer">Buffer where the read data is copied into</param>
+            <param name="nMaxLength">Maximum size of the Buffer
+            <param name="nComPort">serial port number</param>
+            <para>nMaxLength == 0L will only returns the requred buffer size</para></param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.SetParam(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write one device parameter.
+            </summary>
+            <param name="nParam">The number of the parameter to change.</param>
+            <param name="szString">The new parameter setting.</param>
+            <param name="nMaxLength">Specifies the amount of characters in szString that makeup the new parameter settings.</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.SetParam(System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Write one device parameter to the specified OPN-2001 or CS1504 
+            </summary>
+            <param name="nParam">The number of the parameter to change.</param>
+            <param name="szString">The new parameter setting.</param>
+            <param name="nMaxLength">Specifies the amount of characters in szString that makeup the new parameter settings.</param>
+            <param name="nComPort">serial port number</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetParam(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Read device parameter.
+            </summary>
+            <param name="nParam">The number of the parameters to read</param>
+            <param name="szString">Buffer to receive the parameter</param>
+            <param name="nMaxLength">Size the buffer</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetParam(System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read device parameter from the specified OPN-2001 or CS1504
+            </summary>
+            <param name="nParam">The number of the parameters to read</param>
+            <param name="szString">Buffer to receive the parameter</param>
+            <param name="nMaxLength">Size the buffer</param>
+            <param name="nComPort">serial port number</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.Interrogate">
+            <summary>
+            Request a response of the OPN-2001 or CS1504
+            </summary>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.Interrogate(System.Int32)">
+            <summary>
+            Request a response of the specified OPN-2001 or CS1504
+            </summary>
+            <param name="nComPort">serial port number</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetCTS">
+             <summary>
+             Read CTS line status of the OPN-2001 or CS1504
+             </summary>
+             <returns>
+             <para>1L SET</para>
+             <para>0L CLEAR</para>
+             <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetCTS(System.Int32)">
+             <summary>
+             Read CTS line status of the specified OPN-2001 or CS1504
+             </summary>
+             <param name="nComPort">serial port number</param>
+             <returns>
+             <para>1L SET</para>
+             <para>0L CLEAR</para>
+             <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.SetDTR(System.Int32)">
+            <summary>
+            Set DTR output line status of the OPN-2001 or CS1504
+            </summary>
+            <param name="nOnOff"> 1L=SET, 0L, CLEAR</param>
+            <returns>        
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.SetDTR(System.Int32,System.Int32)">
+            <summary>
+            Set DTR output line status of the specified OPN-2001 or CS1504
+            </summary>
+            <param name="nOnOff"> 1L=SET, 0L, CLEAR</param>
+            <param name="nComPort">serial port number</param>
+            <returns>        
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetDSR">
+             <summary>
+             Read DSR line status of the OPN-2001 or CS1504
+             </summary>
+             <returns>
+             <para>1L SET</para>
+             <para>0L CLEAR</para>
+             <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetDSR(System.Int32)">
+             <summary>
+             Read DSR line status of the specified OPN-2001 or CS1504
+             </summary>
+             <param name="nComPort">serial port number</param>
+             <returns>
+             <para>1L SET</para>
+             <para>0L CLEAR</para>
+             <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.SetDebugMode(System.Int32)">
+            <summary>
+            Set the DLL debug mode on, works only with the debug version of the csp2.dll
+            </summary>
+            <param name="nOnOff"> 1L == ON, 0L == OFF</param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.StartPolling(Opticon.csp2.csp2CallBackFunction)">
+            <summary>
+            This function spawns a new thread to poll for OPN-2001 or CS1504
+            The callback address allows the thread to inform the caller that a 
+            device has been detected.
+            </summary>
+            <param name="csp2CallBack"></param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.StartPollingAll(Opticon.csp2.csp2CallBackFunctionAll)">
+            <summary>
+            This function spawns a new thread to poll for all connected OPN-2001 or CS1504
+            The callback address allows the thread to inform the caller that a 
+            device has been detected.
+            </summary>
+            <param name="csp2CallBack"></param>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.StopPolling">
+            <summary>
+            Cancels the polling thread
+            </summary>
+            <returns>
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.EnablePolling">
+             <summary>
+             Resume the polling thread
+             </summary>
+             <returns>
+             <para>STATUS_OK	on success</para>
+             <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.DisablePolling">
+            <summary>
+            Suspend the polling thread
+            </summary>
+            <returns>        
+            <para>STATUS_OK	on success</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="M:Opticon.csp2.GetOpnCompatiblePorts(System.Int32[])">
+            <summary>
+            Returns an array of OPN2001 compatible com ports
+            </summary>
+            <param name="portArray">Buffer to store the array of ports</param>
+            <returns>
+            <para>>=0		on number of compatible ports</para>
+            <para>&lt;0L	on failure</para>
+            </returns>
+        </member>
+        <member name="T:Opticon.csp2.BarCodeDataPacket">
+            
+             <summary>
+             Type returned by GetPacket function"
+             </summary>
+            
+        </member>
+        <member name="F:Opticon.csp2.BarCodeDataPacket.iId">
+            <summary>Symbol CS-1504 barcode type Id.</summary>
+        </member>
+        <member name="F:Opticon.csp2.BarCodeDataPacket.strId">
+            <summary>String resppresentation of Id ( in English only ).</summary>
+        </member>
+        <member name="F:Opticon.csp2.BarCodeDataPacket.strBarData">
+            <summary>Barcode data.</summary>
+        </member>
+        <member name="F:Opticon.csp2.BarCodeDataPacket.dtTimestamp">
+            <summary>Timestamp</summary>
+            <remarks>RTC Mode must be enabled for this member to be valid.</remarks>
+        </member>
+        <member name="T:Opticon.csp2.csp2CallBackFunction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Opticon.csp2.csp2CallBackFunctionAll">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

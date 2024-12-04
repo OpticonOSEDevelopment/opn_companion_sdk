@@ -1,0 +1,309 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf250
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red54\green95\blue145;\red79\green129\blue189;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid201\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc2\levelnfcn2\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-roman\}.}{\leveltext\leveltemplateid202\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid301\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid302\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat9\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid401\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid402\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid501\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{lower-alpha\}.}{\leveltext\leveltemplateid502\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listname ;}\listid6}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}}
+{\info
+{\title Reseller & End-User License Agreement}
+{\author  smcghee}}\margl1440\margr1440\vieww12240\viewh15840\viewkind1
+\deftab720
+\pard\pardeftab720\ri0\sl276\slmult1\qc
+
+\f0\b\fs28 \cf2 Reseller & End-User License Agreement\
+\pard\pardeftab720\ri0
+
+\b0\fs24 \cf0 \
+PLEASE READ THIS LICENSE AGREEMENT CAREFULLY BEFORE USING THE OPTICON SOFTWARE OR SOURCE CODE.  \
+\
+This Reseller & End-User License Agreement (\'93Agreement\'94) is a legal agreement between you (either an individual user or organization) (hereinafter \'93licensee\'94, \'93you\'94 or \'93your\'94) and Opticon Incorporated and Opticon Sensors Europe B.V. (hereafter referred to collectively as \'93Opticon\'94), in part defining the terms and conditions you are required to follow in order to have the below defined revocable, limited, non-exclusive license to use, and possibly modify, Opticon\'92s SOFTWARE and/or SOURCE CODE in your operation of Opticon hardware.  By installing, using or modifying the SOFTWARE and/or SOURCE CODE, you agree to be bound by all of the terms and conditions of this Agreement.  \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 If you do not agree to the terms and conditions of this Agreement, you may not install, use or modify the SOFTWARE and/or SOURCE CODE.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+\pard\pardeftab720\ri0\sl276\slmult1\sb200
+
+\b\fs26 \cf3 1.\'a0\'a0\'a0\'a0\'a0 DEFINITIONS.  
+\b0\fs24 \cf0 As used hereinafter, the following terms have the following meanings throughout this Agreement:
+\b\fs26 \
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa120
+\ls1\ilvl0
+\fs24 \cf0 a)	\'93OPTICON HARDWARE\'94
+\b0  \'96 barcode scanning equipment and/or related devices of all types and manner, manufactured by or for Opticon.\
+\ls1\ilvl0
+\b b)	\'93DOCUMENTATION\'94
+\b0  \'96 manuals, data models, flow charts, logic diagrams, input and output forms, and functional specifications regarding the SOFTWARE and/or SOURCE CODE, or use of the SOFTWARE and/or SOURCE CODE, and generally supplied by Opticon to the end user customers of Opticon hardware, whether in printed or online format, as well as complete or partial copies of the foregoing.\
+\ls1\ilvl0
+\b c)	\'93RESELLER\'94
+\b0  \'96 anyone or entity that purchases Opticon hardware, from any source, and resells that hardware to another person or entity, whatever the price of the resale.\
+\ls1\ilvl0
+\b d)	\'93END-USER\'94
+\b0  \'96 anyone or entity that purchases Opticon hardware, from any source, and uses that hardware for its intended purpose.\
+\ls1\ilvl0
+\b e)	\'93SOFTWARE\'94
+\b0  \'96 a compiled, binary executable or object library and all associated files, including Documentation, whether or not denominated as a \'93demo application\'94 by Opticon.\
+\ls1\ilvl0
+\b f)	\'93SOURCE CODE\'94
+\b0  \'96 sample code or software development kits (\'93SDK\'94) containing code or other associated files \'96 including Documentation \'96 for the purpose of enabling END-USERs to develop their own binary executables or object libraries for use in Opticon hardware.\
+\ls1\ilvl0
+\b g)	\'93DEVELOPED SOFTWARE\'94
+\b0  - all computer applications\'a0END-USERs\'a0create\'a0(Macintosh / Unix / Linux / Windows / Windows Mobile GUI, service (background), and console applications; embedded applications that run on Opticon hardware),\'a0that use the SOFTWARE or are constructed using or are derivative from the SOURCE CODE.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 2.\'a0\'a0\'a0\'a0\'a0 \'a0GRANT OF LICENSE.\
+\pard\pardeftab720\ri0\sb100\sa100
+
+\b0\fs24 \cf0 This Agreement is a license agreement directed to Opticon\'92s SOFTWARE and SOURCE CODE 
+\i\b which SOFTWARE and SOURCE CODE are intended by Opticon to be used solely in association with and/or for the operation of Opticon hardware.  \
+
+\i0\b0 This Agreement is not an agreement for sale of the Opticon SOFTWARE or SOURCE CODE, and as such your rights granted herein are 
+\i\b expressly limited
+\i0\b0  as to how you may use, resell or otherwise transfer the Opticon SOFTWARE and SOURCE CODE.  Such expressly limited grant of rights being as follows:\
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa120
+\ls2\ilvl0
+\b \cf0 a)	Software and DEVELOPED SOFTWARE.
+\b0   This Agreement grants you a revocable, limited, non-exclusive license to install, use and run the SOFTWARE and/or the DEVELOPED SOFTWARE 
+\i\b solely on, or in conjunction with
+\i0\b0 , Opticon hardware.  You expressly agree herein 
+\i\b not
+\i0\b0  to install, use or run the SOFTWARE or the DEVELOPED SOFTWARE on hardware other then Opticon hardware, or assist or enable others to do so, including allowing any third party product to make any calls upon the SOFTWARE or DEVELOPED SOFTWARE, or otherwise access or use the functionality of the SOFTWARE or DEVELOPED SOFTWARE.  
+\i\b Neither
+\i0\b0  the SOFTWARE or the DEVELOPED SOFTWARE may be commercially redistributed by you, 
+\i\b unless
+\i0\b0  the SOFTWARE and/or the DEVELOPED SOFTWARE are packaged with Opticon hardware, in which case you are obligated to, and herein agree to, include a copy of this Agreement with your redistribution/resale of the Opticon hardware, SOFTWARE and/or DEVELOPED SOFTWARE to your customer so that your customer shall be apprised of the terms and restrictions contained herein that 
+\i\b run with the SOFTWARE and DEVELOPED SOFTWARE
+\i0\b0 . \
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa100
+\ls2\ilvl0
+\b \cf0 b)	Source code.
+\b0   Provided you, in your individual capacity if you are an individual, or an authorized representative of your company, if you are an entity, have \'93agreed\'94 electronically, as provided on the website giving you access to the SOURCE CODE, then this Agreement further grants you a revocable, limited, non-exclusive license to use the SOURCE CODE to create DEVELOPED SOFTWARE, which, as stated above, may only be used on, or in conjunction with, Opticon hardware.  It is 
+\i\b expressly prohibited
+\i0\b0  herein for you to commercially redistribute the SOURCE CODE in compiled or non-compiled form, unless you package it with Opticon hardware, in which case you are obligated to, and herein agree to, include a copy of this Agreement with your redistribution/resale of the Opticon hardware, SOURCE CODE and/or DEVELOPED SOFTWARE to your customer so that your customer shall be apprised of the terms and restrictions contained herein that 
+\i\b run with the SOURCE CODE and DEVELOPED SOFTWARE
+\i0\b0 .  \
+\pard\pardeftab720\li720\ri0\sb100\sa100
+\cf0 \
+\
+The following additional conditions run with the SOURCE CODE: \
+\pard\pardeftab720\li1440\fi-360\ri0\sb100\sa120
+\ls3\ilvl1\cf0 i.	All works created by or for you from the SOURCE CODE, whether corrections, modifications or derivatives, including but not limited to, DEVELOPED SOFTWARE, shall be considered works made for hire, with all right, title and interest thereto vesting in Opticon upon creation thereof.  If any such work does not constitute a work made for hire, you herein agree that this Agreement is an irrevocable sale, assignment and transfer to Opticon all right, title and interest in and to that work, including, but not limited to, all of your rights as the owner of the claim to copyright in that work, throughout the world.  You agree to execute, if necessary, any and all documents that may be reasonably necessary to effectuate the ownership of such copyright rights in Opticon.  If you employ any outside programmer(s) to contribute to or create the DEVELOPED SOFTWARE, you agree to have such outside programmer(s) execute, at the time of their contribution and/or creation, an agreement transferring any and all rights of such programmer(s) in the DEVELOPED SOFTWARE, including, but not limited to, any and all copyright rights, to Opticon.  This provision shall survive the termination or expiration of this Agreement. \
+ii.	You also agree to deliver to Opticon all related information for said corrections, modifications, or derivatives.\
+iii.	You acknowledge and agree that the SOURCE CODE contains valuable and proprietary trade secrets of Opticon, and agree to expend every effort to insure its confidentiality.\
+\pard\pardeftab720\li1440\fi-360\ri0\sb100\sa100
+\ls3\ilvl1\cf0 iv.	In the event that Opticon ceases business operations and no surviving entity owns the rights to the source code, then you may retain and continue to use the source code under the terms and conditions outlined in this Agreement.\
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa120
+\ls4\ilvl1
+\b \cf0 c)	Electronic Documents.
+\b0  Solely with respect to Electronic Documents included with the SOFTWARE and SOURCE CODE, you may make an unlimited number of copies (either in hardcopy or electronic form), provided that such copies shall be used only for internal purposes and are not republished or distributed to any third party, unless they are distributed with the associated SOFTWARE or SOURCE CODE that is packaged with Opticon hardware to be resold by you.\
+\ls4\ilvl1
+\b d)	Additional Redistribution Requirements.
+\b0  If you redistribute/resell the SOFTWARE or SOURCE CODE pursuant to the limitations and conditions of Sections 2a and 2b of this Agreement, you also agree as follows:\
+\pard\tx1440\pardeftab720\li1440\fi-360\ri0\sb100\sa120
+\ls5\ilvl1\cf0 i.	To include a prominently displayed copyright notice on your redistributed/resold SOFTWARE, SOURCE CODE and/or DEVELOPED SOFTWARE, in the form:\
+\pard\pardeftab720\li2160\ri0
+\cf0 \'a9 Opticon, Inc.\
+\pard\pardeftab720\li1440\ri0
+
+\fs20 \cf0 \
+\pard\pardeftab720\li1440\fi-360\ri0
+
+\fs24 \cf0 ii.	Not permit further distribution of the SOFTWARE, SOURCE CODE or DEVELOPED SOFTWARE by your end user. \
+iii.	You may not redistribute/resell the SOFTWARE or SOURCE CODE if (a) you are creating DEVELOPED SOFTWARE for use by non-licensed software developers, or (b) your DEVELOPED SOFTWARE exposes the functionality of the SOFTWARE through a programmable interface.\
+\
+\pard\pardeftab720\li720\fi-360\ri0
+\cf0 e)	
+\b No Implied Licenses.  
+\b0 There are no implied licenses under this Agreement (by implication, estoppel or otherwise), and any rights not expressly granted to you herein are reserved by Opticon or its suppliers.\
+\pard\pardeftab720\li1440\fi-360\ri0
+\cf0 \
+\pard\pardeftab720\ri0\sa240
+
+\b\fs26 \cf3 3.\'a0\'a0\'a0\'a0\'a0 DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS.\
+\pard\pardeftab720\li720\fi-360\ri0
+\ls6\ilvl1
+\fs24 \cf0 a)	Trial Software.
+\b0   If the SOFTWARE or SOURCE CODE installed is to be used in conjunction with evaluation units of Opticon hardware, then notwithstanding other sections of this Agreement, you may 
+\i\b only
+\i0\b0  use the SOFTWARE\'a0for evaluation purposes and\'a0may 
+\i\b not
+\i0\b0  redistribute any SOFTWARE or SOURCE CODE.\
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa100
+\ls6\ilvl1
+\b \cf0 b)	Limitations on Reverse Engineering, Decompilation, and Disassembly.
+\b0   You may 
+\i\b not
+\i0\b0  reverse engineer, decompile or disassemble the SOFTWARE, or attempt in any manner to derive, reconstruct or discover any SOURCE CODE or underlying algorithms of SOFTWARE provided in object code form only, from the SOFTWARE or DOCUMENTATION.\
+\ls6\ilvl1
+\b c)	Separation of Components.
+\b0  The SOFTWARE is licensed as a single product. Its component parts may not be separated for use on more than one device.\
+\ls6\ilvl1
+\b d)	Transfer.
+\b0  You may not transfer, rent, sublease, or lend the SOFTWARE and/or SOURCE CODE.\
+\ls6\ilvl1
+\b e)	Support Services.
+\b0  Opticon may provide you with support services related to the SOFTWARE and/or SOURCE CODE ("SUPPORT SERVICES"). Any supplemental software code provided to you as part of the SUPPORT SERVICES shall be considered part of the SOFTWARE and subject to the terms and conditions of this Agreement. With respect to technical information you provide to Opticon as part of the SUPPORT SERVICES, Opticon may use such information for its business purposes. Opticon will not utilize such technical information in a form that personally identifies you as an individual, a single entity, or a corporation.\
+\ls6\ilvl1
+\b f)	Termination.
+\b0  Without prejudice to any other rights, Opticon may immediately terminate this Agreement if you fail to comply with any of the terms or conditions of this Agreement. In such event, you agree to destroy all copies of the SOFTWARE, SOURCE CODE, DEVELOPED SOFTWARE and/or CONFIDENTIAL INFORMATION.\
+\pard\pardeftab720\ri0\sb100\sa100
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 4.\'a0\'a0\'a0\'a0\'a0 COPYRIGHT.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\ri0\sb100\sa100
+\cf0 The SOFTWARE and SOURCE CODE are owned by Opticon and are protected, at least, by United States copyright laws and applicable international treaties.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 5.\'a0\'a0\'a0\'a0\'a0 PROPRIETARY RIGHTS.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\ri0\sb100\sa100
+\cf0 Portions of the SOFTWARE and SOURCE CODE utilize or include third party software and other copyrighted material.  Acknowledgements, licensing terms and disclaimers for such material are contained in the \'93online\'94 electronic documentation for the SOFTWARE and SOURCE CODE, and your use of such material is governed by their respective terms.
+\fs14   
+\fs24 All other copyright, patent, trade secret, trademark and other intellectual and property rights in the SOFTWARE and SOURCE CODE are, and shall remain, the valuable property of Opticon. You agree to take all reasonable steps to ensure that the provisions of this Agreement are not violated by you or by any person under your control or in your service.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 6.\'a0\'a0\'a0\'a0\'a0 EXPORT RESTRICTIONS.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\ri0\sb100\sa100
+\cf0 You agree that neither you nor your customers intend to or will, directly or indirectly, export or transmit (i) the SOFTWARE and/or SOURCE CODE or (ii) your DEVELOPED SOFTWARE or services that use the SOFTWARE and/or SOURCE CODE, or (iii) the DOCUMENTATION to any country to which such export or transmission is restricted by any applicable U.S. regulation or statute, without the prior written consent, if required, of the Bureau of Export Administration of the U.S. Department of Commerce, or such other governmental entity as may have jurisdiction over such export or transmission.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 7.\'a0\'a0\'a0\'a0\'a0 CONFIDENTIAL INFORMATION.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 a)	
+\b Confidentiality.
+\b0   Opticon and you agree that, in the course of dealings between the parties, each party may acquire information or materials about the other party, its business activities and operations, its technical information and trade secrets, which are of a confidential or proprietary nature (\'93Confidential Information\'94).  Without limitation, information will be treated as Confidential Information (i) if it is marked or accompanied by documents clearly and conspicuously designating them as \'93confidential\'94 or the equivalent; or before, during or promptly after the presentation of communication.  Upon request by you, Opticon shall advise you whether or not it considers any particular information or materials to be Confidential Information.  \'93Confidential Information\'93 does not include any information which: (i) was known to the receiving party before receipt from the disclosing party; (ii) is or becomes publicly available through no fault, act or omission of the receiving party; (iii) is rightfully received by the receiving party from a third party without a duty of confidentiality; (iv) is disclosed by the disclosing party to a third party without a  duty of confidentiality on the third party; or (v) is independently developed by the receiving party.\
+b)	
+\b No Use or Disclosure.
+\b0   Each Party shall not disclose the others party\'92s Confidential Information to third parties, and shall not use Confidential Information except to exercise its rights and fulfill its duties under this Agreement.  In addition, each party shall use the same degree of care, but no less than a reasonable degree of care, as the party uses with respect to its own similar information to protect the information and to prevent unauthorized use or disclosure.  Without limiting the foregoing, neither party shall disclose Confidential Information of the other party to its employees who do not have a need to know that information.  If a receiving party is required by a government body or court of law to disclose information, the receiving party agrees to give the disclosing party reasonable advance notice so that the disclosing party may contest the disclosure or seek a protective order.  Each party agrees to use reasonable efforts to return to the other party, or to destroy (and to certify the destruction in writing to the other party), all materials containing any Confidential Information of the other party upon the request of the disclosing party.  Confidential Information received under this Section need only be protected per this Section for five (5) years from first receipt thereof. \
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 8.\'a0\'a0\'a0\'a0\'a0 WARRANTY; DISCLAIMER.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 a)	
+\b Limited Warranties.
+\b0   Opticon represents and warrants that for a period of sixty (60) days after the date of delivery (the \'93Warranty Period\'94), the Software will function under ordinary use; will perform substantially the functions described in the Documentation, and the media on which the Software is delivered will be free from defects in design, workmanship and materials.\
+b)	
+\b Sole Remedy.
+\b0   Opticon\'92s sole and exclusive obligation, and your sole and exclusive remedy, for any breach of the warranties in section 8(a) is to use reasonable efforts to repair or replace the Software so that it conforms to the applicable warranty.\ul   \ulnone \
+c) 	
+\b Limitation and Exclusions.
+\b0    Opticon will have no obligation under this section 8 with respect to problems caused: (i) by a malfunction of computer hardware or software other than the Software or the Opticon hardware; (ii) by any modification of the Software that is unauthorized; (iii) by any combination, operation, or use of the Software with systems other than those described by this Agreement or the Documentation or that may otherwise be approved by Opticon; or (iv) by the Software being subjected to neglect, accident or the elements. \
+d) 	
+\b Disclaimers.
+\b0   EXCEPT AS STATED IN THIS SECTION 8 (\'93WARRANTY; DISCLAIMER\'94), OPTICON AND ITS LICENSORS AND SUPPLIERS MAKE NO OTHER WARRANTY, EXPRESS OR IMPLIED, WITH RESPECT TO THE SOFTWARE, SOURCE CODE, DOCUMENATION, AND/OR SERVICES TO BE PROVIDED HEREIN BY OPTICON, AND SPECIFICALLY DISCLAIMS THE IMPLIED WARRANTIES OF TITLE, MERCHANTABILITY, NOINFIRNGMENT AND FITNESS FOR A PARTICULAR PURPOSE.  Each party acknowledges that it has not entered into this Agreement in reliance upon any warranty or representation, except those specifically set forth herein. \
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 9.\'a0\'a0\'a0\'a0\'a0 INDEMNIFICATION BY OPTICON.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 a)	
+\b Indemnification by Opticon for Infringement. 
+\b0  Opticon shall, at its expense, defend or settle any claim or action brought against you that is based on or alleges that the Software or SOURCE CODE directly infringes a U.S. copyright, trademark, or trade secret (\'93Opticon Indemnified Claim\'94).  Opticon shall pay all damages awarded or amounts of settlements entered into for the Opticon Indemnified Claim.\
+b)	
+\b Limitations.
+\b0   Opticon\'92s obligations under section 9(a) do not apply to the extent that: (i) you are required to indemnify Opticon pursuant to section 10 below; (ii) the infringement arises as a result of any modification of the Software or SOURCE CODE by you that is unauthorized by Opticon, or is caused by modifications to the Software or SOURCE CODE by any party other than Opticon or Opticon\'92s authorized representative, irrespective of the ownership of such modifications as is otherwise provided for in this Agreement; or (iii) the infringement involves breach of this Agreement by you.\
+c)	
+\b Conditions.
+\b0   Opticon\'92s obligations under section 9(a) are conditioned on your compliance with the following: (i) you shall provided to Opticon prompt written notice of any such claim, action or allegation of infringement; (ii) you shall grant to Opticon, and Opticon will have, the exclusive right to defend any such claim, action or allegation and make settlements thereof at its own discretion; (iii)  you shall not settle or compromise such claim, action or allegation, except with prior written consent of Opticon; and (iv) you shall give, at Opticon\'92s expense, such assistance and information as Opticon may reasonably require to settle or oppose such claims.  You may, however, participate in the defense or settlement of such claim, action or allegation at your own expense and with your own choice or counsel, but Opticon shall have sole control over claims involving the validity of its copyright rights. \
+d)	
+\b Rights in Event of Infringement.
+\b0   In the event that an infringement, claim, action or allegation is brought or threatened, Opticon may, at its sole option and expense: (i) procure for you the right to continue Use of the Software, SOURCE CODE or infringing part thereof; (ii) modify or amend the Software, SOURCE CODE or infringing part thereof, or replace the Software, SOURCE CODE or infringing part thereof with other software or code having substantially the same or better capabilities; or, if neither of the foregoing is commercially practicable; (iii) terminate this Agreement and repay to you a dollar amount not to exceed that which you paid to Opticon for the software in question.  Opticon and you will then be released from any further obligation to the other under this Agreement, except for the obligations of indemnification provided for above and such other obligations that survive termination. \
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 10.\'a0\'a0\'a0\'a0\'a0 INDEMNIFICATION BY RESELLER/END-USER.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 a)  	
+\b Indemnification by Reseller/End-User. 
+\b0  You shall, at your expense, defend or settle any claim or action brought against Opticon that arises out of any modification implemented by you, or for you, to the Software, SOURCE CODE or DEVELOPED SOFTWARE and that causes a claim for violation of any copyright, trademark, trade secret or database rights of another (\'93your Indemnified Claim\'94), regardless of the fact that pursuant to this Agreement Opticon may be the owner of such modification.  You shall also, at your expense, defend or settle any claim or action brought against Opticon for patent infringement for your improper or violative usage of any of the Software, SOURCE CODE or DEVELOPED SOFTWARE.  You shall pay all damages awarded or amounts of settlements entered into for your Indemnified Claim. \
+b)	
+\b Conditions.
+\b0   Your indemnification obligations under section 10(a) are conditioned on Opticon\'92s compliance with the following: (i) Opticon shall provided to you prompt written notice of any such claim, action or allegation of infringement; (ii) Opticon shall grant to you, and you will have the exclusive right to defend any such claim, action or allegation and make settlements thereof at your own discretion; (iii) Opticon shall not settle or compromise such claim, action or allegation, except with your prior written consent; and (iv) Opticon shall give, at your expense, such assistance and information as Opticon may reasonably require to settle or oppose such claims.  Opticon may, however, participate in the defense or settlement of such claim, action or allegation at its own expense and with its own choice of counsel and if any such claim involves the validity of any of Opticon\'92s copyright rights, Opticon shall have the right to control that aspect of the defense against the claim. \
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 11.\'a0\'a0\'a0\'a0\'a0 LIMITATION OF LIABILITY.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 a) 	EXCEPT FOR SECTION 9 (\'93INDEMNIFICATION BY OPTICON\'94), SECTION 10 (\'93INDEMNIFICATION BY RESELLER/END-USER\'94), AND BREACH OF SECTION 7 (\'93CONFIDENTITALITY\'94), UNDER NO CIRCUMSTANCES WILL EITHER PARTY BE LIABLE FOR SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES RESULTING FROM LOSS OF PROFITS, DATA, BUSINESS, OR GOODWILL, WHETHER OR NOT THE PARTY HAS BEEN ADVISED OR IS AWARE OF THE POSSIBLITY OF THESE DAMAGES.  THESE LIMITATIONS SHALL APPLY NOTWITHSTANDING ANY FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY.  THE FOREGOING WILL NOT AFFECT EITHER PARTY\'92S LIABILITY, IF ANY, WITH RESPECT TO CONTRIBUTION OR INDEMNITY FOR THIRD-PARTY CLAIMS FOR PERSONAL INJURY, DEATH, OR PHYSICAL DAMAGE TO TANGIBLE PROPERTY.\
+b)	UNDER NO CIRCUMSTANCES SHALL OPTICON\'92S LICENSORS OR SUPPLIERS BE LIABLE FOR LOST PROFITS OR SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT (HOWEVER ARISING, INCLUDING NEGLIGENCE), EVEN IF SUCH PARTY HAS BEEN ADVISED OF THE POSSIBLITY OF SUCH DAMAGES.  THIS LIMITATION OF LIABILITY SHALL APPLY NOTWITHSTANDING THE FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY HEREIN.  OPTICON\'92S SUPPLIERS OR LICENSORS ALSO SPECIFCIALLY DISCLAIM DIRECT DAMAGES.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 12.\'a0\'a0\'a0\'a0\'a0 MISCELLANEOUS.
+\b0\fs24 \cf0  \
+\pard\pardeftab720\li720\fi-360\ri0\sb100\sa100
+\cf0 a)	
+\b Governing Law.
+\b0   The rights and obligations of the parties under this Agreement shall be governed by and construed under the laws of the State of Washington including its Uniform Commercial Code, without reference to conflict of laws principles, and that none of the obligations herein will be governed by the United Nations Convention on Contracts for the International Sale of Goods.  The parties further agree that any actions to enforce the terms hereof, or for breach hereof, shall be brought in either the federal or state courts of the State of Washington. \
+b)	
+\b Contacting Opticon.
+\b0   Should you have any questions concerning this Agreement, or if you desire to contact Opticon for any reason, please write to Opticon Incorporated; 2220 Lind Ave SW, Suite 100, Renton, WA 98057.  If you have a specific question regarding the licensing of SOFTWARE or SOURCE CODE, you may contact Opticon\'92s Operations Manager.\
+\pard\pardeftab720\li720\fi-360\ri0\sl276\slmult1\sa200
+\cf0 c) 	
+\b Assignment.
+\b0    This Agreement may not be assigned, in whole or in part, by either party without the prior written consent of the other party, which the other party will not unreasonably withhold, condition or delay except that Opticon may assign this Agreement, or any of its rights or obligations under this Agreement, to any person or entity which succeeds to its business to which this Agreement relates and which assumes all of its obligations hereunder in writing.  Opticon shall, to the extent it is able, provide notice of such assignment and, in such an event, Opticon or its legal successor-in-interest shall remain bound as a guarantor of such obligations.  Any attempted assignment in violation of the foregoing will be void and of no effect.  The parties\'92 rights and obligations will bind and inure to the benefit of their respective successors and permitted assigns.   \
+d)	
+\b Compliance with Law.
+\b0    At your own expense, you shall comply with all applicable laws and regulations regarding your activities related to this Agreement.  \
+e)	
+\b Entire Agreement.
+\b0   This Agreement sets forth the entire agreement and understanding of the parties relating to the subject matter herein and merges all prior agreements, discussions and understandings between them.  No modification of or amendment to this Agreement, nor any waiver of any rights under this Agreement, shall be effective unless in writing signed by the party to be charged.  \
+f)	
+\b No Waiver.
+\b0   No delay, omission or failure to exercise any right or remedy provided for in this Agreement shall be deemed to be a waiver thereof or an acquiescence to the event giving rise to such remedy, but every such right or remedy may be exercised, from time to time, as may be deemed expedient by the party exercising such right or remedy. \
+g)	
+\b Notices.
+\b0   Any notice required or permitted by this Agreement shall be in writing and shall be sent by prepaid registered or certified mail, return receipt requested, addressed to you at the address shown in the below Section 13 or at such other address for which you give notice hereunder, and addressed to Opticon at the address shown in the below Section 13, and to the attention of Opticon\'92s stated representative, or at such other address for which Opticon gives notice hereunder.  Such notice will be deemed to have been given three days after deposit in the mail, except that notice of change of address shall be effective only upon receipt.  \
+h)	
+\b Severability.
+\b0   If any provision of this Agreement shall be held to be invalid or unenforceable for any reason, the remaining provisions shall continue to be valid and enforceable.  If a court finds that any provision of this Agreement is invalid or unenforceable, but that by limiting such provision it would become valid and enforceable, then such provision shall be deemed to be written, construed and enforced as so limited.\
+\pard\pardeftab720\ri0
+
+\b\fs26 \cf3 \
+\
+\
+\
+\pard\pardeftab720\ri0\qc
+
+\b0 \cf0 [INTENTIONALLY LEFT BLANK]\
+\pard\pardeftab720\ri0
+
+\b \cf3 \page 13.\'a0\'a0\'a0\'a0\'a0 NOTICE.
+\b0\fs24 \cf0 \
+	If you want to provide Opticon with your contact information for any notices that may be required to be sent by Opticon to you pursuant to the terms of this Agreement, then please complete the below and send a copy of this page to:\
+\pard\pardeftab720\fi1440\ri0
+\cf0 Attn: Mr. Michael Waters\
+Opticon, Inc.\
+2220 Lind Avenue, S.W.\
+Suite 100\
+Renton, WA 98057\
+\pard\pardeftab720\fi720\ri0
+\cf0 \
+\
+				\ul 							\ulnone \
+						        [Name of licensee]\
+\
+\pard\pardeftab720\fi720\ri0\sb240
+\cf0 				Signature:  \ul 						\ulnone \
+				Print Name: \ul 						\ulnone \
+					Title: \ul 						\
+\pard\pardeftab720\ri0\sb240
+\cf0 \ulnone 						Address: _____________________________\
+						_____________________________________\
+						_____________________________________\
+\pard\pardeftab720\ri0\sb100\sa100
+
+\b\fs16 \cf0 PLEASE COMPLETE THE ABOVE REQUIRED INFORMATION OF THIS PAGE OF THIS AGREEMENT 
+\i AS NEATLY AS POSSIBLE
+\i0 .  ILLEGIBLE INFORMATION MAY LEAD TO FAILURE OF THE APPLICABLE DELIVERY SERVICE TO DELIVER TO YOU IMPORTANT NOTICES PURSUANT TO THIS AGREEMENT.  ANY SUCH DELIVERY FAILURE WHICH IS THE RESULT OF ILLEGIBLE  INFORMATION PROVIDED BY YOU ON THIS PAGE, WILL BE AT YOUR SOLE RISK AND RESPONSIBILITY.\
+}

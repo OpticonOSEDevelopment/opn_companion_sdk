@@ -1,0 +1,29 @@
+// MyOPNDemo.idl : type library source for My OPN Demo.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (MyOPNDemo.tlb).
+
+[ uuid(ED4550A3-59F0-4B85-9358-06C81C36E0CA), version(1.0) ]
+library MyOPNDemo
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Primary dispatch interface for CMyOPNDemoDoc
+	
+	[ uuid(1C37E8C7-EA05-4EEC-8BAA-1E4315684020) ]
+	dispinterface IMyOPNDemo
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  Class information for CMyOPNDemoDoc
+	
+	[ uuid(E3B1C89C-34FC-4067-BF3C-6BEE46581C7C) ]
+	coclass MyOPNDemo
+	{
+		[default] dispinterface IMyOPNDemo;
+	};
+};

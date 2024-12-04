@@ -1,0 +1,1456 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>OPN Framework</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ascii" />
+ <meta name="generator" content="HeaderDoc" />
+<meta name="xcode-display" content="render" />
+<style><!--
+#tocMenu {
+		display: block;
+		position:fixed;
+		top:0px;
+		left:0px;
+		width:210px;
+		height:100%;
+		background:transparent;
+}
+#bodyText {
+		margin-left: 210px;
+}
+--></style>
+<script language="JavaScript" type="text/javascript"><!--
+function hidetoc() {
+	var origURL = parent.document.URL;
+	var contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length);
+	if (contentURL.length == origURL.length) {
+		jumpPos = origURL.substring(origURL.indexOf('#')+1, origURL.length);
+	}
+	if (contentURL == "hidetoc") {
+		var toc = document.getElementById('tocMenu');
+		var body = document.getElementById('bodyText');
+		if (toc && body) {
+			toc.style.display = 'none';
+			body.style.marginLeft = '0px';
+		}
+	}
+}
+--></script>
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; }.param_indent { margin-left: 40px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.hd_tocAccess { font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }--></style></head><body bgcolor="#ffffff" onload="hidetoc();">
+</div>
+<!-- headerDoc=Header;  uid=//apple_ref/doc/header/opn_interface.h;   name=opn_interface -->
+<a name="//apple_ref/doc/header/opn_interface.h"></a>
+<div id='tocMenu'>
+<iframe id='toc_content' name='toc_content' SRC='toc.html' width='210' height='100%' align='left' frameborder='0'>This document set is best viewed in a browser that supports iFrames.</iframe>
+</div>
+<div id='bodyText'>
+<a name="top"></a>
+<hr><table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h1><a name="OPN Framework">OPN Framework</a></h1>
+</td></tr></table><hr><p><!-- begin abstract --><p>Header file containing the API for the OPN framework.
+<!-- end abstract --></p>
+<p><b>Version:</b> EGFS0038 (0.0.3.8)<br>
+</p><dl><b>Includes:</b> <!-- a logicalPath="//apple_ref/doc/header/CoreFoundation.h" -->&lt;CoreFoundation/CoreFoundation.h&gt;<!-- /a --><br>
+</dl><div class='declaration_indent'>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This API controls the OPN 2001/2003 driver, a user-space driver in the form of 
+a dynamically linked library.   To include a framework in your Xcode project, choose Project > Add to Project and select the framwork directory. You must include header files in your code using the #include directive. If you are working in Objective-C, you may use the #import directive instead of the #include directive.
+#import &lt;OPN/opn_interface.h&gt;
+</p>
+<p>The libopn_driver library utilizes the Carbon Event Manager to signal client code of 
+three possible events: 1) the OPN has been removed, 2) the OPN has been inserted, or 3) 
+the OPN has data.  The particulars of each event (its class and kind, which together, 
+compose its type) can be accessed via API functions defined in this file.  However, it 
+is the responsibility of any client code utilizing this library to implement event 
+handler functions, install these functions, and run the application event loop.  
+Examples of how to do this are illustrated in the project "opn_test."  More information 
+about the Carbon Event Manager, and how to use it, can be found in the Apple Developer 
+documentation.  See the 
+<a href="http://developer.apple.com/documentation/Carbon/Conceptual/Carbon_Event_Manager/Intro/chapter_1_section_1.html" target="_top">
+Carbon Event Manager Programming Guide</a> for details.  
+</p>
+<p>Note that this library is dependent upon the Carbon, CoreFoundation, and IOKit 
+frameworks.  These are part of any normal OS X installation, and though it's probably 
+impossible for OS X to run without them, it's noted here for completeness.  This 
+library should run on both x86 and PPC flavors of OS X.
+</p>
+<p>This driver should only be used with OPN2001 firmware version RBBV0120 and later, or OPN2003 firmware version RBFV0212 and later.
+<!-- end discussion -->
+<p></p><hr><br><a name='HeaderDoc_groups'><h2>Groups</h2></a>
+
+<h3>Polling Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/disablePolling" target="_top" -->disablePolling<!-- /a --></tt></dt>
+<dd><p>Disable the generation of the device-has-data event when data is available in the 
+device. ( Not yet implemented as of version EGFS0038 on OPN2003 cdc driver mode. To use this function, OPN2003 have to be usb driver mode. ) 
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/enablePolling" target="_top" -->enablePolling<!-- /a --></tt></dt>
+<dd><p>Enable the generation of the device-has-data event when data is available in the 
+device. ( Not yet implemented as of version EGFS0038 on OPN2003 cdc driver mode. To use this function, OPN2003 have to be usb driver mode. )
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Buffer Sizes</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/DEVICE_ID_SIZE" target="_top" -->DEVICE_ID_SIZE<!-- /a --></tt></dt>
+<dd><p>Expected size of the buffer holding the Device ID, including the trailing null
+character.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/LIBRARY_VERSION_SIZE" target="_top" -->LIBRARY_VERSION_SIZE<!-- /a --></tt></dt>
+<dd><p>Expected size of the buffer holding the driver version, including the trailing 
+null character.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/SOFTWARE_VERSION_SIZE" target="_top" -->SOFTWARE_VERSION_SIZE<!-- /a --></tt></dt>
+<dd><p>Expected size of the buffer holding the Software Version, including the trailing 
+null character.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/TIME_BUFFER_SIZE" target="_top" -->TIME_BUFFER_SIZE<!-- /a --></tt></dt>
+<dd><p>Expected size of the buffer holding time data for getTimeCmd() and setTimeCmd().
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<p>&nbsp;</p>
+<h3>Getter / Setter Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getASCIIMode" target="_top" -->getASCIIMode<!-- /a --></tt></dt>
+<dd><p>Retrieves the data encoding of the barcodes read by the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getCodeType" target="_top" -->getCodeType<!-- /a --></tt></dt>
+<dd><p>Looks up and retrieves a symbology name from a symbology ID.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getDeviceID" target="_top" -->getDeviceID<!-- /a --></tt></dt>
+<dd><p>Retrieves the device ID of the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getUSBEventClass" target="_top" -->getUSBEventClass<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to signify the class of events generated by the library.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getUSBEventKindDataAvailable" target="_top" -->getUSBEventKindDataAvailable<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getUSBEventKindInsert" target="_top" -->getUSBEventKindInsert<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getUSBEventKindRemove" target="_top" -->getUSBEventKindRemove<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getCDCEventClass" target="_top" -->getCDCEventClass<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to signify the class of events generated by the library.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getCDCEventKindDataAvailable" target="_top" -->getCDCEventKindDataAvailable<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getCDCEventKindInsert" target="_top" -->getCDCEventKindInsert<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getCDCEventKindRemove" target="_top" -->getCDCEventKindRemove<!-- /a --></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getLibraryVersion" target="_top" -->getLibraryVersion<!-- /a --></tt></dt>
+<dd><p>Retrieves the version of this library.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getProtocolVersion" target="_top" -->getProtocolVersion<!-- /a --></tt></dt>
+<dd><p>Retrieves the protocol version of the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getConnectedDeviceClass" target="_top" -->getConnectedDeviceClass<!-- /a --></tt></dt>
+<dd><p>Retrieves the connected device classs.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getConnectedDeviceName" target="_top" -->getConnectedDeviceName<!-- /a --></tt></dt>
+<dd><p>Retrieves the connected device name.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getRetryCount" target="_top" -->getRetryCount<!-- /a --></tt></dt>
+<dd><p>Retrieves the retry count for the interrogate command.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getRTCMode" target="_top" -->getRTCMode<!-- /a --></tt></dt>
+<dd><p>Retrieves a value indicating whether the barcodes read by the device have a 
+timestamp appended to them, indicating when they were read.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getSoftwareVersion" target="_top" -->getSoftwareVersion<!-- /a --></tt></dt>
+<dd><p>Retrieves the software version of the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getSystemStatus" target="_top" -->getSystemStatus<!-- /a --></tt></dt>
+<dd><p>Retrieves the system status of the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/setRetryCount" target="_top" -->setRetryCount<!-- /a --></tt></dt>
+<dd><p>Sets the retry count for the interrogate command.
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Function Status Codes</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/BAD_PARAM" target="_top" -->BAD_PARAM<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates there was a bad parameter to the 
+function.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/COMMAND_LRC_ERROR" target="_top" -->COMMAND_LRC_ERROR<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates that the CRC check on written or 
+read data failed.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/COMMUNICATIONS_ERROR" target="_top" -->COMMUNICATIONS_ERROR<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates there was a communication error.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/GENERAL_ERROR" target="_top" -->GENERAL_ERROR<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates that some error occurred.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/INVALID_COMMAND_NUMBER" target="_top" -->INVALID_COMMAND_NUMBER<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates that the command sent to the driver 
+was not defined.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/RECEIVED_CHARACTER_ERROR" target="_top" -->RECEIVED_CHARACTER_ERROR<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates that the function encountered a value 
+it did not expect.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/SETUP_ERROR" target="_top" -->SETUP_ERROR<!-- /a --></tt></dt>
+<dd><p>Return value of a function that indicates the driver instance was in a state 
+that didn't permit it to carry out the function.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/macro/STATUS_OK" target="_top" -->STATUS_OK<!-- /a --></tt></dt>
+<dd><p>Return value of a function that executes with no errors.
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Barcode Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getBarcode" target="_top" -->getBarcode<!-- /a --></tt></dt>
+<dd><p>Retrieves a read barcode.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/isDataAvailable" target="_top" -->isDataAvailable<!-- /a --></tt></dt>
+<dd><p>Indicates whether or not the device has barcode data.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/readData" target="_top" -->readData<!-- /a --></tt></dt>
+<dd><p>Reads barcodes from the device.
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Creation / Destruction Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/CreateOPNInterface" target="_top" -->CreateOPNInterface<!-- /a --></tt></dt>
+<dd><p>Instantiates and initializes the libopn_driver library.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/DestroyOPNInterface" target="_top" -->DestroyOPNInterface<!-- /a --></tt></dt>
+<dd><p>Cleans up and destroys the instance of the libopn_driver library.
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Miscellaneous Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/timeStamp2String" target="_top" -->timeStamp2String<!-- /a --></tt></dt>
+<dd><p>Converts a 4-byte timestamp buffer into a formatted date/time string.
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>OPN Command Functions</h3>
+<div class='group_desc_indent'>
+<p> </p></div>
+<h4>Group members:</h4>
+<div class='group_indent'>
+<dl>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/clearDataCmd" target="_top" -->clearDataCmd<!-- /a --></tt></dt>
+<dd><p>Erases stored barcodes from the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getParamCmd" target="_top" -->getParamCmd<!-- /a --></tt></dt>
+<dd><p>Retrieves the associated value of a parameter.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/getTimeCmd" target="_top" -->getTimeCmd<!-- /a --></tt></dt>
+<dd><p>Gets the RTC (real-time clock) timestamp from the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/interrogateCmd" target="_top" -->interrogateCmd<!-- /a --></tt></dt>
+<dd><p>Queries the device for its Device ID, Software Version, Protocol Version, 
+and System Status.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/powerDownCmd" target="_top" -->powerDownCmd<!-- /a --></tt></dt>
+<dd><p>Shuts down the device.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/setDefaultsCmd" target="_top" -->setDefaultsCmd<!-- /a --></tt></dt>
+<dd><p>Restores the device to a default state.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/setParamCmd" target="_top" -->setParamCmd<!-- /a --></tt></dt>
+<dd><p>Sets the associated value of a parameter.
+</dd>
+<dt><tt><!-- a logicalPath="//apple_ref/c/func/setTimeCmd" target="_top" -->setTimeCmd<!-- /a --></tt></dt>
+<dd><p>Sets the RTC (real-time clock) time of the device.
+</dd>
+</dl>
+</div>
+<hr><a name="HeaderDoc_functions"></a>
+<h2>Functions</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/func/clearDataCmd" target="_top">clearDataCmd</a></tt></dt>
+<dd><p>Erases stored barcodes from the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/CreateOPNInterface" target="_top">CreateOPNInterface</a></tt></dt>
+<dd><p>Instantiates and initializes the libopn_driver library.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/DestroyOPNInterface" target="_top">DestroyOPNInterface</a></tt></dt>
+<dd><p>Cleans up and destroys the instance of the libopn_driver library.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/disablePolling" target="_top">disablePolling</a></tt></dt>
+<dd><p>Disable the generation of the device-has-data event when data is available in the 
+device.( Not yet implemented as of version EGFS0038 on OPN2003 cdc driver mode. To use this function, OPN2003 have to be usb driver mode. )
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/enablePolling" target="_top">enablePolling</a></tt></dt>
+<dd><p>Enable the generation of the device-has-data event when data is available in the 
+device. ( Not yet implemented as of version EGFS0038 on OPN2003 cdc driver mode. To use this function, OPN2003 have to be usb driver mode. )
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getASCIIMode" target="_top">getASCIIMode</a></tt></dt>
+<dd><p>Retrieves the data encoding of the barcodes read by the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getBarcode" target="_top">getBarcode</a></tt></dt>
+<dd><p>Retrieves a read barcode.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getCodeType" target="_top">getCodeType</a></tt></dt>
+<dd><p>Looks up and retrieves a symbology name from a symbology ID.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getDeviceID" target="_top">getDeviceID</a></tt></dt>
+<dd><p>Retrieves the device ID of the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getUSBEventClass" target="_top">getUSBEventClass</a></tt></dt>
+<dd><p>Retrieves a value used to signify the class of events generated by the library.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getUSBEventKindDataAvailable" target="_top">getUSBEventKindDataAvailable</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event. 
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getUSBEventKindInsert" target="_top">getUSBEventKindInsert</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getUSBEventKindRemove" target="_top">getUSBEventKindRemove</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getCDCEventClass" target="_top">getCDCEventClass</a></tt></dt>
+<dd><p>Retrieves a value used to signify the class of events generated by the library.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getCDCEventKindDataAvailable" target="_top">getCDCEventKindDataAvailable</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event. ( Not yet implemented as of version EGFS0038 on OPN2003 cdc driver mode. To use this function, OPN2003 have to be usb driver mode. )
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getCDCEventKindInsert" target="_top">getCDCEventKindInsert</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getCDCEventKindRemove" target="_top">getCDCEventKindRemove</a></tt></dt>
+<dd><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getLibraryVersion" target="_top">getLibraryVersion</a></tt></dt>
+<dd><p>Retrieves the version of this library.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getParamCmd" target="_top">getParamCmd</a></tt></dt>
+<dd><p>Retrieves the associated value of a parameter.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getProtocolVersion" target="_top">getProtocolVersion</a></tt></dt>
+<dd><p>Retrieves the protocol version of the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getConnectedDeviceClass" target="_top">getConnectedDeviceClass</a></tt></dt>
+<dd><p>Retrieves the connected device classs.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getConnectedDeviceName" target="_top">getConnectedDeviceName</a></tt></dt>
+<dd><p>Retrieves the connected device name.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getRetryCount" target="_top">getRetryCount</a></tt></dt>
+<dd><p>Retrieves the retry count for the interrogate command.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getRTCMode" target="_top">getRTCMode</a></tt></dt>
+<dd><p>Retrieves a value indicating whether the barcodes read by the device have a 
+timestamp appended to them, indicating when they were read.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getSoftwareVersion" target="_top">getSoftwareVersion</a></tt></dt>
+<dd><p>Retrieves the software version of the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getSystemStatus" target="_top">getSystemStatus</a></tt></dt>
+<dd><p>Retrieves the system status of the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getTimeCmd" target="_top">getTimeCmd</a></tt></dt>
+<dd><p>Gets the RTC (real-time clock) timestamp from the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/interrogateCmd" target="_top">interrogateCmd</a></tt></dt>
+<dd><p>Queries the device for its Device ID, Software Version, Protocol Version, 
+and System Status.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/isDataAvailable" target="_top">isDataAvailable</a></tt></dt>
+<dd><p>Indicates whether or not the device has barcode data.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/powerDownCmd" target="_top">powerDownCmd</a></tt></dt>
+<dd><p>Shuts down the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/readData" target="_top">readData</a></tt></dt>
+<dd><p>Reads barcodes from the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/setDefaultsCmd" target="_top">setDefaultsCmd</a></tt></dt>
+<dd><p>Restores the device to a default state.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/setParamCmd" target="_top">setParamCmd</a></tt></dt>
+<dd><p>Sets the associated value of a parameter.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/setRetryCount" target="_top">setRetryCount</a></tt></dt>
+<dd><p>Sets the retry count for the interrogate command.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/setTimeCmd" target="_top">setTimeCmd</a></tt></dt>
+<dd><p>Sets the RTC (real-time clock) time of the device.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/timeStamp2String" target="_top">timeStamp2String</a></tt></dt>
+<dd><p>Converts a 4-byte timestamp buffer into a formatted date/time string.
+</dd>
+</dl>
+<hr><!-- headerDoc=func;  uid=//apple_ref/c/func/clearDataCmd;   name=clearDataCmd -->
+<a name="//apple_ref/c/func/clearDataCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="clearDataCmd">clearDataCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Erases stored barcodes from the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/clearDataCmd //apple_ref/c/clm/clearDataCmd //apple_ref/c/intfcm/clearDataCmd //apple_ref/c/intfm/clearDataCmd //apple_ref/c/func/clearDataCmd //apple_ref/c/ftmplt/clearDataCmd //apple_ref/c/defn/clearDataCmd //apple_ref/c/macro/clearDataCmd" --><span class="function">clearDataCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>If you read the barcodes stored in the device, and don't call this function 
+to clear them, then on the next read, the previously read barcodes will be read 
+again, because they haven't been erased.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/CreateOPNInterface;   name=CreateOPNInterface -->
+<a name="//apple_ref/c/func/CreateOPNInterface"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="CreateOPNInterface">CreateOPNInterface</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Instantiates and initializes the libopn_driver library.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/CreateOPNInterface //apple_ref/c/clm/CreateOPNInterface //apple_ref/c/intfcm/CreateOPNInterface //apple_ref/c/intfm/CreateOPNInterface //apple_ref/c/func/CreateOPNInterface //apple_ref/c/ftmplt/CreateOPNInterface //apple_ref/c/defn/CreateOPNInterface //apple_ref/c/macro/CreateOPNInterface" --><span class="function">CreateOPNInterface</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An opaque pointer of type OPNInterface, needed to call other functions.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function must be called before all others, except for getEventClass, 
+getEventKindInsert, getEventKindRemove, and getEventKindDataAvailable.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/DestroyOPNInterface;   name=DestroyOPNInterface -->
+<a name="//apple_ref/c/func/DestroyOPNInterface"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="DestroyOPNInterface">DestroyOPNInterface</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Cleans up and destroys the instance of the libopn_driver library.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void //apple_ref/c/intf/void" --><span class="type">void</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/DestroyOPNInterface //apple_ref/c/clm/DestroyOPNInterface //apple_ref/c/intfcm/DestroyOPNInterface //apple_ref/c/intfm/DestroyOPNInterface //apple_ref/c/func/DestroyOPNInterface //apple_ref/c/ftmplt/DestroyOPNInterface //apple_ref/c/defn/DestroyOPNInterface //apple_ref/c/macro/DestroyOPNInterface" --><span class="function">DestroyOPNInterface</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function should be called when the interface to the device is no longer 
+necessary.  For example, in a client application's cleanup code.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/disablePolling;   name=disablePolling -->
+<a name="//apple_ref/c/func/disablePolling"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="disablePolling">disablePolling</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Disable the generation of the device-has-data event when data is available in the 
+device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/disablePolling //apple_ref/c/clm/disablePolling //apple_ref/c/intfcm/disablePolling //apple_ref/c/intfm/disablePolling //apple_ref/c/func/disablePolling //apple_ref/c/ftmplt/disablePolling //apple_ref/c/defn/disablePolling //apple_ref/c/macro/disablePolling" --><span class="function">disablePolling</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->GENERAL_ERROR on error, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>Calling this function stop the generation of the device-has-data event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/enablePolling;   name=enablePolling -->
+<a name="//apple_ref/c/func/enablePolling"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="enablePolling">enablePolling</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Enable the generation of the device-has-data event when data is available in the 
+device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/enablePolling //apple_ref/c/clm/enablePolling //apple_ref/c/intfcm/enablePolling //apple_ref/c/intfm/enablePolling //apple_ref/c/func/enablePolling //apple_ref/c/ftmplt/enablePolling //apple_ref/c/defn/enablePolling //apple_ref/c/macro/enablePolling" --><span class="function">enablePolling</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->GENERAL_ERROR on error, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>Calling this function will poll the device intermittently for whether or not
+it has data.  If it does, it will generate the device-has-data event, which must be
+handled by client code.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getASCIIMode;   name=getASCIIMode -->
+<a name="//apple_ref/c/func/getASCIIMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getASCIIMode">getASCIIMode</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the data encoding of the barcodes read by the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getASCIIMode //apple_ref/c/clm/getASCIIMode //apple_ref/c/intfcm/getASCIIMode //apple_ref/c/intfm/getASCIIMode //apple_ref/c/func/getASCIIMode //apple_ref/c/ftmplt/getASCIIMode //apple_ref/c/defn/getASCIIMode //apple_ref/c/macro/getASCIIMode" --><span class="function">getASCIIMode</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/econst/bool //apple_ref/c/struct/bool //apple_ref/c/clconst/bool //apple_ref/c/intf/bool" --><span class="type">bool</span><!-- /a --> <span class="type">*</span><span class="param">AM</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>AM</code></dt><dd><p>A pointer to a boolean variable that will contain, on return, true if 
+the data encoding is ASCII, and false if it's binary.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if AM is NULL, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>readData must be called before this function returns any meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getBarcode;   name=getBarcode -->
+<a name="//apple_ref/c/func/getBarcode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getBarcode">getBarcode</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a read barcode.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getBarcode //apple_ref/c/clm/getBarcode //apple_ref/c/intfcm/getBarcode //apple_ref/c/intfm/getBarcode //apple_ref/c/func/getBarcode //apple_ref/c/ftmplt/getBarcode //apple_ref/c/defn/getBarcode //apple_ref/c/macro/getBarcode" --><span class="function">getBarcode</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">BarcodeData</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">BarcodeNumber</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">BarcodeDataLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>BarcodeData</code></dt><dd><p>A pointer to a buffer that will contain the data of the read barcode.</dd>
+<dt><code>BarcodeNumber</code></dt><dd><p>A number, within the domain of 0 <= n <= N (where N is the 
+total number of read barcodes, got by readData), signifying the barcode to be 
+returned in BarcodeData.</dd>
+<dt><code>BarcodeDataLength</code></dt><dd><p>Input: a pointer to a variable holding the size of BarcodeData.  
+Output: the pointer is updated to hold the number of bytes read into BarcodeData.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>Probably best used in a loop designed to retrieve every read barcode.
+</p>
+<p>Note that calling this function does not erase the retrieved barcode from the driver's 
+internal storage of read barcodes.
+</p>
+<p>The first byte of the returned barcode data is the barcode's length (the length doesn't 
+include the first byte).  The second byte is the barcode symbology, which can be passed 
+to getCodeType to retrieve the symbology name.  The last four bytes, if the RTC 
+timestamp is set to be appended to each barcode the device reads, is the timestamp of 
+when the barcode was read (which can be passed to timeStamp2String to return a 
+formatted date/time string).  All of the bytes between the barcode symbology byte, and 
+(potentially) the RTC timestamp bytes, compose the actual barcode data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getCodeType;   name=getCodeType -->
+<a name="//apple_ref/c/func/getCodeType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getCodeType">getCodeType</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Looks up and retrieves a symbology name from a symbology ID.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getCodeType //apple_ref/c/clm/getCodeType //apple_ref/c/intfcm/getCodeType //apple_ref/c/intfm/getCodeType //apple_ref/c/func/getCodeType //apple_ref/c/ftmplt/getCodeType //apple_ref/c/defn/getCodeType //apple_ref/c/macro/getCodeType" --><span class="function">getCodeType</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">CodeName</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">CodeNameLength</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="param">CodeID</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>CodeName</code></dt><dd><p>A pointer to a buffer that will contain the symbology name.</dd>
+<dt><code>CodeNameLength</code></dt><dd><p>The size of the CodeName buffer.</dd>
+<dt><code>CodeID</code></dt><dd><p>The symbology ID used to look up the symbology name.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if CodeName is NULL; GENERAL_ERROR on an error; or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>The driver must be loaded and CreateOPNInterface called before this function 
+can be called.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getDeviceID;   name=getDeviceID -->
+<a name="//apple_ref/c/func/getDeviceID"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getDeviceID">getDeviceID</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the device ID of the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getDeviceID //apple_ref/c/clm/getDeviceID //apple_ref/c/intfcm/getDeviceID //apple_ref/c/intfm/getDeviceID //apple_ref/c/func/getDeviceID //apple_ref/c/ftmplt/getDeviceID //apple_ref/c/defn/getDeviceID //apple_ref/c/macro/getDeviceID" --><span class="function">getDeviceID</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">DevID</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">DevIDLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>DevID</code></dt><dd><p>A pointer to a buffer that will contain the data composing the device ID.</dd>
+<dt><code>DevIDLength</code></dt><dd><p>The size of the DevID buffer.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if DevID is NULL or DevIDLength is less than DEVICE_ID_SIZE; STATUS_OK on 
+success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>One of the command functions must be called before this function returns any 
+meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getUSBEventClass;   name=getUSBEventClass -->
+<a name="//apple_ref/c/func/getUSBEventClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getUSBEventClass">getUSBEventClass</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to signify the class of events generated by the library.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getUSBEventClass //apple_ref/c/clm/getUSBEventClass //apple_ref/c/intfcm/getUSBEventClass //apple_ref/c/intfm/getUSBEventClass //apple_ref/c/func/getUSBEventClass //apple_ref/c/ftmplt/getUSBEventClass //apple_ref/c/defn/getUSBEventClass //apple_ref/c/macro/getUSBEventClass" --><span class="function">getUSBEventClass</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event class for library-generated events.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event class returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the insertion, removal, or device-has-data events.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getUSBEventKindDataAvailable;   name=getUSBEventKindDataAvailable -->
+<a name="//apple_ref/c/func/getUSBEventKindDataAvailable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getUSBEventKindDataAvailable">getUSBEventKindDataAvailable</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getUSBEventKindDataAvailable //apple_ref/c/clm/getUSBEventKindDataAvailable //apple_ref/c/intfcm/getUSBEventKindDataAvailable //apple_ref/c/intfm/getUSBEventKindDataAvailable //apple_ref/c/func/getUSBEventKindDataAvailable //apple_ref/c/ftmplt/getUSBEventKindDataAvailable //apple_ref/c/defn/getUSBEventKindDataAvailable //apple_ref/c/macro/getUSBEventKindDataAvailable" --><span class="function">getUSBEventKindDataAvailable</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated device-has-data 
+event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the device-has-data event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getUSBEventKindInsert;   name=getUSBEventKindInsert -->
+<a name="//apple_ref/c/func/getUSBEventKindInsert"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getUSBEventKindInsert">getUSBEventKindInsert</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getUSBEventKindInsert //apple_ref/c/clm/getUSBEventKindInsert //apple_ref/c/intfcm/getUSBEventKindInsert //apple_ref/c/intfm/getUSBEventKindInsert //apple_ref/c/func/getUSBEventKindInsert //apple_ref/c/ftmplt/getUSBEventKindInsert //apple_ref/c/defn/getUSBEventKindInsert //apple_ref/c/macro/getUSBEventKindInsert" --><span class="function">getUSBEventKindInsert</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated insertion event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the insertion event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getUSBEventKindRemove;   name=getUSBEventKindRemove -->
+<a name="//apple_ref/c/func/getUSBEventKindRemove"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getUSBEventKindRemove">getUSBEventKindRemove</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getUSBEventKindRemove //apple_ref/c/clm/getUSBEventKindRemove //apple_ref/c/intfcm/getUSBEventKindRemove //apple_ref/c/intfm/getUSBEventKindRemove //apple_ref/c/func/getUSBEventKindRemove //apple_ref/c/ftmplt/getUSBEventKindRemove //apple_ref/c/defn/getUSBEventKindRemove //apple_ref/c/macro/getUSBEventKindRemove" --><span class="function">getUSBEventKindRemove</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated removal event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the removal event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getCDCEventClass;   name=getCDCEventClass -->
+<a name="//apple_ref/c/func/getCDCEventClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getCDCEventClass">getCDCEventClass</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to signify the class of events generated by the library.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getCDCEventClass //apple_ref/c/clm/getCDCEventClass //apple_ref/c/intfcm/getCDCEventClass //apple_ref/c/intfm/getCDCEventClass //apple_ref/c/func/getCDCEventClass //apple_ref/c/ftmplt/getCDCEventClass //apple_ref/c/defn/getCDCEventClass //apple_ref/c/macro/getCDCEventClass" --><span class="function">getCDCEventClass</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event class for library-generated events.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event class returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the insertion, removal, or device-has-data events.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getCDCEventKindDataAvailable;   name=getCDCEventKindDataAvailable -->
+<a name="//apple_ref/c/func/getCDCEventKindDataAvailable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getCDCEventKindDataAvailable">getCDCEventKindDataAvailable</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-has-data event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getCDCEventKindDataAvailable //apple_ref/c/clm/getCDCEventKindDataAvailable //apple_ref/c/intfcm/getCDCEventKindDataAvailable //apple_ref/c/intfm/getCDCEventKindDataAvailable //apple_ref/c/func/getCDCEventKindDataAvailable //apple_ref/c/ftmplt/getCDCEventKindDataAvailable //apple_ref/c/defn/getCDCEventKindDataAvailable //apple_ref/c/macro/getCDCEventKindDataAvailable" --><span class="function">getCDCEventKindDataAvailable</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated device-has-data 
+event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the device-has-data event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getCDCEventKindInsert;   name=getCDCEventKindInsert -->
+<a name="//apple_ref/c/func/getCDCEventKindInsert"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getCDCEventKindInsert">getCDCEventKindInsert</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-insertion event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getCDCEventKindInsert //apple_ref/c/clm/getCDCEventKindInsert //apple_ref/c/intfcm/getCDCEventKindInsert //apple_ref/c/intfm/getCDCEventKindInsert //apple_ref/c/func/getCDCEventKindInsert //apple_ref/c/ftmplt/getCDCEventKindInsert //apple_ref/c/defn/getCDCEventKindInsert //apple_ref/c/macro/getCDCEventKindInsert" --><span class="function">getCDCEventKindInsert</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated insertion event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the insertion event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getCDCEventKindRemove;   name=getCDCEventKindRemove -->
+<a name="//apple_ref/c/func/getCDCEventKindRemove"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getCDCEventKindRemove">getCDCEventKindRemove</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value used to specify what kind of event, within a class of events, 
+a particular event is.  In this case, a library-generated device-removal event.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getCDCEventKindRemove //apple_ref/c/clm/getCDCEventKindRemove //apple_ref/c/intfcm/getCDCEventKindRemove //apple_ref/c/intfm/getCDCEventKindRemove //apple_ref/c/func/getCDCEventKindRemove //apple_ref/c/ftmplt/getCDCEventKindRemove //apple_ref/c/defn/getCDCEventKindRemove //apple_ref/c/macro/getCDCEventKindRemove" --><span class="function">getCDCEventKindRemove</span><!-- /a -->();  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->An integer value signifying the event kind for a library-generated removal event.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function may be called before CreateOPNInterface.
+</p>
+<p>An event type is made up of an event class and an event kind.  Event types are 
+essentially how events get matched to event handlers.  The event kind returned by 
+this function is defined by the library, meaning that this function must be utilized 
+when installing and/or handling the removal event.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getLibraryVersion;   name=getLibraryVersion -->
+<a name="//apple_ref/c/func/getLibraryVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getLibraryVersion">getLibraryVersion</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the version of this library.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getLibraryVersion //apple_ref/c/clm/getLibraryVersion //apple_ref/c/intfcm/getLibraryVersion //apple_ref/c/intfm/getLibraryVersion //apple_ref/c/func/getLibraryVersion //apple_ref/c/ftmplt/getLibraryVersion //apple_ref/c/defn/getLibraryVersion //apple_ref/c/macro/getLibraryVersion" --><span class="function">getLibraryVersion</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">VersionString</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">VersionStringLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>VersionString</code></dt><dd><p>A pointer to a buffer that will contain the driver version string.</dd>
+<dt><code>VersionStringLength</code></dt><dd><p>The size of the VersionString buffer.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if VersionString is NULL or VersionStringLength is less than 
+LIBRARY_VERSION_SIZE; STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>The driver version string is 8 characters (e.g. RABS0030).
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getConnectedDeviceClass;   name=getConnectedDeviceClass -->
+<a name="//apple_ref/c/func/getConnectedDeviceClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getConnectedDeviceClass">getConnectedDeviceClass</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the connected device classs.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getConnectedDeviceClass //apple_ref/c/clm/getLibraryVersion //apple_ref/c/intfcm/getConnectedDeviceClass //apple_ref/c/intfm/getLibraryVersion //apple_ref/c/func/getConnectedDeviceClass //apple_ref/c/ftmplt/getLibraryVersion //apple_ref/c/defn/getConnectedDeviceClass //apple_ref/c/macro/getConnectedDeviceClass" --><span class="function">getConnectedDeviceClass</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->COMPOSITE_CLASS if composite device is connected; 
+COMMUNICATION_CLASS if communication device is connected; COMMUNICATION_ERROR if no device is connected.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getConnectedDeviceName;   name=getConnectedDeviceName -->
+<a name="//apple_ref/c/func/getConnectedDeviceName"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getConnectedDeviceName">getConnectedDeviceName</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the connected device name.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getConnectedDeviceName //apple_ref/c/clm/getConnectedDeviceName //apple_ref/c/intfcm/getLibraryVersion //apple_ref/c/intfm/getConnectedDeviceName //apple_ref/c/func/getConnectedDeviceName //apple_ref/c/ftmplt/getConnectedDeviceName //apple_ref/c/defn/getConnectedDeviceName //apple_ref/c/macro/getConnectedDeviceName" --><span class="function">getConnectedDeviceName</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->OPN_2001 if OPN 2001 is connected;
+OPN_2003 if OPN 2003 device is connected; COMMUNICATION_ERROR if no device is connected.
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getParamCmd;   name=getParamCmd -->
+<a name="//apple_ref/c/func/getParamCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getParamCmd">getParamCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the associated value of a parameter.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getParamCmd //apple_ref/c/clm/getParamCmd //apple_ref/c/intfcm/getParamCmd //apple_ref/c/intfm/getParamCmd //apple_ref/c/func/getParamCmd //apple_ref/c/ftmplt/getParamCmd //apple_ref/c/defn/getParamCmd //apple_ref/c/macro/getParamCmd" --><span class="function">getParamCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="param">Param</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">ParamValue</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">ParamValueLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>Param</code></dt><dd><p>A value signifying the parameter to obtain the associated value for.</dd>
+<dt><code>ParamValue</code></dt><dd><p>A pointer to a buffer that will, on return, hold the associated 
+value of the parameter.</dd>
+<dt><code>ParamValueLength</code></dt><dd><p>Input: a pointer to a variable holding the size of 
+ParamValue.  Output: the pointer is updated to hold the number of bytes read 
+into ParamValue.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getProtocolVersion;   name=getProtocolVersion -->
+<a name="//apple_ref/c/func/getProtocolVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getProtocolVersion">getProtocolVersion</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the protocol version of the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getProtocolVersion //apple_ref/c/clm/getProtocolVersion //apple_ref/c/intfcm/getProtocolVersion //apple_ref/c/intfm/getProtocolVersion //apple_ref/c/func/getProtocolVersion //apple_ref/c/ftmplt/getProtocolVersion //apple_ref/c/defn/getProtocolVersion //apple_ref/c/macro/getProtocolVersion" --><span class="function">getProtocolVersion</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">PV</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>PV</code></dt><dd><p>A pointer to an integer variable that will contain, on return, the protocol 
+version.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if PV is NULL, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>One of the command functions must be called before this function returns any 
+meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getRetryCount;   name=getRetryCount -->
+<a name="//apple_ref/c/func/getRetryCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getRetryCount">getRetryCount</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the retry count for the interrogate command.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getRetryCount //apple_ref/c/clm/getRetryCount //apple_ref/c/intfcm/getRetryCount //apple_ref/c/intfm/getRetryCount //apple_ref/c/func/getRetryCount //apple_ref/c/ftmplt/getRetryCount //apple_ref/c/defn/getRetryCount //apple_ref/c/macro/getRetryCount" --><span class="function">getRetryCount</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">Retries</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>Retries</code></dt><dd><p>A pointer to an integer variable that will contain, on return, the retry 
+count.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if Retries is NULL, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>The interrogate command will attempt to execute up to the number of times 
+returned in Retries if it doesn't execute successfully before then.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getRTCMode;   name=getRTCMode -->
+<a name="//apple_ref/c/func/getRTCMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getRTCMode">getRTCMode</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves a value indicating whether the barcodes read by the device have a 
+timestamp appended to them, indicating when they were read.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getRTCMode //apple_ref/c/clm/getRTCMode //apple_ref/c/intfcm/getRTCMode //apple_ref/c/intfm/getRTCMode //apple_ref/c/func/getRTCMode //apple_ref/c/ftmplt/getRTCMode //apple_ref/c/defn/getRTCMode //apple_ref/c/macro/getRTCMode" --><span class="function">getRTCMode</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/econst/bool //apple_ref/c/struct/bool //apple_ref/c/clconst/bool //apple_ref/c/intf/bool" --><span class="type">bool</span><!-- /a --> <span class="type">*</span><span class="param">RTC</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>RTC</code></dt><dd><p>A pointer to a boolean variable that will contain, on return, true if the 
+timestamp data is appended, and false if not.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if RTC is NULL, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>readData must be called before this function returns any meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getSoftwareVersion;   name=getSoftwareVersion -->
+<a name="//apple_ref/c/func/getSoftwareVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getSoftwareVersion">getSoftwareVersion</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the software version of the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getSoftwareVersion //apple_ref/c/clm/getSoftwareVersion //apple_ref/c/intfcm/getSoftwareVersion //apple_ref/c/intfm/getSoftwareVersion //apple_ref/c/func/getSoftwareVersion //apple_ref/c/ftmplt/getSoftwareVersion //apple_ref/c/defn/getSoftwareVersion //apple_ref/c/macro/getSoftwareVersion" --><span class="function">getSoftwareVersion</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">SV</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">SVLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>SV</code></dt><dd><p>A pointer to a buffer that will contain the data composing the software version.</dd>
+<dt><code>SVLength</code></dt><dd><p>The size of the SV buffer.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if SV is NULL or SVLength is less than SOFTWARE_VERSION_SIZE; STATUS_OK on 
+success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>One of the command functions must be called before this function returns any 
+meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getSystemStatus;   name=getSystemStatus -->
+<a name="//apple_ref/c/func/getSystemStatus"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getSystemStatus">getSystemStatus</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Retrieves the system status of the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getSystemStatus //apple_ref/c/clm/getSystemStatus //apple_ref/c/intfcm/getSystemStatus //apple_ref/c/intfm/getSystemStatus //apple_ref/c/func/getSystemStatus //apple_ref/c/ftmplt/getSystemStatus //apple_ref/c/defn/getSystemStatus //apple_ref/c/macro/getSystemStatus" --><span class="function">getSystemStatus</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">SysStat</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>SysStat</code></dt><dd><p>A pointer to an integer variable that will contain, on return, the system 
+status.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if SysStat is NULL, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>One of the command functions must be called before this function returns any 
+meaningful data.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/getTimeCmd;   name=getTimeCmd -->
+<a name="//apple_ref/c/func/getTimeCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="getTimeCmd">getTimeCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Gets the RTC (real-time clock) timestamp from the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/getTimeCmd //apple_ref/c/clm/getTimeCmd //apple_ref/c/intfcm/getTimeCmd //apple_ref/c/intfm/getTimeCmd //apple_ref/c/func/getTimeCmd //apple_ref/c/ftmplt/getTimeCmd //apple_ref/c/defn/getTimeCmd //apple_ref/c/macro/getTimeCmd" --><span class="function">getTimeCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="type">*</span><span class="param">TimeBuffer</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">BufferLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>TimeBuffer</code></dt><dd><p>A pointer to a byte buffer to hold the timestamp.  The buffer 
+should be of size TIME_BUFFER_SIZE.</dd>
+<dt><code>BufferLength</code></dt><dd><p>Input: a pointer to a variable holding the size of TimeBuffer.  
+Output: the pointer is updated to hold the number of bytes read into TimeBuffer.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>TimeBuffer should be passed to the timeStamp2String function in order 
+to convert the TimeBuffer into a human-readable date and time string.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/interrogateCmd;   name=interrogateCmd -->
+<a name="//apple_ref/c/func/interrogateCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="interrogateCmd">interrogateCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Queries the device for its Device ID, Software Version, Protocol Version, 
+and System Status.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/interrogateCmd //apple_ref/c/clm/interrogateCmd //apple_ref/c/intfcm/interrogateCmd //apple_ref/c/intfm/interrogateCmd //apple_ref/c/func/interrogateCmd //apple_ref/c/ftmplt/interrogateCmd //apple_ref/c/defn/interrogateCmd //apple_ref/c/macro/interrogateCmd" --><span class="function">interrogateCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>After this function has been called, the getDeviceID function, the 
+getSoftwareVersion function, the getProtocolVersion function, and the 
+getSystemStatus function will return appropriate values in their passed-in 
+buffers.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/isDataAvailable;   name=isDataAvailable -->
+<a name="//apple_ref/c/func/isDataAvailable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="isDataAvailable">isDataAvailable</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Indicates whether or not the device has barcode data.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/isDataAvailable //apple_ref/c/clm/isDataAvailable //apple_ref/c/intfcm/isDataAvailable //apple_ref/c/intfm/isDataAvailable //apple_ref/c/func/isDataAvailable //apple_ref/c/ftmplt/isDataAvailable //apple_ref/c/defn/isDataAvailable //apple_ref/c/macro/isDataAvailable" --><span class="function">isDataAvailable</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/bool //apple_ref/c/tdef/bool //apple_ref/c/tag/bool //apple_ref/c/econst/bool //apple_ref/c/struct/bool //apple_ref/c/clconst/bool //apple_ref/c/intf/bool" --><span class="type">bool</span><!-- /a --> <span class="type">*</span><span class="param">DataAvailable</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>DataAvailable</code></dt><dd><p>A pointer to a boolean that will, on return, be true if there 
+is barcode data to be read, and false if there is not.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/powerDownCmd;   name=powerDownCmd -->
+<a name="//apple_ref/c/func/powerDownCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="powerDownCmd">powerDownCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Shuts down the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/powerDownCmd //apple_ref/c/clm/powerDownCmd //apple_ref/c/intfcm/powerDownCmd //apple_ref/c/intfm/powerDownCmd //apple_ref/c/func/powerDownCmd //apple_ref/c/ftmplt/powerDownCmd //apple_ref/c/defn/powerDownCmd //apple_ref/c/macro/powerDownCmd" --><span class="function">powerDownCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>The usefulness or relevance of this function is dubious.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/readData;   name=readData -->
+<a name="//apple_ref/c/func/readData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="readData">readData</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Reads barcodes from the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/readData //apple_ref/c/clm/readData //apple_ref/c/intfcm/readData //apple_ref/c/intfm/readData //apple_ref/c/func/readData //apple_ref/c/ftmplt/readData //apple_ref/c/defn/readData //apple_ref/c/macro/readData" --><span class="function">readData</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="type">*</span><span class="param">NumberOfCodes</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>NumberOfCodes</code></dt><dd><p>A pointer to a value that will, on return, contain the number of 
+barcodes that have been read from the device.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function must be called to read barcodes from the device.  However, 
+the barcodes are only returned to client code via getBarcode.
+</p>
+<p>Note that the driver's internal storage of read barcodes is erased on every 
+successful call to this function.  The barcodes are only erased from the device, 
+however, when clearDataCmd is called.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/setDefaultsCmd;   name=setDefaultsCmd -->
+<a name="//apple_ref/c/func/setDefaultsCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="setDefaultsCmd">setDefaultsCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Restores the device to a default state.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/setDefaultsCmd //apple_ref/c/clm/setDefaultsCmd //apple_ref/c/intfcm/setDefaultsCmd //apple_ref/c/intfm/setDefaultsCmd //apple_ref/c/func/setDefaultsCmd //apple_ref/c/ftmplt/setDefaultsCmd //apple_ref/c/defn/setDefaultsCmd //apple_ref/c/macro/setDefaultsCmd" --><span class="function">setDefaultsCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>This function will reset any parameters that have been changed via 
+setParamCmd.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/setParamCmd;   name=setParamCmd -->
+<a name="//apple_ref/c/func/setParamCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="setParamCmd">setParamCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Sets the associated value of a parameter.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/setParamCmd //apple_ref/c/clm/setParamCmd //apple_ref/c/intfcm/setParamCmd //apple_ref/c/intfm/setParamCmd //apple_ref/c/func/setParamCmd //apple_ref/c/ftmplt/setParamCmd //apple_ref/c/defn/setParamCmd //apple_ref/c/macro/setParamCmd" --><span class="function">setParamCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="param">Param</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">ParamValue</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">ParamValueLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>Param</code></dt><dd><p>A value signifying the parameter to set the associated value for.</dd>
+<dt><code>ParamValue</code></dt><dd><p>A pointer to a buffer that holds the new associated value of the 
+parameter.</dd>
+<dt><code>ParamValueLength</code></dt><dd><p>The size of ParamValue.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/setRetryCount;   name=setRetryCount -->
+<a name="//apple_ref/c/func/setRetryCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="setRetryCount">setRetryCount</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Sets the retry count for the interrogate command.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/setRetryCount //apple_ref/c/clm/setRetryCount //apple_ref/c/intfcm/setRetryCount //apple_ref/c/intfm/setRetryCount //apple_ref/c/func/setRetryCount //apple_ref/c/ftmplt/setRetryCount //apple_ref/c/defn/setRetryCount //apple_ref/c/macro/setRetryCount" --><span class="function">setRetryCount</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">Retries</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>Retries</code></dt><dd><p>The new value for the retry count.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->BAD_PARAM if Retries is less than 0 or greater than 9, or STATUS_OK on success.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>The interrogate command will attempt to execute up to the number of times 
+specified in Retries if it doesn't execute successfully before then.
+<!-- end discussion -->
+<p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/setTimeCmd;   name=setTimeCmd -->
+<a name="//apple_ref/c/func/setTimeCmd"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="setTimeCmd">setTimeCmd</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Sets the RTC (real-time clock) time of the device.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/setTimeCmd //apple_ref/c/clm/setTimeCmd //apple_ref/c/intfcm/setTimeCmd //apple_ref/c/intfm/setTimeCmd //apple_ref/c/func/setTimeCmd //apple_ref/c/ftmplt/setTimeCmd //apple_ref/c/defn/setTimeCmd //apple_ref/c/macro/setTimeCmd" --><span class="function">setTimeCmd</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="type">*</span><span class="param">TimeBuffer</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">BufferLength</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>TimeBuffer</code></dt><dd><p>A pointer to a byte buffer to holding the timestamp to set.  
+The buffer should be of size TIME_BUFFER_SIZE.</dd>
+<dt><code>BufferLength</code></dt><dd><p>The size of TimeBuffer.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><p></p><hr><!-- headerDoc=func;  uid=//apple_ref/c/func/timeStamp2String;   name=timeStamp2String -->
+<a name="//apple_ref/c/func/timeStamp2String"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="timeStamp2String">timeStamp2String</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Converts a 4-byte timestamp buffer into a formatted date/time string.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="keyword">extern</span> "<span class="string">C</span>" <!-- a logicalPath="//apple_ref/c/cl/SInt32 //apple_ref/c/tdef/SInt32 //apple_ref/c/tag/SInt32 //apple_ref/c/econst/SInt32 //apple_ref/c/struct/SInt32 //apple_ref/c/clconst/SInt32 //apple_ref/c/intf/SInt32" --><span class="type">SInt32</span><!-- /a --> <!-- a logicalPath="//apple_ref/c/instm/timeStamp2String //apple_ref/c/clm/timeStamp2String //apple_ref/c/intfcm/timeStamp2String //apple_ref/c/intfm/timeStamp2String //apple_ref/c/func/timeStamp2String //apple_ref/c/ftmplt/timeStamp2String //apple_ref/c/defn/timeStamp2String //apple_ref/c/macro/timeStamp2String" --><span class="function">timeStamp2String</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/c/cl/OPNInterface //apple_ref/c/tdef/OPNInterface //apple_ref/c/tag/OPNInterface //apple_ref/c/econst/OPNInterface //apple_ref/c/struct/OPNInterface //apple_ref/c/clconst/OPNInterface //apple_ref/c/intf/OPNInterface" --><span class="type">OPNInterface</span><!-- /a --> <span class="param">interface</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/char //apple_ref/c/tdef/char //apple_ref/c/tag/char //apple_ref/c/econst/char //apple_ref/c/struct/char //apple_ref/c/clconst/char //apple_ref/c/intf/char" --><span class="type">char</span><!-- /a --> <span class="type">*</span><span class="param">TimeString</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt32 //apple_ref/c/tdef/UInt32 //apple_ref/c/tag/UInt32 //apple_ref/c/econst/UInt32 //apple_ref/c/struct/UInt32 //apple_ref/c/clconst/UInt32 //apple_ref/c/intf/UInt32" --><span class="type">UInt32</span><!-- /a --> <span class="param">TimeStringLength</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/UInt8 //apple_ref/c/tdef/UInt8 //apple_ref/c/tag/UInt8 //apple_ref/c/econst/UInt8 //apple_ref/c/struct/UInt8 //apple_ref/c/clconst/UInt8 //apple_ref/c/intf/UInt8" --><span class="type">UInt8</span><!-- /a --> <span class="type">*</span><span class="param">TimeStamp</span>);  </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><code>interface</code></dt><dd><p>The OPNInterface opaque pointer returned by CreateOPNInterface().</dd>
+<dt><code>TimeString</code></dt><dd><p>A pointer to a buffer to hold the formatted date/time string.</dd>
+<dt><code>TimeStringLength</code></dt><dd><p>The size of the TimeString buffer.</dd>
+<dt><code>TimeStamp</code></dt><dd><p>A 4-byte buffer containing an RTC timestamp, such as the one returned 
+via getTimeCmd.</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value -->A status code.  See the status code defines for the possible returned codes.
+
+<!-- end return value --></p><h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5><!-- begin discussion --><p>Make sure the size of the TimeString buffer is big enough to fit any formatted 
+date/time string.  A size of 31 (NUL terminator included) ought to do.
+<!-- end discussion -->
+<p></p><a name="HeaderDoc_pdefines"></a>
+<h2>Macro Definitions</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/macro/BAD_PARAM" target="_top">BAD_PARAM</a></tt></dt>
+<dd><p>Return value of a function that indicates there was a bad parameter to the 
+function.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/COMMAND_LRC_ERROR" target="_top">COMMAND_LRC_ERROR</a></tt></dt>
+<dd><p>Return value of a function that indicates that the CRC check on written or 
+read data failed.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/COMMUNICATIONS_ERROR" target="_top">COMMUNICATIONS_ERROR</a></tt></dt>
+<dd><p>Return value of a function that indicates there was a communication error.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/DEVICE_ID_SIZE" target="_top">DEVICE_ID_SIZE</a></tt></dt>
+<dd><p>Expected size of the buffer holding the Device ID, including the trailing null
+character.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/GENERAL_ERROR" target="_top">GENERAL_ERROR</a></tt></dt>
+<dd><p>Return value of a function that indicates that some error occurred.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/INVALID_COMMAND_NUMBER" target="_top">INVALID_COMMAND_NUMBER</a></tt></dt>
+<dd><p>Return value of a function that indicates that the command sent to the driver 
+was not defined.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/LIBRARY_VERSION_SIZE" target="_top">LIBRARY_VERSION_SIZE</a></tt></dt>
+<dd><p>Expected size of the buffer holding the driver version, including the trailing 
+null character.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/RECEIVED_CHARACTER_ERROR" target="_top">RECEIVED_CHARACTER_ERROR</a></tt></dt>
+<dd><p>Return value of a function that indicates that the function encountered a value 
+it did not expect.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/SETUP_ERROR" target="_top">SETUP_ERROR</a></tt></dt>
+<dd><p>Return value of a function that indicates the driver instance was in a state 
+that didn't permit it to carry out the function.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/SOFTWARE_VERSION_SIZE" target="_top">SOFTWARE_VERSION_SIZE</a></tt></dt>
+<dd><p>Expected size of the buffer holding the Software Version, including the trailing 
+null character.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/STATUS_OK" target="_top">STATUS_OK</a></tt></dt>
+<dd><p>Return value of a function that executes with no errors.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/TIME_BUFFER_SIZE" target="_top">TIME_BUFFER_SIZE</a></tt></dt>
+<dd><p>Expected size of the buffer holding time data for getTimeCmd() and setTimeCmd().
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/COMPOSITE_CLASS" target="_top">COMPOSITE_CLASS</a></tt></dt>
+<dd><p>Return value of a function that indicates composite device is connected.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/COMMUNICATION_CLASS" target="_top">COMMUNICATION_CLASS</a></tt></dt>
+<dd><p>Return value of a function that indicates communication device(CDC) is connected.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/OPN_2001" target="_top">OPN_2001</a></tt></dt>
+<dd><p>Return value of a function that indicates OPN2001 is connected.
+</dd>
+<dt><tt><a href="index.html#//apple_ref/c/macro/OPN_2003" target="_top">OPN_2003</a></tt></dt>
+<dd><p>Return value of a function that indicates OPN2003 is connected.
+</dd>
+</dl>
+<hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/BAD_PARAM;   name=BAD_PARAM -->
+<a name="//apple_ref/c/macro/BAD_PARAM"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="BAD_PARAM">BAD_PARAM</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates there was a bad parameter to the 
+function.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/BAD_PARAM //apple_ref/c/tdef/BAD_PARAM //apple_ref/c/tag/BAD_PARAM //apple_ref/c/econst/BAD_PARAM //apple_ref/c/struct/BAD_PARAM //apple_ref/c/data/BAD_PARAM //apple_ref/c/clconst/BAD_PARAM //apple_ref/c/intf/BAD_PARAM //apple_ref/c/instm/BAD_PARAM //apple_ref/c/clm/BAD_PARAM //apple_ref/c/intfcm/BAD_PARAM //apple_ref/c/intfm/BAD_PARAM //apple_ref/c/func/BAD_PARAM //apple_ref/c/ftmplt/BAD_PARAM //apple_ref/c/defn/BAD_PARAM //apple_ref/c/macro/BAD_PARAM //apple_ref/doc/com/intfm/BAD_PARAM" --><span class="preprocessor">BAD_PARAM</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">2</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/COMMAND_LRC_ERROR;   name=COMMAND_LRC_ERROR -->
+<a name="//apple_ref/c/macro/COMMAND_LRC_ERROR"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="COMMAND_LRC_ERROR">COMMAND_LRC_ERROR</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates that the CRC check on written or 
+read data failed.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/COMMAND_LRC_ERROR //apple_ref/c/tdef/COMMAND_LRC_ERROR //apple_ref/c/tag/COMMAND_LRC_ERROR //apple_ref/c/econst/COMMAND_LRC_ERROR //apple_ref/c/struct/COMMAND_LRC_ERROR //apple_ref/c/data/COMMAND_LRC_ERROR //apple_ref/c/clconst/COMMAND_LRC_ERROR //apple_ref/c/intf/COMMAND_LRC_ERROR //apple_ref/c/instm/COMMAND_LRC_ERROR //apple_ref/c/clm/COMMAND_LRC_ERROR //apple_ref/c/intfcm/COMMAND_LRC_ERROR //apple_ref/c/intfm/COMMAND_LRC_ERROR //apple_ref/c/func/COMMAND_LRC_ERROR //apple_ref/c/ftmplt/COMMAND_LRC_ERROR //apple_ref/c/defn/COMMAND_LRC_ERROR //apple_ref/c/macro/COMMAND_LRC_ERROR //apple_ref/doc/com/intfm/COMMAND_LRC_ERROR" --><span class="preprocessor">COMMAND_LRC_ERROR</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">7</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/COMMUNICATIONS_ERROR;   name=COMMUNICATIONS_ERROR -->
+<a name="//apple_ref/c/macro/COMMUNICATIONS_ERROR"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="COMMUNICATIONS_ERROR">COMMUNICATIONS_ERROR</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates there was a communication error.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/COMMUNICATIONS_ERROR //apple_ref/c/tdef/COMMUNICATIONS_ERROR //apple_ref/c/tag/COMMUNICATIONS_ERROR //apple_ref/c/econst/COMMUNICATIONS_ERROR //apple_ref/c/struct/COMMUNICATIONS_ERROR //apple_ref/c/data/COMMUNICATIONS_ERROR //apple_ref/c/clconst/COMMUNICATIONS_ERROR //apple_ref/c/intf/COMMUNICATIONS_ERROR //apple_ref/c/instm/COMMUNICATIONS_ERROR //apple_ref/c/clm/COMMUNICATIONS_ERROR //apple_ref/c/intfcm/COMMUNICATIONS_ERROR //apple_ref/c/intfm/COMMUNICATIONS_ERROR //apple_ref/c/func/COMMUNICATIONS_ERROR //apple_ref/c/ftmplt/COMMUNICATIONS_ERROR //apple_ref/c/defn/COMMUNICATIONS_ERROR //apple_ref/c/macro/COMMUNICATIONS_ERROR //apple_ref/doc/com/intfm/COMMUNICATIONS_ERROR" --><span class="preprocessor">COMMUNICATIONS_ERROR</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">1</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/DEVICE_ID_SIZE;   name=DEVICE_ID_SIZE -->
+<a name="//apple_ref/c/macro/DEVICE_ID_SIZE"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="DEVICE_ID_SIZE">DEVICE_ID_SIZE</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Expected size of the buffer holding the Device ID, including the trailing null
+character.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/DEVICE_ID_SIZE //apple_ref/c/tdef/DEVICE_ID_SIZE //apple_ref/c/tag/DEVICE_ID_SIZE //apple_ref/c/econst/DEVICE_ID_SIZE //apple_ref/c/struct/DEVICE_ID_SIZE //apple_ref/c/data/DEVICE_ID_SIZE //apple_ref/c/clconst/DEVICE_ID_SIZE //apple_ref/c/intf/DEVICE_ID_SIZE //apple_ref/c/instm/DEVICE_ID_SIZE //apple_ref/c/clm/DEVICE_ID_SIZE //apple_ref/c/intfcm/DEVICE_ID_SIZE //apple_ref/c/intfm/DEVICE_ID_SIZE //apple_ref/c/func/DEVICE_ID_SIZE //apple_ref/c/ftmplt/DEVICE_ID_SIZE //apple_ref/c/defn/DEVICE_ID_SIZE //apple_ref/c/macro/DEVICE_ID_SIZE //apple_ref/doc/com/intfm/DEVICE_ID_SIZE" --><span class="preprocessor">DEVICE_ID_SIZE</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">9</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/GENERAL_ERROR;   name=GENERAL_ERROR -->
+<a name="//apple_ref/c/macro/GENERAL_ERROR"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="GENERAL_ERROR">GENERAL_ERROR</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates that some error occurred.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/GENERAL_ERROR //apple_ref/c/tdef/GENERAL_ERROR //apple_ref/c/tag/GENERAL_ERROR //apple_ref/c/econst/GENERAL_ERROR //apple_ref/c/struct/GENERAL_ERROR //apple_ref/c/data/GENERAL_ERROR //apple_ref/c/clconst/GENERAL_ERROR //apple_ref/c/intf/GENERAL_ERROR //apple_ref/c/instm/GENERAL_ERROR //apple_ref/c/clm/GENERAL_ERROR //apple_ref/c/intfcm/GENERAL_ERROR //apple_ref/c/intfm/GENERAL_ERROR //apple_ref/c/func/GENERAL_ERROR //apple_ref/c/ftmplt/GENERAL_ERROR //apple_ref/c/defn/GENERAL_ERROR //apple_ref/c/macro/GENERAL_ERROR //apple_ref/doc/com/intfm/GENERAL_ERROR" --><span class="preprocessor">GENERAL_ERROR</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">9</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/INVALID_COMMAND_NUMBER;   name=INVALID_COMMAND_NUMBER -->
+<a name="//apple_ref/c/macro/INVALID_COMMAND_NUMBER"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="INVALID_COMMAND_NUMBER">INVALID_COMMAND_NUMBER</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates that the command sent to the driver 
+was not defined.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/INVALID_COMMAND_NUMBER //apple_ref/c/tdef/INVALID_COMMAND_NUMBER //apple_ref/c/tag/INVALID_COMMAND_NUMBER //apple_ref/c/econst/INVALID_COMMAND_NUMBER //apple_ref/c/struct/INVALID_COMMAND_NUMBER //apple_ref/c/data/INVALID_COMMAND_NUMBER //apple_ref/c/clconst/INVALID_COMMAND_NUMBER //apple_ref/c/intf/INVALID_COMMAND_NUMBER //apple_ref/c/instm/INVALID_COMMAND_NUMBER //apple_ref/c/clm/INVALID_COMMAND_NUMBER //apple_ref/c/intfcm/INVALID_COMMAND_NUMBER //apple_ref/c/intfm/INVALID_COMMAND_NUMBER //apple_ref/c/func/INVALID_COMMAND_NUMBER //apple_ref/c/ftmplt/INVALID_COMMAND_NUMBER //apple_ref/c/defn/INVALID_COMMAND_NUMBER //apple_ref/c/macro/INVALID_COMMAND_NUMBER //apple_ref/doc/com/intfm/INVALID_COMMAND_NUMBER" --><span class="preprocessor">INVALID_COMMAND_NUMBER</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">4</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/LIBRARY_VERSION_SIZE;   name=LIBRARY_VERSION_SIZE -->
+<a name="//apple_ref/c/macro/LIBRARY_VERSION_SIZE"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="LIBRARY_VERSION_SIZE">LIBRARY_VERSION_SIZE</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Expected size of the buffer holding the driver version, including the trailing 
+null character.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/LIBRARY_VERSION_SIZE //apple_ref/c/tdef/LIBRARY_VERSION_SIZE //apple_ref/c/tag/LIBRARY_VERSION_SIZE //apple_ref/c/econst/LIBRARY_VERSION_SIZE //apple_ref/c/struct/LIBRARY_VERSION_SIZE //apple_ref/c/data/LIBRARY_VERSION_SIZE //apple_ref/c/clconst/LIBRARY_VERSION_SIZE //apple_ref/c/intf/LIBRARY_VERSION_SIZE //apple_ref/c/instm/LIBRARY_VERSION_SIZE //apple_ref/c/clm/LIBRARY_VERSION_SIZE //apple_ref/c/intfcm/LIBRARY_VERSION_SIZE //apple_ref/c/intfm/LIBRARY_VERSION_SIZE //apple_ref/c/func/LIBRARY_VERSION_SIZE //apple_ref/c/ftmplt/LIBRARY_VERSION_SIZE //apple_ref/c/defn/LIBRARY_VERSION_SIZE //apple_ref/c/macro/LIBRARY_VERSION_SIZE //apple_ref/doc/com/intfm/LIBRARY_VERSION_SIZE" --><span class="preprocessor">LIBRARY_VERSION_SIZE</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">9</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/RECEIVED_CHARACTER_ERROR;   name=RECEIVED_CHARACTER_ERROR -->
+<a name="//apple_ref/c/macro/RECEIVED_CHARACTER_ERROR"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="RECEIVED_CHARACTER_ERROR">RECEIVED_CHARACTER_ERROR</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates that the function encountered a value 
+it did not expect.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/RECEIVED_CHARACTER_ERROR //apple_ref/c/tdef/RECEIVED_CHARACTER_ERROR //apple_ref/c/tag/RECEIVED_CHARACTER_ERROR //apple_ref/c/econst/RECEIVED_CHARACTER_ERROR //apple_ref/c/struct/RECEIVED_CHARACTER_ERROR //apple_ref/c/data/RECEIVED_CHARACTER_ERROR //apple_ref/c/clconst/RECEIVED_CHARACTER_ERROR //apple_ref/c/intf/RECEIVED_CHARACTER_ERROR //apple_ref/c/instm/RECEIVED_CHARACTER_ERROR //apple_ref/c/clm/RECEIVED_CHARACTER_ERROR //apple_ref/c/intfcm/RECEIVED_CHARACTER_ERROR //apple_ref/c/intfm/RECEIVED_CHARACTER_ERROR //apple_ref/c/func/RECEIVED_CHARACTER_ERROR //apple_ref/c/ftmplt/RECEIVED_CHARACTER_ERROR //apple_ref/c/defn/RECEIVED_CHARACTER_ERROR //apple_ref/c/macro/RECEIVED_CHARACTER_ERROR //apple_ref/doc/com/intfm/RECEIVED_CHARACTER_ERROR" --><span class="preprocessor">RECEIVED_CHARACTER_ERROR</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">8</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/SETUP_ERROR;   name=SETUP_ERROR -->
+<a name="//apple_ref/c/macro/SETUP_ERROR"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="SETUP_ERROR">SETUP_ERROR</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates the driver instance was in a state 
+that didn't permit it to carry out the function.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/SETUP_ERROR //apple_ref/c/tdef/SETUP_ERROR //apple_ref/c/tag/SETUP_ERROR //apple_ref/c/econst/SETUP_ERROR //apple_ref/c/struct/SETUP_ERROR //apple_ref/c/data/SETUP_ERROR //apple_ref/c/clconst/SETUP_ERROR //apple_ref/c/intf/SETUP_ERROR //apple_ref/c/instm/SETUP_ERROR //apple_ref/c/clm/SETUP_ERROR //apple_ref/c/intfcm/SETUP_ERROR //apple_ref/c/intfm/SETUP_ERROR //apple_ref/c/func/SETUP_ERROR //apple_ref/c/ftmplt/SETUP_ERROR //apple_ref/c/defn/SETUP_ERROR //apple_ref/c/macro/SETUP_ERROR //apple_ref/doc/com/intfm/SETUP_ERROR" --><span class="preprocessor">SETUP_ERROR</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">-</span><span class="preprocessor">3</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/SOFTWARE_VERSION_SIZE;   name=SOFTWARE_VERSION_SIZE -->
+<a name="//apple_ref/c/macro/SOFTWARE_VERSION_SIZE"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="SOFTWARE_VERSION_SIZE">SOFTWARE_VERSION_SIZE</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Expected size of the buffer holding the Software Version, including the trailing 
+null character.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/SOFTWARE_VERSION_SIZE //apple_ref/c/tdef/SOFTWARE_VERSION_SIZE //apple_ref/c/tag/SOFTWARE_VERSION_SIZE //apple_ref/c/econst/SOFTWARE_VERSION_SIZE //apple_ref/c/struct/SOFTWARE_VERSION_SIZE //apple_ref/c/data/SOFTWARE_VERSION_SIZE //apple_ref/c/clconst/SOFTWARE_VERSION_SIZE //apple_ref/c/intf/SOFTWARE_VERSION_SIZE //apple_ref/c/instm/SOFTWARE_VERSION_SIZE //apple_ref/c/clm/SOFTWARE_VERSION_SIZE //apple_ref/c/intfcm/SOFTWARE_VERSION_SIZE //apple_ref/c/intfm/SOFTWARE_VERSION_SIZE //apple_ref/c/func/SOFTWARE_VERSION_SIZE //apple_ref/c/ftmplt/SOFTWARE_VERSION_SIZE //apple_ref/c/defn/SOFTWARE_VERSION_SIZE //apple_ref/c/macro/SOFTWARE_VERSION_SIZE //apple_ref/doc/com/intfm/SOFTWARE_VERSION_SIZE" --><span class="preprocessor">SOFTWARE_VERSION_SIZE</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">9</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/STATUS_OK;   name=STATUS_OK -->
+<a name="//apple_ref/c/macro/STATUS_OK"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="STATUS_OK">STATUS_OK</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that executes with no errors.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/STATUS_OK //apple_ref/c/tdef/STATUS_OK //apple_ref/c/tag/STATUS_OK //apple_ref/c/econst/STATUS_OK //apple_ref/c/struct/STATUS_OK //apple_ref/c/data/STATUS_OK //apple_ref/c/clconst/STATUS_OK //apple_ref/c/intf/STATUS_OK //apple_ref/c/instm/STATUS_OK //apple_ref/c/clm/STATUS_OK //apple_ref/c/intfcm/STATUS_OK //apple_ref/c/intfm/STATUS_OK //apple_ref/c/func/STATUS_OK //apple_ref/c/ftmplt/STATUS_OK //apple_ref/c/defn/STATUS_OK //apple_ref/c/macro/STATUS_OK //apple_ref/doc/com/intfm/STATUS_OK" --><span class="preprocessor">STATUS_OK</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">0</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/TIME_BUFFER_SIZE;   name=TIME_BUFFER_SIZE -->
+<a name="//apple_ref/c/macro/TIME_BUFFER_SIZE"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="TIME_BUFFER_SIZE">TIME_BUFFER_SIZE</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Expected size of the buffer holding time data for getTimeCmd() and setTimeCmd().
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/TIME_BUFFER_SIZE //apple_ref/c/tdef/TIME_BUFFER_SIZE //apple_ref/c/tag/TIME_BUFFER_SIZE //apple_ref/c/econst/TIME_BUFFER_SIZE //apple_ref/c/struct/TIME_BUFFER_SIZE //apple_ref/c/data/TIME_BUFFER_SIZE //apple_ref/c/clconst/TIME_BUFFER_SIZE //apple_ref/c/intf/TIME_BUFFER_SIZE //apple_ref/c/instm/TIME_BUFFER_SIZE //apple_ref/c/clm/TIME_BUFFER_SIZE //apple_ref/c/intfcm/TIME_BUFFER_SIZE //apple_ref/c/intfm/TIME_BUFFER_SIZE //apple_ref/c/func/TIME_BUFFER_SIZE //apple_ref/c/ftmplt/TIME_BUFFER_SIZE //apple_ref/c/defn/TIME_BUFFER_SIZE //apple_ref/c/macro/TIME_BUFFER_SIZE //apple_ref/doc/com/intfm/TIME_BUFFER_SIZE" --><span class="preprocessor">TIME_BUFFER_SIZE</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">6</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/COMPOSITE_CLASS;   name=COMPOSITE_CLASS -->
+<a name="//apple_ref/c/macro/COMPOSITE_CLASS"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="COMPOSITE_CLASS">COMPOSITE_CLASS</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates communication device(CDC) is connected.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/COMPOSITE_CLASS //apple_ref/c/tdef/COMPOSITE_CLASS //apple_ref/c/tag/COMPOSITE_CLASS //apple_ref/c/econst/COMPOSITE_CLASS //apple_ref/c/struct/COMPOSITE_CLASS //apple_ref/c/data/COMPOSITE_CLASS //apple_ref/c/clconst/COMPOSITE_CLASS //apple_ref/c/intf/COMPOSITE_CLASS //apple_ref/c/instm/COMPOSITE_CLASS //apple_ref/c/clm/COMPOSITE_CLASS //apple_ref/c/intfcm/COMPOSITE_CLASS //apple_ref/c/intfm/COMPOSITE_CLASS //apple_ref/c/func/COMPOSITE_CLASS //apple_ref/c/ftmplt/COMPOSITE_CLASS //apple_ref/c/defn/COMPOSITE_CLASS //apple_ref/c/macro/COMPOSITE_CLASS //apple_ref/doc/com/intfm/COMPOSITE_CLASS" --><span class="preprocessor">COMPOSITE_CLASS</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">20</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/COMMUNICATION_CLASS;   name=COMMUNICATION_CLASS -->
+<a name="//apple_ref/c/macro/COMMUNICATION_CLASS"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="COMMUNICATION_CLASS">COMMUNICATION_CLASS</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates communication device(CDC) is connected.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/COMMUNICATION_CLASS //apple_ref/c/tdef/COMMUNICATION_CLASS //apple_ref/c/tag/COMMUNICATION_CLASS //apple_ref/c/econst/COMMUNICATION_CLASS //apple_ref/c/struct/COMMUNICATION_CLASS //apple_ref/c/data/COMMUNICATION_CLASS //apple_ref/c/clconst/COMMUNICATION_CLASS //apple_ref/c/intf/COMMUNICATION_CLASS //apple_ref/c/instm/COMMUNICATION_CLASS //apple_ref/c/clm/COMMUNICATION_CLASS //apple_ref/c/intfcm/COMMUNICATION_CLASS //apple_ref/c/intfm/COMMUNICATION_CLASS //apple_ref/c/func/COMMUNICATION_CLASS //apple_ref/c/ftmplt/COMMUNICATION_CLASS //apple_ref/c/defn/COMMUNICATION_CLASS //apple_ref/c/macro/COMMUNICATION_CLASS //apple_ref/doc/com/intfm/COMMUNICATION_CLASS" --><span class="preprocessor">COMMUNICATION_CLASS</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">21</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/OPN_2001;   name=OPN_2001 -->
+<a name="//apple_ref/c/macro/OPN_2001"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="OPN_2001">OPN_2001</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates OPN2001 is connected.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/OPN_2001 //apple_ref/c/tdef/OPN_2001 //apple_ref/c/tag/OPN_2001 //apple_ref/c/econst/OPN_2001 //apple_ref/c/struct/OPN_2001 //apple_ref/c/data/OPN_2001 //apple_ref/c/clconst/OPN_2001 //apple_ref/c/intf/OPN_2001 //apple_ref/c/instm/OPN_2001 //apple_ref/c/clm/OPN_2001 //apple_ref/c/intfcm/OPN_2001 //apple_ref/c/intfm/OPN_2001 //apple_ref/c/func/OPN_2001 //apple_ref/c/ftmplt/OPN_2001 //apple_ref/c/defn/OPN_2001 //apple_ref/c/macro/OPN_2001 //apple_ref/doc/com/intfm/OPN_2001" --><span class="preprocessor">OPN_2001</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">2001</span> </pre>
+</div>
+<p></p><hr><!-- headerDoc=macro;  uid=//apple_ref/c/macro/OPN_2003;   name=OPN_2003 -->
+<a name="//apple_ref/c/macro/OPN_2003"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="OPN_2003">OPN_2003</a></h3>
+</td></tr></table><hr><p><!-- begin abstract --><p>Return value of a function that indicates OPN2003 is connected.
+<!-- end abstract --></p>
+<p></p><div class='declaration_indent'>
+<pre><span class="">#define</span><span class="preprocessor"> </span><!-- a logicalPath="//apple_ref/c/cl/OPN_2003 //apple_ref/c/tdef/OPN_2003 //apple_ref/c/tag/OPN_2003 //apple_ref/c/econst/OPN_2003 //apple_ref/c/struct/OPN_2003 //apple_ref/c/data/OPN_2003 //apple_ref/c/clconst/OPN_2003 //apple_ref/c/intf/OPN_2003 //apple_ref/c/instm/OPN_2003 //apple_ref/c/clm/OPN_2003 //apple_ref/c/intfcm/OPN_2003 //apple_ref/c/intfm/OPN_2003 //apple_ref/c/func/OPN_2003 //apple_ref/c/ftmplt/OPN_2003 //apple_ref/c/defn/OPN_2003 //apple_ref/c/macro/OPN_2003 //apple_ref/doc/com/intfm/OPN_2003" --><span class="preprocessor">OPN_2003</span><!-- /a --><span class="preprocessor"> </span><span class="preprocessor">2003</span> </pre>
+</div>
+<p></p><p><p>&#169; 2011 Opticon Inc.
+ Last Updated: Wednesday, June 9, 2011
+</p></body></html>

@@ -1,40 +1,57 @@
 <!DOCTYPE html>
-<!--Example of the Google web serial api to readout the Opticon OPN-2001/PX-20/OPN-6000  by Oscar Jacobse -->
-<!--date of last modification: 17/10/2024, tested with Google Chrome Version 130.0.6723.59 -->
+<!--Example of the Google web serial api to readout the Opticon OPN-2001/PX-20/OPN-6000 by Oscar Jacobse and Ronny de Winter -->
+<!--date of last modification: 04/12/2024, tested with Google Chrome Version 130.0.6723.59 -->
 <!--21/10/2024 - add the set time command, added download file with the barcode data -->
 <!--23/10/2024 - add column with explaination and usage -->
-<html>
+<!--04/12/2024 - restyling, fixed serial number, added error handling
+
+<!-- Example of the Google web serial API to readout the Opticon OPN-2xxx/PX-20/RS-3000/OPN-6000 -->
+<!-- Updated for modern design and mobile responsiveness -->
+<html lang="en">
 <head>
-  <title>web serial api demo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Serial API Demo</title>
+  
 </head>
-<style>
-.column {
-  float: left;
-  width: 50%;
-}
-</style>
 <body>
-<div class="column" style="background-color:white;">
-<button id="connect">Connect scanner</button><br>
-<textarea id="target" name="logwindow" rows="30" cols="50"></textarea><br>
-<button id="download">download data</button><br>
-</div>
-<div class="column" style="background-color:white;">
-  	<h1>OPN-2001 live demo</h1>
-  	This demo works on the Google Chrome web serial api<br>
-	and thus only in Google Chrome&#8482;,&nbsp;Microsoft Edge&#8482; and Opera&#8482;<br>
-	At the moment only with Desktop versions of said browsers and not with Mobile versions<br>
-	Here you can find more information about the <a href="https://developer.chrome.com/docs/capabilities/serial">web serial api</a><br>
-	<br>
-	As this is created with client-side scripting (java script) <strong>*no*</strong> data that is downloaded from your Opticon companion scanner is transferred to the internet or Opticon<br>
-	The <q>CLEAR_BAR_CODES_CMD</q> is not enabled, after downloading with this live demo the scanner still contains all the barcode data<br>
-	You can check the source code your self by saving this page (press CTRL + S) to your computer.<br>
-	Please feel free to use this script in your own program/page if you like, permission granted<br> 
-	<br>
-	<strong>Usage:</strong><br>connect your Opticon companion scanner with an USB cable to your computer and press the <q>Connect scanner</q> button<br>
-	Select the correct com port in the popup window and the barcode data is downloaded from the companion scanner<br>
-	with the <q>Download data</q> button you can download the barcode data to your computer in a file <q>data.txt</q>
-</div>
+  <div class="container">
+    <!-- Left Column -->
+    <div class="card">
+      <textarea id="target" name="logwindow" placeholder="Barcode data will appear here..."></textarea><br>
+      	  
+		<div>
+			<button id="downloadButton">Connect &amp; Download</button>
+			<label>
+				<input type="checkbox" id="clearDataCheckbox" disabled>
+				Clear data after transmission
+			</label>
+		</div>
+
+    </div>
+
+    <!-- Right Column -->
+    <div class="card">
+      <h1>OPN Companion Web API</h1>
+      <p>This demo works with the Google Chrome Web Serial API and is compatible with:</p>
+      <ul>
+        <li>Google Chrome™</li>
+        <li>Microsoft Edge™</li>
+        <li>Opera™</li>
+      </ul>
+      <p>For more information, visit the <a href="https://developer.chrome.com/docs/capabilities/serial">Web Serial API documentation</a>.</p>
+      <p>
+        Since this demo uses client-side scripting (JavaScript), <strong>no personal data is transmitted</strong> over the internet.
+      </p>
+      <p>You can review the source code by saving this page (press CTRL + S) to your computer. Feel free to use this script in your own projects.</p>
+      <h2>Usage:</h2>
+      <ul>
+        <li>Connect your Opticon companion scanner via USB to your computer.</li>
+        <li>Press the <q>Connect &amp; Download</q> button and select the correct COM port in the popup window.</li>
+        <li>Barcode data is automatically saved onto your computer as <q>data.txt</q>.</li>
+      </ul>
+    </div>
+  </div>
 
 <script>
 
@@ -136,7 +153,7 @@ const symbologies = new Map([
 	[ 0x28,'Macro PDF' ]
 ]);
 
-var output = "";
+var barcode_data = "";
 
 function crc16(data,end) {
 	var res = 0x0ffff;
@@ -147,39 +164,131 @@ function crc16(data,end) {
     return (~res) & 0x0ffff;
 }
 
+document.getElementById('downloadButton').addEventListener('click', async () => {
+    const clearDataCheckbox = document.getElementById("clearDataCheckbox");
 
+    if (!navigator.serial) {
+        alert("Web Serial API not supported.");
+        return;
+    }
 
-document.getElementById('connect').addEventListener('click', () => {
-  if (navigator.serial) {
-    connectSerial();
-  } else {
-    alert('Web Serial API not supported.');
-  }
+    try {
+        // Enable the checkbox when download starts (optional)
+        clearDataCheckbox.disabled = false;
+        const clearData = clearDataCheckbox.checked;
+
+        // Step 1: Connect to the serial device (wait for completion)
+        console.log("Connecting to serial...");
+        
+		let nr_of_barcodes = await connectSerial(clearData);
+
+        // Step 2: Download data after successful connection
+		if(nr_of_barcodes > 0)
+		{
+			await downloadData(); // Call the async function to download data
+			console.log("Data downloaded!");
+		}
+    } catch (error) {
+        console.error("Error during connect/download:", error);
+        alert("Failed to connect or download data.");
+    }
 });
 
-document.getElementById('download').addEventListener('click', () => {
-	const blob = new Blob([output], {
-		type: "text/plain;charset=utf-8;",
-	});
-	const blobURL = window.URL.createObjectURL(blob);
-	const tempLink = document.createElement('a');
-	tempLink.style.display = 'none';
-	tempLink.href = blobURL;
-	tempLink.setAttribute('download', 'data.txt');
-	document.body.appendChild(tempLink);
-	tempLink.click();
-	document.body.removeChild(tempLink);
-	window.URL.revokeObjectURL(blobURL);
-});
+// Async function to handle the download process
+async function downloadData() {
+    console.log("Downloading data...");
 
+    const blob = new Blob([barcode_data], {
+        type: "text/plain;charset=utf-8;",
+    });
+    const blobURL = window.URL.createObjectURL(blob);
+    const tempLink = document.createElement("a");
+    tempLink.style.display = "none";
+    tempLink.href = blobURL;
+    tempLink.setAttribute("download", "data.txt");
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
+    window.URL.revokeObjectURL(blobURL);
+}
 
-async function connectSerial() {
+function decodeBCDSerial(rx_packet) {
+    let serial = '';
+
+    // Loop through the relevant bytes (from rx_packet[4] to rx_packet[11])
+    for (let i = 4; i <= 11; i++) {
+        // Extract the current byte
+        let byte = rx_packet[i];
+
+        // Convert each nibble (half byte) to its corresponding decimal digit
+        let highNibble = (byte >> 4) & 0x0F;  // Extract the high nibble
+        let lowNibble = byte & 0x0F;          // Extract the low nibble
+
+        // Append the digits to the serial string
+        serial += highNibble.toString() + lowNibble.toString();
+    }
+
+    // Get the last 6 digits
+    return serial.slice(-6);
+}
+
+async function readWithTimeout(reader, timeout = 2000) {
+    // Create a promise that resolves after a timeout
+    const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout: No response within ' + timeout + ' ms')), timeout)
+    );
+
+    // Use Promise.race to race between reading and the timeout
+    const readPromise = new Promise(async (resolve, reject) => {
+        let rx_packet = [];
+
+        try {
+            for(;;) {
+                const { value, done } = await reader.read();
+                
+                if (done) {
+                    console.log('break on done');
+                    break;
+                }
+
+                if (value) {
+                    console.log('value length = ' + value.length);
+                    rx_packet.push(...value);
+                    
+                    // Check CRC or other conditions
+                    if (rx_packet[rx_packet.length - 3] == 0) {
+                        let crc = crc16(rx_packet, rx_packet.length - 2);
+                        if (((crc >> 8) == rx_packet[rx_packet.length - 2]) && ((crc & 0xff) == rx_packet[rx_packet.length - 1])) {
+                            console.log('crc OK');
+                            resolve(rx_packet); // Successfully received data
+                            break;
+                        }
+                    }
+                } else {
+                    console.log('no response');
+                }
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+	// Use Promise.race to race the timeout and the reader operation
+	return Promise.race([readPromise, timeoutPromise]);
+}
+
+async function connectSerial(clearData) {
 	const log = document.getElementById('target');
+	
 	var my_command = INTERROGATE_CMD;
+	var nr_of_barcodes = 0;
 	var tx_length;
 	var stop = false;
 	var softw_version;
 	let packet = new Uint8Array(15);
+	
+	log.innerHTML = "";
+		
 	try {
 		const port = await navigator.serial.requestPort();
 		await port.open({ baudRate: 9600, bufferSize: 4096 });
@@ -188,7 +297,8 @@ async function connectSerial() {
 			console.log('command = ' + my_command.toString(16) + '\r\n');
 			switch(my_command) {
 				case INTERROGATE_CMD:
-					output = "";
+					barcode_data = "";
+					nr_of_barcodes = 0;
 					tx_length = 0;
 					packet[tx_length++] = INTERROGATE_CMD;
 					packet[tx_length++] = STX;
@@ -243,147 +353,264 @@ async function connectSerial() {
 			console.log(crc.toString(16));
 			packet[tx_length++] = (crc >> 8);
 			packet[tx_length++] = (crc & 0xff);
-			log.innerHTML += 'TX: ';
-			for(let n=0; n < tx_length;n++)
-				log.innerHTML += packet[n].toString(16)+',';
-			log.innerHTML += '\r\n';
+
 			await writer.write(packet.slice(0,tx_length));
 			writer.releaseLock();
 			var rx_packet = [];
 			try {
+				
 				const reader = port.readable.getReader();
-				for(;;) {
-					const {value , done } = await reader.read();
-					if (value) {
-						console.log('value length = ' + value.length);
-						rx_packet.push(...value);
-						if (rx_packet[rx_packet.length - 3] == 0) {
-							crc = crc16(rx_packet,rx_packet.length-2);
-							if (((crc >> 8) == rx_packet[rx_packet.length-2]) && ((crc & 0xff) == rx_packet[rx_packet.length-1])) {
-								console.log('crc OK\r\n');
-								reader.releaseLock();
+				
+				try {
+					// Call the read function with 2 seconds timeout
+					rx_packet = await readWithTimeout(reader, 2000); // Timeout after 2 seconds
+					console.log('Received packet:', rx_packet);
+				} catch (error) {
+					console.error(error.message);  // Will show either timeout or other errors
+					log.innerHTML += 'Invalid / No response\r\n(Make sure you have installed the OPN Companion application on your device)';
+					stop = true;
+					break;
+				} finally {
+					reader.releaseLock();
+				}
+								
+				console.log('rx packet length = ' + rx_packet.length);
+				console.log('rx_packet = ' + rx_packet);
+				
+				switch(my_command) {
+				
+					case INTERROGATE_CMD:
+						if (rx_packet[0] == 0x06)
+						{
+							if(rx_packet[3] == 0x05)	// TEMPORARY_ERROR
+							{
+								log.innerHTML += 'Entering OPN-2001 compatibility mode\r\n(Ready to use in 5 seconds)';
+								stop = true;
 								break;
 							}
-						}
-					}
-					if (done) {
-						console.log('break on done\r\n');
-						reader.releaseLock();
-						break;
-					}
-				}
-				if (rx_packet) {
-					console.log('rx packet length = ' + rx_packet.length);
-					console.log('rx_packet = ' + rx_packet);
-					log.innerHTML += 'RX: ';
-					for(let n=0; n < rx_packet.length;n++)
-						log.innerHTML += rx_packet[n].toString(16)+',';
-					log.innerHTML += '\r\n';
-					switch(my_command) {
-					
-						case POWER_DOWN_CMD:
-							log.innerHTML += 'done\r\n';
-							stop = true;
-						break;
-					
-						case CLEAR_BAR_CODES_CMD:
-							log.innerHTML += 'cleared\r\n';
-							my_command = POWER_DOWN_CMD;
-						break;
-						
-						
-						case SET_TIME_CMD:
-							if (rx_packet[0] == 0x06)
-								log.innerHTML += 'PC time synced\r\n';
-							my_command = POWER_DOWN_CMD;
-//  uncomment the line below to clear the barcodes.
-// 							my_command = CLEAR_BAR_CODES_CMD;
-						break;
-
-						case UPLOAD_BAR_CODE_DATA_CMD:
-							var j = 1+1+8;
-							while( j < rx_packet.length)
-							{
-								var length = parseInt(rx_packet[j++]);
-								if (length == 0)
-									break;
-								var symbology = parseInt(rx_packet[j++]);
-								log.innerHTML += 'length = ' + length + '\r\n';
-								log.innerHTML += 'symbology = '+ symbologies.get(symbology) + '\r\n';
-								let barcode="";
-								for(let k = 0; k < length-5;k++)
-									barcode += String.fromCharCode(rx_packet[j++]);
-								log.innerHTML += barcode;
-								log.innerHTML += '\r\ntimestamp: ';
-								var timestamp = parseInt(rx_packet[j++]);
-								timestamp <<= 8;
-								timestamp |= parseInt(rx_packet[j++]);
-								timestamp <<= 8;
-								timestamp |= parseInt(rx_packet[j++]);
-								timestamp <<= 8;
-								timestamp |= parseInt(rx_packet[j++]);
-								console.log(timestamp.toString(16));
-								var year = 2000 + (timestamp & 0x3f);
-								console.log('year = ' + year.toString());
-								timestamp >>= 6;
-								var month = (timestamp & 0x0f);
-								console.log('month = '+ month.toString());
-								timestamp >>= 4;
-								var day = (timestamp & 0x1f);
-								console.log('day = '+ day.toString());
-								timestamp >>= 5;
-								var hour = (timestamp & 0x1f);
-								console.log('hour = '+ hour.toString());
-								timestamp >>= 5;
-								var min = (timestamp & 0x3f);
-								console.log('min = ' + min.toString());
-								timestamp >>= 6;
-								var sec = (timestamp & 0x3f);
-								console.log('sec = ' + sec.toString());
-								log.innerHTML += hour.toString() + ':' + String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0') + ' ';
-								log.innerHTML += day.toString() + '/' + month.toString() + '/' + year.toString() + '\r\n';
-								output += barcode;
-								output += ',';
-								output += symbologies.get(symbology);
-								output += ',';
-								output += hour.toString() + ':' + String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
-								output += ',';
-								output += day.toString() + '/' + month.toString() + '/' + year.toString() + '\r\n';
-								console.log('output = ' + output);
-							}
-							my_command = SET_TIME_CMD;
-						break;
-						
-						case GET_TIME_CMD:
-							log.innerHTML +=  'date of scanner = ' + rx_packet[6] + '/' + rx_packet[7] + '/20' + rx_packet[8] + '\r\n';
-							log.innerHTML +=  'time of scanner = ' + rx_packet[5] + ':' + String(rx_packet[4]).padStart(2, '0') + ':' + String(rx_packet[3]).padStart(2, '0') + '\r\n';
-							my_command = UPLOAD_BAR_CODE_DATA_CMD;
-						break;
-					
-						case INTERROGATE_CMD:
-							log.innerHTML += 'serial number = ' + rx_packet[4] + rx_packet[5] + rx_packet[6] + rx_packet[7] + rx_packet[8] + rx_packet[9] + rx_packet[10] + rx_packet[11] + '\r';
-							log.innerHTML += 'software version = ' + String.fromCharCode(rx_packet[12]) + String.fromCharCode(rx_packet[13]) + String.fromCharCode(rx_packet[14]) +
-																	String.fromCharCode(rx_packet[15]) + String.fromCharCode(rx_packet[16]) + String.fromCharCode(rx_packet[17]) +
-																	String.fromCharCode(rx_packet[18]) + String.fromCharCode(rx_packet[19]) + '\r\n';
+							 
+							log.innerHTML += 'Serial: ' + decodeBCDSerial(rx_packet) + '\r\n';
+							log.innerHTML += 'Version: ' + String.fromCharCode(rx_packet[12]) + String.fromCharCode(rx_packet[13]) + String.fromCharCode(rx_packet[14]) +
+																String.fromCharCode(rx_packet[15]) + String.fromCharCode(rx_packet[16]) + String.fromCharCode(rx_packet[17]) +
+																String.fromCharCode(rx_packet[18]) + String.fromCharCode(rx_packet[19]) + '\r\n';
 							my_command = GET_TIME_CMD;
-						break;
-					}
-					console.log('command = ' + my_command + 'stop = ' + stop);
+						}
+						else
+						{
+							log.innerHTML += 'Error: Invalid / No response';
+							stop = true;
+						}
+					break;
+					
+					case POWER_DOWN_CMD:
+						stop = true;
+					break;
+				
+					case CLEAR_BAR_CODES_CMD:
+						log.innerHTML += '(Memory cleared)\r\n';
+						my_command = POWER_DOWN_CMD;
+					break;
+					
+					case GET_TIME_CMD:
+						log.innerHTML +=  'Time of scanner: ' + rx_packet[6].toString().padStart(2, '0') + '/' + rx_packet[7].toString().padStart(2, '0') + '/' + rx_packet[8] + ' ' + rx_packet[5] + ':' + String(rx_packet[4]).padStart(2, '0') + ':' + String(rx_packet[3]).padStart(2, '0') + '\r\n';
+						my_command = SET_TIME_CMD;
+					break;
+											
+					case SET_TIME_CMD:
+						if (rx_packet[0] == 0x06)
+						{
+							// Get the current date and time
+							let now = new Date();
+
+							// Format the date part using Intl.DateTimeFormat (with 'DD/MM YY' format)
+							let dateString = new Intl.DateTimeFormat('en-GB', {
+								day: '2-digit',
+								month: '2-digit',
+								year: '2-digit',
+							}).format(now);
+
+							// Format the time part using Intl.DateTimeFormat (with 'HH:MM:SS' format)
+							let timeString = new Intl.DateTimeFormat('en-GB', {
+								hour: '2-digit',
+								minute: '2-digit',
+								second: '2-digit',
+								hour12: false  // 24-hour format
+							}).format(now);
+
+							// Combine date and time without a comma
+							let fullTimeString = `${dateString} ${timeString}`;
+
+							// Update the log with the formatted time
+							log.innerHTML += `Time set: ${fullTimeString}\r\n`;
+						}
+						else
+						{
+							log.innerHTML += `Time not set!\r\n\r\n`;
+						}
+						
+						my_command = UPLOAD_BAR_CODE_DATA_CMD;
+					break;
+
+					case UPLOAD_BAR_CODE_DATA_CMD:
+						var j = 1+1+8;
+						while( j < rx_packet.length)
+						{
+							var length = parseInt(rx_packet[j++]);
+							if (length == 0)
+								break;
+							var symbology = parseInt(rx_packet[j++]);
+							
+							let barcode="";
+							for(let k = 0; k < length-5;k++)
+								barcode += String.fromCharCode(rx_packet[j++]);
+							log.innerHTML += barcode + ' (' +  symbologies.get(symbology) + ') '; 
+							
+							var timestamp = parseInt(rx_packet[j++]);
+							timestamp <<= 8;
+							timestamp |= parseInt(rx_packet[j++]);
+							timestamp <<= 8;
+							timestamp |= parseInt(rx_packet[j++]);
+							timestamp <<= 8;
+							timestamp |= parseInt(rx_packet[j++]);
+							console.log(timestamp.toString(16));
+							var year = 2000 + (timestamp & 0x3f);
+							console.log('year = ' + year.toString());
+							timestamp >>= 6;
+							var month = (timestamp & 0x0f);
+							console.log('month = '+ month.toString());
+							timestamp >>= 4;
+							var day = (timestamp & 0x1f);
+							console.log('day = '+ day.toString());
+							timestamp >>= 5;
+							var hour = (timestamp & 0x1f);
+							console.log('hour = '+ hour.toString());
+							timestamp >>= 5;
+							var min = (timestamp & 0x3f);
+							console.log('min = ' + min.toString());
+							timestamp >>= 6;
+							var sec = (timestamp & 0x3f);
+							console.log('sec = ' + sec.toString());
+							log.innerHTML += day.toString().padStart(2, '0') + '/' + month.toString().padStart(2, '0') + '/' + year.toString() + ' ';
+							log.innerHTML += hour.toString() + ':' + String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0') + '\r\n';
+							barcode_data += barcode;
+							barcode_data += ',';
+							barcode_data += symbologies.get(symbology);
+							barcode_data += ',';
+							barcode_data += hour.toString() + ':' + String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+							barcode_data += ',';
+							barcode_data += day.toString() + '/' + month.toString() + '/' + year.toString() + '\r\n';
+							console.log('barcode data = ' + barcode_data);
+							
+							++nr_of_barcodes;
+						}
+						
+						my_command = (clearData && nr_of_barcodes > 0) ? CLEAR_BAR_CODES_CMD : POWER_DOWN_CMD;
+						log.innerHTML += nr_of_barcodes + " Barcodes downloaded\r\n"; 
+					break;
+										
+					
 				}
+				console.log('command = ' + my_command + '\r\nstop = ' + stop);
 			} catch (error) {
 				console.log('error = ' + error);
 			}
-			console.log('loop\r\n');
 		}
 		await port.close();
 	} catch (error) {
 		log.innerHTML = error;
 	}
+	
+	return nr_of_barcodes;
 }
 
-
-
 </script>
-
 </body>
+
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+      color: #333;
+      background-color: #f4f4f9;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+      .container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+    }
+    button {
+      background: #003d66;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+	  margin-right: 10px;
+    }
+    button:hover {
+      background: #104d76;
+    }
+	p {
+	  padding: 10px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+	  color: #003d66;
+    }
+	h2 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+	  color: #003d66;
+    }
+    strong {
+      font-weight: bold;
+    }
+    q {
+      font-style: italic;
+    }
+	ul {
+		margin-left: 20px;
+		padding-left: 20px;
+	}
+  </style>
+  
 </html> 

@@ -7,6 +7,7 @@
 #include "csp2.h"		// csp2 dll header files
 #include "SerialEnum.h" // serial port enumerator
 #include <dbt.h>
+#include <ctime>
 #include <shlwapi.h>
 #include "DlgParameters.h"
 #include "INIFILE.h"
@@ -32,6 +33,7 @@ WCHAR szFirmwarePath[ 1024 + 1];
 CString strCurSavePath;
 CString strCurSaveFileName;
 CString gszFormattedDeviceID;
+CString gszFormattedDateTime;
 int ConnectedDevices = 0;
 
 HANDLE	g_hStopWaitFirmwareUpdate = NULL;	// Stop the firmware update event thread waiter
@@ -505,7 +507,7 @@ BOOL COPN2001_DEMODlg::OnInitDialog()
 	  // Add tool tips to the controls, either by hard coded string 
 	  // or using the string table resource
 	  CButton *pBtn = (CButton*)GetDlgItem( IDC_BTN_BROWSE );
-	  m_ToolTip.AddTool( pBtn, _T("Hint: Use #SERIAL#.txt to create 1 file per device"));
+	  m_ToolTip.AddTool( pBtn, _T("Hint: Include #SERIAL# or #DATETIME# into the filename to create 1 file per device or download"));
 	  m_ToolTip.Activate(TRUE);
 	}
 
@@ -1117,7 +1119,7 @@ void COPN2001_DEMODlg::OnBnClickedCheckAuto()
 	CButton* pBtn;
 	long PortArray[100];
 
-	if( m_btnAuto.GetCheck() == TRUE )
+	if( m_btnAuto.GetCheck() )
 	{
 		if( !m_bAutoNotClicked )
 		{
@@ -1245,11 +1247,11 @@ void COPN2001_DEMODlg::UnpackCurrentTime( char *packedTimeandDate, CString &unpa
 {
 	//takes a csp2-style packed Time and Date buffer, and unpacks the time. Returns a time in human-readable form according to selected radio buttons.
 
-	if(m_radiot24.GetCheck() == 1)
+	if(m_radiot24.GetCheck())
 	{//don't need to do any data manipulation. Just pass it through.
 		unpackedTime.Format( L"%d:%02d:%02d", packedTimeandDate[2],packedTimeandDate[1],packedTimeandDate[0]);
 	}
-	else if(m_radiot12.GetCheck() == 1)
+	else
 	{
 		short hours = 0;
 		short minutes = 0;
@@ -1283,15 +1285,15 @@ void COPN2001_DEMODlg::UnpackCurrentDate( char *packedTimeandDate, CString &unpa
 	short day =   packedTimeandDate[3];
 	short year =  packedTimeandDate[5];
 
-	if(m_radiodUSA.GetCheck() == 1)//MM/DD/YY
+	if(m_radiodUSA.GetCheck())//MM/DD/YY
 	{
 		unpackedDate.Format(L"%02d/%02d/%02d", month, day, year);
 	}
-	else if(m_radiodEU.GetCheck() == 1)//DD/MM/YY
+	else if(m_radiodEU.GetCheck())//DD/MM/YY
 	{
 		unpackedDate.Format(L"%02d/%02d/%02d", day, month, year);
 	}
-	else if(m_radiodLong.GetCheck() == 1)//YYYY-MM-DD
+	else if(m_radiodLong.GetCheck())//YYYY-MM-DD
 	{//realistically we'll never need more than two digits of precision, and it's safe to say that current dates have years after 2000.
 		unpackedDate.Format(L"20%02d-%02d-%02d", year, month, day);
 	}
@@ -1301,7 +1303,7 @@ void COPN2001_DEMODlg::GenerateHeader( CString &strTemp )
 	CString wrapper;
 	CString delimeter;
 
-	if(m_radioCSV.GetCheck() == TRUE)
+	if(m_radioCSV.GetCheck())
 	{
 		wrapper = "\"";
 		
@@ -1316,7 +1318,7 @@ void COPN2001_DEMODlg::GenerateHeader( CString &strTemp )
 				break;
 		}
 	} 
-	else 
+	else
 	{
 		wrapper = "";
 
@@ -1407,7 +1409,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 	CString month;
 	CString year;
 
-	if(m_radioCSV.GetCheck() == TRUE)
+	if(m_radioCSV.GetCheck())
 	{
 		wrapper = "\"";
 		
@@ -1456,7 +1458,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 		strTemp.Append(wrapper);
 
 		// Append the barcode type
-		if(m_checkSymbology.GetCheck() == TRUE)
+		if(m_checkSymbology.GetCheck())
 		{
 			int nIndex;
 			for( nIndex = 0; nIndex < MAX_BCD; nIndex++ )
@@ -1481,7 +1483,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 		}
 		
 		// Append timestamp of scan time if available
-		if( (m_checkDate.GetCheck() == TRUE) || (m_checkTime.GetCheck() == TRUE) )
+		if( m_checkDate.GetCheck() || m_checkTime.GetCheck() )
 		{
 			if( lRTC == PARAM_ON)
 			{
@@ -1489,15 +1491,15 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 				tmpRTC.Format( L"%S", szTimeStamp );
 				ManipulateTimeStamp(tmpRTC, hour, minute, second, ampm, day, month, year);
 
-				if(m_checkTime.GetCheck() == 1)
+				if(m_checkTime.GetCheck())
 				{
 					strTemp.Append(delimeter);
 					strTemp.Append(wrapper);
-					if(m_radiot12.GetCheck() == 1)
+					if(m_radiot12.GetCheck())
 					{
 						strTemp.AppendFormat(L"%s:%s:%s %s", hour, minute, second, ampm);
 					}
-					else if(m_radiot24.GetCheck() == 1)
+					else if(m_radiot24.GetCheck())
 					{
 						int tmpHour = _ttoi(hour);
 						if(ampm.Mid(0, 1) == 'P')
@@ -1521,19 +1523,19 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 					strTemp.Append(wrapper);
 				}
 
-				if(m_checkDate.GetCheck() == 1)
+				if(m_checkDate.GetCheck())
 				{
 					strTemp.Append(delimeter);
 					strTemp.Append(wrapper);
-					if(m_radiodUSA.GetCheck() == 1)
+					if(m_radiodUSA.GetCheck())
 					{
 						strTemp.AppendFormat(L"%s/%s/%s", month, day, year);
 					}
-					else if(m_radiodEU.GetCheck() == 1)
+					else if(m_radiodEU.GetCheck())
 					{
 						strTemp.AppendFormat(L"%s/%s/%s", day, month, year);
 					}
-					else if(m_radiodLong.GetCheck() == 1)
+					else if(m_radiodLong.GetCheck())
 					{
 						strTemp.AppendFormat(L"20%s-%s-%s", year, month, day);
 					}
@@ -1555,12 +1557,12 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 			}
 		}
 
-		if( (m_checkCurrentDate.GetCheck() == TRUE) || (m_checkCurrentTime.GetCheck() == TRUE) )
+		if( m_checkCurrentDate.GetCheck() || m_checkCurrentTime.GetCheck() )
 		{
 			if( lRTC == PARAM_ON)
 			{
 				CString emptyBuffer;
-				if(m_checkCurrentTime.GetCheck() == 1)
+				if(m_checkCurrentTime.GetCheck())
 				{
 					strTemp.Append(delimeter);
 					strTemp.Append(wrapper);
@@ -1569,7 +1571,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 					strTemp.Append(wrapper);
 				}
 
-				if(m_checkCurrentDate.GetCheck() == 1)
+				if(m_checkCurrentDate.GetCheck())
 				{
 					strTemp.Append(delimeter);
 					strTemp.Append(wrapper);
@@ -1580,7 +1582,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 			}
 		}
 		//Append the Serial Number
-		if (m_checkSerial.GetCheck() == TRUE)
+		if (m_checkSerial.GetCheck())
 		{
 			strTemp.Append(delimeter);
 			strTemp.Append(wrapper);
@@ -1659,8 +1661,7 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 
 	pProgressCtrl = (CProgressCtrl*) GetDlgItem( IDC_PROGRESS1 );
 	pProgressCtrl->SetPos(Percentage);
-
-	pLabel = (CStatic *)GetDlgItem( IDC_STATIC_PROGRESS_TEXT );
+		
 	pLabelFile = (CStatic *)GetDlgItem( IDC_STATIC_FIRMWARE_FILE_TEXT );
 	hEdit = GetDlgItem( IDC_FIRMWARE_FILE_EDIT );
 	
@@ -1670,20 +1671,17 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
     {
 		if (nStatus<1000 || nStatus == DOWNLOAD_FINISHED_COMPLETE)	// Failure or success -> back to normal view
 		{
-			pLabel->ShowWindow(SW_HIDE);
 			pProgressCtrl->ShowWindow(SW_HIDE);
-			pLabelFile->ShowWindow(SW_SHOW);
-			hEdit->ShowWindow(SW_SHOW);
-			pBtnBrowse->ShowWindow(SW_SHOW);
+			pLabelFile->EnableWindow(1);
+			hEdit->EnableWindow(1);
+			pBtnBrowse->EnableWindow(1);
 		}
 		else if( nStatus == STATUS_CHECKING_FILE)					// Starting update -> show progress bar
 		{
-			pLabel->ShowWindow(SW_SHOW);
 			pProgressCtrl->ShowWindow(SW_SHOW);
-			pLabelFile->ShowWindow(SW_HIDE);
-			hEdit->ShowWindow(SW_HIDE);
-			pBtnBrowse->ShowWindow(SW_HIDE);
-			
+			pLabelFile->EnableWindow(0);
+			hEdit->EnableWindow(0);
+			pBtnBrowse->EnableWindow(0);
 		}
 
         if (nStatus<1000)		// Update failed !!!!
@@ -1695,7 +1693,7 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 
 			MessageBox(wcTempString,L"Error",MB_OK|MB_ICONERROR);
 			
-			if( m_btnAuto.GetCheck() == FALSE )
+			if( !m_btnAuto.GetCheck() )
 				m_listBcdData.ResetContent();
 			else
 				pLabel->SetWindowText(L"");
@@ -1745,7 +1743,7 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 
 			firmwareUpdateBusy = false;
 
-			if( m_btnAuto.GetCheck() == FALSE )
+			if( !m_btnAuto.GetCheck() )
 			{
 				m_listBcdData.ResetContent();
 				MessageBox(L"Download successfully completed" ,L"Info",MB_OK);
@@ -1753,10 +1751,10 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 		}
 		else if (nStatus != STATUS_LOADING && nStatus != STATUS_INIT_IRDA_ADAPTER)	// Ignore these messages
         {
-			if( m_btnAuto.GetCheck() == FALSE )
+			if( !m_btnAuto.GetCheck() )
 				m_listBcdData.AddString(wcTempString);
-			else
-				pLabel->SetWindowText(wcTempString);
+			//else
+			//	pLabel->SetWindowText(wcTempString);
 		}
 		else
 		{
@@ -1767,8 +1765,8 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 			else
 				text.Format(L"%i %% ready",Percentage);
 
-			if( m_btnAuto.GetCheck() )
-				pLabel->SetWindowText(text);
+			//if( m_btnAuto.GetCheck() )
+			//	pLabel->SetWindowText(text);
 			
 			m_listBcdData.ResetContent();
 			m_listBcdData.AddString(text);
@@ -1789,7 +1787,13 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 	char szParam[2] = {0};
 	CString strTemp, strDeviceId, strVersion;
 	CString strTemp2;
-	
+	CString strDateTime;
+
+	// Get current time
+	time_t now = time(0);
+	struct tm tstruct;
+	localtime_s(&tstruct, &now);  // Populate tstruct with current time
+
 	PollCallBack_sem++;
 
 	if(csp2GetDSREx(nComPort))
@@ -1858,6 +1862,17 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 				
 				SaveFile.Replace(L"#SERIAL#", strDeviceId);
 
+				// Format the time into a string: yyyyMMddHHmmSS
+				strDateTime.Format(_T("%04d%02d%02d_%02d%02d%02d"),
+					tstruct.tm_year + 1900,  // Year (tm_year is years since 1900)
+					tstruct.tm_mon + 1,      // Month (0-based, so +1)
+					tstruct.tm_mday,         // Day of the month
+					tstruct.tm_hour,         // Hour
+					tstruct.tm_min,          // Minutes
+					tstruct.tm_sec);         // Seconds
+
+				SaveFile.Replace(L"#DATETIME#", strDateTime);
+				
 				//if( m_bSaveToFile ) //Behavior change. now always creates a file regardless of save to file check box state
 				//{
 					hFile = CreateFile( SaveFile,		// path + filename 
@@ -2047,6 +2062,12 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 	char curTime[6] = {0};
 
 	CString strTemp;
+	CString strDateTime;
+
+	// Get current time
+	time_t now = time(0);
+	struct tm tstruct;
+	localtime_s(&tstruct, &now);  // Populate tstruct with current time
 
 	lRet = csp2ReadData();
 
@@ -2090,6 +2111,17 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 			CString SaveFile = m_strSaveFile;
 			
 			SaveFile.Replace(L"#SERIAL#", gszFormattedDeviceID);
+
+			// Format the time into a string: yyyyMMddHHmmSS
+			strDateTime.Format(_T("%04d%02d%02d_%02d%02d%02d"),
+				tstruct.tm_year + 1900,  // Year (tm_year is years since 1900)
+				tstruct.tm_mon + 1,      // Month (0-based, so +1)
+				tstruct.tm_mday,         // Day of the month
+				tstruct.tm_hour,         // Hour
+				tstruct.tm_min,          // Minutes
+				tstruct.tm_sec);         // Seconds
+
+			SaveFile.Replace(L"#DATETIME#", strDateTime);
 
 			hFile = CreateFile( SaveFile,		// path + filename 
 					GENERIC_READ | GENERIC_WRITE,	// open for reading and writing
@@ -2311,12 +2343,12 @@ void COPN2001_DEMODlg::InitFormatControls()
 	m_checkCurrentDate.SetCheck(iniOpnDemo.ReadInt( L"FORMAT", L"SHOW_CURRENT_DATE", TRUE ) );
 	m_checkShowHeader.SetCheck(iniOpnDemo.ReadInt(L"FORMAT", L"SHOW_DATA_HEADER", TRUE) );
 
-	if(m_checkTime.GetCheck() == 0 && m_checkCurrentTime.GetCheck() == 0)
+	if(!m_checkTime.GetCheck() && !m_checkCurrentTime.GetCheck())
 	{
 		m_radiot12.EnableWindow( FALSE );
 		m_radiot24.EnableWindow( FALSE );
 	}
-	if(m_checkDate.GetCheck() == 0 && m_checkCurrentDate.GetCheck() == 0)
+	if(!m_checkDate.GetCheck() && !m_checkCurrentDate.GetCheck())
 	{
 		m_radiodUSA.EnableWindow( FALSE );
 		m_radiodEU.EnableWindow( FALSE );
@@ -2345,7 +2377,7 @@ void COPN2001_DEMODlg::InitFormatControls()
 	
 	m_strSaveFile = szModulePath;
 	
-	if(m_radioText.GetCheck() == 1)
+	if(m_radioText.GetCheck())
 	{
 		m_strSaveFile += L"\\Barcodes.txt";
 	} else {
@@ -2392,7 +2424,7 @@ void COPN2001_DEMODlg::OnBnClickedCheckTime()
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"SHOW_TIME", m_checkTime.GetCheck() );
 
-	if(m_checkCurrentTime.GetCheck() == 1 || m_checkTime.GetCheck() == 1)
+	if(m_checkCurrentTime.GetCheck() || m_checkTime.GetCheck())
 	{
 		m_radiot24.EnableWindow( TRUE );
 		m_radiot12.EnableWindow( TRUE );
@@ -2410,7 +2442,7 @@ void COPN2001_DEMODlg::OnBnClickedCheckDate()
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"SHOW_DATE", m_checkDate.GetCheck() );
 	
-	if(m_checkCurrentDate.GetCheck() == 1 || m_checkDate.GetCheck() == 1)
+	if(m_checkCurrentDate.GetCheck() || m_checkDate.GetCheck() )
 	{
 		m_radiodUSA.EnableWindow( TRUE );
 		m_radiodEU.EnableWindow( TRUE );
@@ -2428,10 +2460,12 @@ void COPN2001_DEMODlg::OnBnClickedRadioFormatText()
 {
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
-	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_TEXT", ~m_radioText.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_CSV", ~m_radioText.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_TEXT", m_radioText.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_CSV", !m_radioText.GetCheck() );
 
-	m_cmboDelimeter.AddString(L"Tab");
+	if(m_cmboDelimeter.GetCount() != 3)
+		m_cmboDelimeter.AddString(L"Tab");
+
 	m_cmboDelimeter.SetCurSel(0);
 
 	LPWSTR m_tmp = m_strSaveFile.GetBuffer(1024);
@@ -2446,7 +2480,7 @@ void COPN2001_DEMODlg::OnBnClickedRadioFormatCSV()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_CSV", m_radioCSV.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_TEXT", ~m_radioCSV.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"FORMAT_IS_TEXT", !m_radioCSV.GetCheck() );
 
 	m_cmboDelimeter.DeleteString(2);
 	m_cmboDelimeter.SetCurSel(0);
@@ -2463,7 +2497,7 @@ void COPN2001_DEMODlg::OnBnClickedRadioTime12()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_12", m_radiot12.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_24", ~m_radiot12.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_24", !m_radiot12.GetCheck() );
 }
 
 void COPN2001_DEMODlg::OnBnClickedRadioTime24()
@@ -2471,7 +2505,7 @@ void COPN2001_DEMODlg::OnBnClickedRadioTime24()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_24", m_radiot24.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_12", ~m_radiot24.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"TIME_IS_12", !m_radiot24.GetCheck() );
 }
 
 void COPN2001_DEMODlg::OnBnClickedRadioDateUSA()
@@ -2479,8 +2513,8 @@ void COPN2001_DEMODlg::OnBnClickedRadioDateUSA()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_USA", m_radiodUSA.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_EU", ~m_radiodUSA.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_LONG", ~m_radiodUSA.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_EU", !m_radiodUSA.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_LONG", !m_radiodUSA.GetCheck() );
 }
 
 void COPN2001_DEMODlg::OnBnClickedRadioDateEU()
@@ -2488,8 +2522,8 @@ void COPN2001_DEMODlg::OnBnClickedRadioDateEU()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_EU", m_radiodEU.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_USA", ~m_radiodEU.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_LONG", ~m_radiodEU.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_USA", !m_radiodEU.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_LONG", !m_radiodEU.GetCheck() );
 }
 
 void COPN2001_DEMODlg::OnBnClickedRadioDateLong()
@@ -2497,8 +2531,8 @@ void COPN2001_DEMODlg::OnBnClickedRadioDateLong()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_LONG", m_radiodLong.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_USA", ~m_radiodLong.GetCheck() );
-	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_EU", ~m_radiodLong.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_USA", !m_radiodLong.GetCheck() );
+	iniOpnDemo.WriteInt( L"FORMAT", L"DATE_IS_EU", !m_radiodLong.GetCheck() );
 }
 
 void COPN2001_DEMODlg::OnCbnSelChangeComboDelimeter()
@@ -2513,13 +2547,13 @@ void COPN2001_DEMODlg::OnBnClickedBtnBrowse()
 	INT_PTR lRet = IDCANCEL;
 	CString tmp;
 
-	if(m_radioText.GetCheck() == TRUE)
+	if(m_radioText.GetCheck())
 	{
 		CFileDialog FileDlg(FALSE,_T(".txt"),m_strSaveFile,0,_T("Text Files(*.txt)|*.txt||"));
 		lRet = FileDlg.DoModal();
 		tmp = FileDlg.GetPathName();
 	}
-	else if(m_radioCSV.GetCheck() == TRUE)
+	else// if(m_radioCSV.GetCheck())
 	{
 		CFileDialog FileDlg(FALSE,_T(".csv"),m_strSaveFile,0,_T("Comma Seperated Values (*.csv)|*.csv||"));
 		lRet = FileDlg.DoModal();
@@ -2773,7 +2807,7 @@ void COPN2001_DEMODlg::OnBnClickCheckCTime()
 	CIniFile iniOpnDemo;
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"SHOW_CURRENT_TIME", m_checkCurrentTime.GetCheck() );
-	if(m_checkCurrentTime.GetCheck() == 1 || m_checkTime.GetCheck() == 1)
+	if(m_checkCurrentTime.GetCheck() || m_checkTime.GetCheck())
 	{
 		m_radiot24.EnableWindow( TRUE );
 		m_radiot12.EnableWindow( TRUE );
@@ -2791,7 +2825,7 @@ void COPN2001_DEMODlg::OnBnClickedCurrentDate()
 	iniOpnDemo.SetPathName( m_strConfigFile );
 	iniOpnDemo.WriteInt( L"FORMAT", L"SHOW_CURRENT_DATE", m_checkCurrentDate.GetCheck() );
 	
-	if(m_checkCurrentDate.GetCheck() == 1 || m_checkDate.GetCheck() == 1)
+	if(m_checkCurrentDate.GetCheck() || m_checkDate.GetCheck())
 	{
 		m_radiodUSA.EnableWindow( TRUE );
 		m_radiodEU.EnableWindow( TRUE );
@@ -2930,7 +2964,7 @@ void COPN2001_DEMODlg::OnBnClickedBtnViewDetails()
 {
 	m_bDetails = !m_bDetails;
 	
-	if( m_btnAuto.GetCheck() == 1 )
+	if( m_btnAuto.GetCheck() )
 	{
 		if(m_bDetails == FALSE)
 			this->SetWindowPos(NULL, 0, 0,  WindowRectangle().right / 2,  WindowRectangle().bottom, SWP_NOZORDER|SWP_NOMOVE);

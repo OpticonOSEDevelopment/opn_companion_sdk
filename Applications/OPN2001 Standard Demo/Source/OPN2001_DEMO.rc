@@ -146,11 +146,10 @@ BEGIN
     CONTROL         "Start && Minimize as tray icon",IDC_CHECK_TRAY_ICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,132,302,106,10
     PUSHBUTTON      ">>",IDC_BTN_VIEW_DETAILS,79,79,14,11
-    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",NOT WS_VISIBLE | WS_BORDER,244,294,119,14
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",NOT WS_VISIBLE | WS_BORDER,6,303,95,9
     EDITTEXT        IDC_FIRMWARE_FILE_EDIT,283,295,137,13,ES_AUTOHSCROLL
     LTEXT           "Firmware:",IDC_STATIC_FIRMWARE_FILE_TEXT,247,297,32,8
     PUSHBUTTON      "...",IDC_BTN_BROWSE2,426,295,21,12
-    LTEXT           "",IDC_STATIC_PROGRESS_TEXT,367,296,94,12,NOT WS_VISIBLE
     RTEXT           "0/0",IDC_COUNTERS,446,298,31,8
     PUSHBUTTON      "Firmware Update",IDC_BTN_FIRMWARE_UPDATE,13,51,80,12,WS_DISABLED
 END
@@ -174,8 +173,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,18,0
- PRODUCTVERSION 2,0,18,0
+ FILEVERSION 2,0,20,0
+ PRODUCTVERSION 2,0,20,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -192,12 +191,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Opticon Sensors Europe BV"
             VALUE "FileDescription", "OPN Companion Application"
-            VALUE "FileVersion", "2.18"
-            VALUE "InternalName", "EGF3800I"
-            VALUE "LegalCopyright", "2024 © Opticon Sensors Europe BV"
+            VALUE "FileVersion", "2.20"
+            VALUE "InternalName", "EGF3800K"
+            VALUE "LegalCopyright", "2026 © Opticon Sensors Europe BV"
             VALUE "OriginalFilename", "OPN2001.exe"
             VALUE "ProductName", "OPN-2001"
-            VALUE "ProductVersion", "2.0.18.0"
+            VALUE "ProductVersion", "2.0.20.0"
         END
     END
     BLOCK "VarFileInfo"

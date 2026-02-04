@@ -64,7 +64,7 @@
 #define IDC_CHECK_INDICATE_NOT_EMPTY    1053
 #define IDC_MINIMIZE                    1054
 #define IDC_PROGRESS1                   1055
-#define IDC_STATIC_PROGRESS_TEXT        1056
+//#define IDC_STATIC_PROGRESS_TEXT        1056
 #define IDC_BTN_START_FIRMWARE          1057
 #define IDC_STATIC_FIRMWARE_FILE_TEXT   1058
 #define IDC_STAT_VERSION                1059

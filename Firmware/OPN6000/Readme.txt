@@ -10,6 +10,6 @@ Use Appload to load:
 
 Appload and the latest Operating System firmware can be found in the support section under 'software' at www.opticon.com
 
-This firmware requires the OPN Companion Applation (EGF3800H or higher) for configuration and retrieving data, which can be found in the 'software' section of the OPN2001
+This firmware requires the OPN Companion Application (EGF3800H or higher) for configuration and retrieving data, which can be found in the 'software' section of the OPN2001
 
 For more information about this application, the OPN Companion Application or the OPN2001 SDK, please check the 'manuals' and 'software' section of the OPN2001.

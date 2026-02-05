@@ -1,6 +1,23 @@
-# OPN Companion Application SDK (for OPN-2xxx/PX-20/RS-3000 and OPN-6000)
+# OPN Companion Application SDK
 
-This is the official SDK from Opticon Sensors Europe BV for the Companion Scanners to create and customize Linux, Windows and web applications and more
+## Introduction
+
+This is the official SDK from Opticon Sensors Europe BV for the Companion Scanners to create and customize Linux, Windows and web applications and more.
+
+This SDK is compatible with the following Opticon Companion Scanners:
+
+- `OPN-2001`
+- `OPN-2002`
+- `OPN-2003`
+- `OPN-2004`
+- `OPN-2005`
+- `OPN-2006`
+- `OPN-2500`
+- `OPN-6000`
+- `PX-20`
+- `RS-3000`
+
+## Prerequisites
 
 The prerequisites for using this SDK are:
 
@@ -26,16 +43,16 @@ Latest OPN-2001 compatible firmware files for the OPN Companion
 
 See `/Documents/How to load Firmware.pdf` for more information on how to load the firmware files on Opticon Companion scanners
 
-- `OPN2001` - OPN2001_RBBV021x.hex
-- `OPN2002` - RBFV02xx_RFF3510x.hex
-- `OPN2003` - RBGV02xx_RFG3510x.hex
-- `OPN2004` - PN2004_RBIV00xx_RFI3727x.hex
-- `OPN2005` - OPN2005_RBLV00xx_RFI3727Qx.hex
-- `OPN2006` - OPN2006_RBNV00xx_RFI3727x.hex
-- `OPN2500` - OPN2500_FANV00xx_FBNV0xxx_FFN4076x.bin
-- `OPN6000` - OPN6000_FAMV00xx_FBMV0xxx_FFM4076x.bin
-- `PX20` - PX20_RBMV00xx_RFM3727x.hex
-- `RS3000` - RS3000_RBZV00xx_RFM3727x.hex
+- `OPN-2001` - OPN2001_RBBV021x.hex
+- `OPN-2002` - RBFV02xx_RFF3510x.hex
+- `OPN-2003` - RBGV02xx_RFG3510x.hex
+- `OPN-2004` - PN2004_RBIV00xx_RFI3727x.hex
+- `OPN-2005` - OPN2005_RBLV00xx_RFI3727Qx.hex
+- `OPN-2006` - OPN2006_RBNV00xx_RFI3727x.hex
+- `OPN-2500` - OPN2500_FANV00xx_FBNV0xxx_FFN4076x.bin
+- `OPN-6000` - OPN6000_FAMV00xx_FBMV0xxx_FFM4076x.bin
+- `PX-20` - PX20_RBMV00xx_RFM3727x.hex
+- `RS-3000` - RS3000_RBZV00xx_RFM3727x.hex
 
 ### /API
 

@@ -49,6 +49,7 @@ For more information see [Github: opn_companion_sdk_dotnet](https://github.com/O
 - `license.txt`
 - `OPN.framework/`	-> framework for Xcode projects
 - `Readme.txt`		-> more information about using the Csp2Net NuGet package for MacOS
+
 ### /Windows
 - `CSp2.h`
 

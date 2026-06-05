@@ -40,32 +40,27 @@ See `/Documents/How to load Firmware.pdf` for more information on how to load th
 - `index.html` -> Communicate with OPN Companion scanners using Google Chrome web serial api
 
 ### /dotNET
-#### /x64		
-- `Csp2Ex.dll`	-> CSP2-dll for 64-bit applications
-- `Opticon.csp2Ex.net.dll`-> .NET wrapper for 64-bit applications
-- `Opticon.csp2Ex.net.XML`
-#### /x86 
-- `Csp2.dll`-> CSP2-dll for 32-bit applications
-- `Opticon.csp2.net.dll` -> .NET wrapper for 32-bit applications
-- `Opticon.csp2.net.xml`
+- `Readme.md`	-> Instructions on how to use the Csp2Net NuGet package to build cross-platform applications (Windows/Linux/MacOS)
+
+For more information see [Github: opn_companion_sdk_dotnet](https://github.com/OpticonOSEDevelopment/opn_companion_sdk_dotnet)
 
 ### /OS X
 - `Instructions.pdf`
 - `license.txt`
 - `OPN.framework/`	-> framework for Xcode projects
-
+- `Readme.txt`		-> more information about using the Csp2Net NuGet package for MacOS
 ### /Windows
 - `CSp2.h`
 
 #### /DLL
 - `debug/Csp2.dll`
 - `release/Csp2.dll`
-- `x64/debug/Csp2Ex.dll`
-- `x64/release/Csp2Ex.dll`
+- `x64/debug/Csp2.dll`
+- `x64/release/Csp2.dll`
 
 #### /LIB
-- `coff\csp2.lib`
-- `coff\Csp2Ex.lib`
+- `coff\x86\csp2.lib`
+- `coff\x64\Csp2.lib`
 
 ## /Applications
 - `OPN2001 .NET Demo`
@@ -82,6 +77,7 @@ See `/Documents/How to load Firmware.pdf` for more information on how to load th
 - `How to load Firmware.pdf`
 - `Windows API/` -> Manual for the Windows API
 - `OS X API/` -> HTML Help for the OS X API
+- `Csp2Net` -> Csp2Net NuGet HTML Help (See [Github: opn_companion_sdk_dotnet](https://github.com/OpticonOSEDevelopment/opn_companion_sdk_dotnet)
 
 ### /USB Driver
 - `USB Drivers Installer.exe` USB Installer for all Opticon Companion scanners

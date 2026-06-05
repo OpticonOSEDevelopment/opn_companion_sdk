@@ -23,22 +23,19 @@ bool firstLoad = true;
 bool firstAutoLoad = true;
 bool firstDownload = true;  //indicates whether this is the first time data has been downloaded into a particular file during this session.
 							//firstDownload controls whether the optional header will be written out to a file.
-bool firmwareUpdateBusy = false;
+volatile bool firmwareUpdateBusy = false;
 
-int dsr = -1;
-int cts = -1;
+int g_iDSR = -1;
+int g_iCTS = -1;
 
 WCHAR szModulePath[ 1024 + 1];
 WCHAR szFirmwarePath[ 1024 + 1];
 CString strCurSavePath;
 CString strCurSaveFileName;
-CString gszFormattedDeviceID;
-CString gszFormattedDateTime;
 int ConnectedDevices = 0;
 
 HANDLE	g_hStopWaitFirmwareUpdate = NULL;	// Stop the firmware update event thread waiter
 HANDLE	g_hStopWaitPollCallback = NULL;		// Stop the poll callback event thread waiter
-
 
 void *COPN2001_DEMODlg::pDlgObject;
 
@@ -357,6 +354,7 @@ BOOL COPN2001_DEMODlg::OnInitDialog()
 	GetModuleFileName( AfxGetInstanceHandle(), szModulePath, 1024 );
 	PathRemoveFileSpec( szModulePath );
 	
+	InitializeCriticalSection(&m_csLock);
 
 	//m_strConfigFile = szModulePath;
 	my_AppDataPath = GetAppDataPath();
@@ -542,8 +540,10 @@ void COPN2001_DEMODlg::InitComboBox()
 
 	m_nUsedPort = iniOpnDemo.ReadInt( L"GLOBAL", L"USED_PORT", 0); 
 	m_nPortArray.sort();
+
+	ClearBarcodeDataTextbox();
+
 	// Fill the combobox
-	m_cmboPort.ResetContent(); // Clear the list in the combobox;
 	CString strPort;
 	int x;
 	for( m_itPorts = m_nPortArray.begin(), x = 0; m_itPorts != m_nPortArray.end(); m_itPorts++, x++ )
@@ -572,6 +572,9 @@ void COPN2001_DEMODlg::InitComboBox()
 
 void COPN2001_DEMODlg::UpdateOpnListCtrl(long nComPort)
 {
+	// 1. Wait for the lock (other threads will stop here until you are done)
+	EnterCriticalSection(&m_csLock);
+	
 	std::list<SOpn200xStatus*>::iterator m_itDev;
 
 	ConnectedDevices = 0;
@@ -593,6 +596,35 @@ void COPN2001_DEMODlg::UpdateOpnListCtrl(long nComPort)
     }
 
 	UpdateOpnListCtrlCounters();
+
+	// 2. Release the lock so the next device can process
+	LeaveCriticalSection(&m_csLock);
+}
+
+void COPN2001_DEMODlg::ClearBarcodeDataTextbox()
+{
+	// 1. Wait for the lock (other threads will stop here until you are done)
+	EnterCriticalSection(&m_csLock);
+
+	m_listBcdData.ResetContent();
+
+	// 2. Release the lock so the next device can process
+	LeaveCriticalSection(&m_csLock);
+}
+
+void COPN2001_DEMODlg::AddBarcodeDataLine(CString message, bool reset = false)
+{
+	// 1. Wait for the lock (other threads will stop here until you are done)
+	EnterCriticalSection(&m_csLock);
+
+	if(reset)
+		m_listBcdData.ResetContent();
+	
+	if (!message.IsEmpty())
+		m_listBcdData.AddString(message);
+
+	// 2. Release the lock so the next device can process
+	LeaveCriticalSection(&m_csLock);
 }
 
 void COPN2001_DEMODlg::UpdateDeviceStatus(SOpn200xStatus *Status, bool Add)
@@ -645,6 +677,7 @@ void COPN2001_DEMODlg::UpdateDeviceStatus(SOpn200xStatus *Status, bool Add)
 	switch(Status->iConnected)
 	{
 		case TRUE:
+		case FIRMWARE_UPDATE_PENDING:
 			m_listOPNs.SetItemText(index, 4, _T("Connected"));
 			break;
 
@@ -846,8 +879,8 @@ void COPN2001_DEMODlg::OnBnClickedBtnOpen()
 {
 	COPN2001_DEMODlg* pDlg = this;
 
-	dsr = -1;
-	cts = -1;
+	g_iDSR = -1;
+	g_iCTS = -1;
 
 	pDlg->SetWindowPos(NULL, 0, 0, WindowRectangle().right / 2, WindowRectangle().bottom, SWP_NOZORDER|SWP_NOMOVE);
 
@@ -985,7 +1018,7 @@ void COPN2001_DEMODlg::OnBnClickedBtnInterrogate()
 //PDEV_BROADCAST_DEVICEINTERFACE 
 LRESULT COPN2001_DEMODlg::OnDeviceChange( WPARAM wParam, LPARAM lParam )
 {
-	 if(m_btnAuto.GetCheck() == TRUE)	// No need to handle device change event while in automatic mode, beause CSP2.dll handles this
+	 if(m_btnAuto.GetCheck() == TRUE)	// No need to handle device change event while in automatic mode, because CSP2.dll handles this
 		 return FALSE;
 	 
 
@@ -1132,6 +1165,8 @@ void COPN2001_DEMODlg::OnBnClickedCheckAuto()
 			}
 		}
 
+		ClearBarcodeDataTextbox();
+
 		RemoveAllDevices();
 
 		int x, nCount = csp2GetOpnCompatiblePorts(PortArray);
@@ -1207,7 +1242,7 @@ BOOL COPN2001_DEMODlg::StartAutomaticDownload( void )
 	{
 		int (FAR WINAPI *pPollCallback)(long) = reinterpret_cast<int (FAR WINAPI *)(long)>( &csp2PollCallback );
 
-		lRet = csp2StartPollingAll( pPollCallback );
+		lRet = csp2StartPollingAll(pPollCallback);
 	
 		return ( lRet == STATUS_OK );
 	}
@@ -1389,7 +1424,8 @@ void COPN2001_DEMODlg::GenerateHeader( CString &strTemp )
 
 		}
 }
-void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CString &strTemp, long lAsciiMode, long lRTC, char *currentDatenTime)
+
+void COPN2001_DEMODlg::ConvertBarcodeToString(char* szBarcode, int length, CString& strTemp, long lAsciiMode, long lRTC, char* currentDatenTime, const CString& deviceId)
 {// converts packed barcode data to a string.
 	int nBcdLength;
 	int nBarcodeType;
@@ -1586,7 +1622,7 @@ void COPN2001_DEMODlg::ConvertBarcodeToString( char *szBarcode, int length, CStr
 		{
 			strTemp.Append(delimeter);
 			strTemp.Append(wrapper);
-			strTemp.Append( gszFormattedDeviceID );
+			strTemp.Append(deviceId);
 			strTemp.Append(wrapper);
 		}
 	} else
@@ -1628,7 +1664,7 @@ int COPN2001_DEMODlg::HandleDeviceChangeCallback( long nComPort )
 	return 0L;
 }
 
-static int PollCallBack_sem = 0;
+static volatile int PollCallBack_sem = 0;
 
 int COPN2001_DEMODlg::IsHandlingPollCallback(void)
 {
@@ -1646,7 +1682,7 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 {
 	CString text;
 	CProgressCtrl *pProgressCtrl;
-	CStatic *pLabel, *pLabelFile;
+	CStatic *pLabelFile; // *pLabel 
 	WCHAR wcTempString[ 78 + 2 + 1 ];
 	CWnd *hEdit;
 	CButton *pBtnBrowse;
@@ -1693,10 +1729,11 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 
 			MessageBox(wcTempString,L"Error",MB_OK|MB_ICONERROR);
 			
-			if( !m_btnAuto.GetCheck() )
-				m_listBcdData.ResetContent();
-			else
-				pLabel->SetWindowText(L"");
+			if (!m_btnAuto.GetCheck())
+				ClearBarcodeDataTextbox();
+
+			//else
+			//	pLabel->SetWindowText(L"");
 
 			if(nStatus != ERROR_LOADDLL_NOT_FOUND && nStatus != ERROR_LOADDLL_OUTDATED)
 			{
@@ -1710,8 +1747,7 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 			dev->iConnected = FIRMWARE_UPDATE;
 			UpdateDeviceStatus(dev, false);
 
-			m_listBcdData.ResetContent();
-			m_listBcdData.AddString(wcTempString);
+			AddBarcodeDataLine(wcTempString, true);
 		}
 		else if( nStatus == DOWNLOAD_FINISHED_COMPLETE )	// Update completed
 		{
@@ -1729,7 +1765,6 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 			else
 				strDeviceId.Format( _T("%02X%02X%02X"), szDeviceID[ 5 ], szDeviceID[ 6 ], szDeviceID[ 7 ]);
 
-			gszFormattedDeviceID = strDeviceId;
 			m_statID.SetWindowText( strDeviceId );
 
 			csp2GetSwVersionEx( szSwVersion, 9, nComPort );
@@ -1745,14 +1780,14 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 
 			if( !m_btnAuto.GetCheck() )
 			{
-				m_listBcdData.ResetContent();
+				ClearBarcodeDataTextbox();
 				MessageBox(L"Download successfully completed" ,L"Info",MB_OK);
 			}
 		}
 		else if (nStatus != STATUS_LOADING && nStatus != STATUS_INIT_IRDA_ADAPTER)	// Ignore these messages
         {
 			if( !m_btnAuto.GetCheck() )
-				m_listBcdData.AddString(wcTempString);
+				AddBarcodeDataLine(wcTempString);
 			//else
 			//	pLabel->SetWindowText(wcTempString);
 		}
@@ -1768,21 +1803,106 @@ void COPN2001_DEMODlg::HandleFirmwareProgressCallback(short nComPort, short Perc
 			//if( m_btnAuto.GetCheck() )
 			//	pLabel->SetWindowText(text);
 			
-			m_listBcdData.ResetContent();
-			m_listBcdData.AddString(text);
+			AddBarcodeDataLine(text, true);
 		}
     }
+}
+
+std::mutex& COPN2001_DEMODlg::GetFileMutex(const CString& fileName)
+{
+	std::lock_guard<std::mutex> guard(m_fileMutexMapMutex);
+
+	auto it = m_fileMutexes.find(fileName);
+
+	if (it == m_fileMutexes.end())
+	{
+		it = m_fileMutexes.emplace(
+			fileName,
+			std::make_unique<std::mutex>()
+		).first;
+	}
+
+	return *it->second;
+}
+
+CString COPN2001_DEMODlg::GetDeviceDisplayName(const CString& strVersion, const CString& strDeviceId)
+{
+	CString name;
+	CString deviceName = GetDeviceName(strVersion);
+
+	name.Format(L"%s (ID:%s)", deviceName, strDeviceId);
+
+	return name;
+}
+
+CString COPN2001_DEMODlg::GetDeviceName(const CString& strVersion)
+{
+	CString name;
+
+	if (strVersion.GetLength() < 3 || (strVersion[0] != 'R' && strVersion[0] != 'F'))
+	{
+		name.Format(L"Unknown");
+	}
+	else if (strVersion[0] == 'R')
+	{
+		switch (strVersion[2])
+		{
+		case 'F':	// RFF	
+			name.Format(L"OPN2002/3");
+			break;
+
+		case 'G':	// RFG
+			name.Format(L"OPN2002");
+			break;
+
+		case 'I':	// RFI
+			name.Format(L"OPN2004/5/6");
+			break;
+
+		case 'L':	// RFL
+			name.Format(L"OPN2005");
+			break;
+
+		case 'M':	// RFM
+			name.Format(L"PX20");
+			break;
+
+		case 'N':	// RFN
+			name.Format(L"OPN2006");
+			break;
+
+		default:
+			name.Format(L"OPN2001");
+			break;
+		}
+	}
+	else // if (strVersion[0] == 'F')
+	{
+		switch (strVersion[2])
+		{
+		case 'M':	// FFM	
+			name.Format(L"OPN6000");
+			break;
+
+		case 'N':	// FFN
+			name.Format(L"OPN2500");
+			break;
+
+		default:
+			name.Format(L"OPN");
+			break;
+		}
+	}
+	return name;
 }
 
 int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 {
 	char szBarcode[ 2500 + 1 ];
-	unsigned char szDeviceID[ 9 + 1 ];
 	char szSwVersion[ 9 + 1 ];
 	char szFirmwareFile[500];
 	SYSTEMTIME sysTime;
-	long lRet = -1L, lAsciiMode, lRTC;
-	int len;
+	long lRet = -1L;
 	char curTime[6] = {0};
 	char szParam[2] = {0};
 	CString strTemp, strDeviceId, strVersion;
@@ -1796,8 +1916,22 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 
 	PollCallBack_sem++;
 
+	SOpn200xStatus* dev = GetDeviceStatus(nComPort);
+
+	if (dev == NULL)
+	{
+		dev = AddDevice(nComPort);
+		AddToOpnListCtrl(dev);
+	}
+
 	if(csp2GetDSREx(nComPort))
 	{
+		if(firmwareUpdateBusy && dev->iConnected == FIRMWARE_UPDATE_PENDING)
+		{
+			PollCallBack_sem--;
+			return 0;
+		}
+
 		if(csp2GetCTSEx(nComPort))
 		{
 			if( (lRet = csp2ReadDataEx(nComPort)) < 0 )
@@ -1811,55 +1945,38 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 
 		if( lRet >= 0L && csp2GetTimeEx((unsigned char*)curTime, nComPort) >= 0 )
 		{
-			// Get packet type (ASCII/Binary)
-			lAsciiMode = csp2GetASCIIModeEx(nComPort);
+			unsigned char szDeviceID[9 + 1];
 
-			// Get TimeStamp setting (on/off)
-			lRTC = csp2GetRTCModeEx(nComPort);
-
-			csp2GetDeviceIdEx( (char *)szDeviceID, 9, nComPort);
-
-			// szDeviceID need now to be converted to a real number
+			// Get Serial number (device id) and convert it to a real number
+			csp2GetDeviceIdEx((char*)szDeviceID, 9, nComPort);
+						
 			if(szDeviceID[ 4 ] != 0)		// Adds support of new 7 digit serials
 				strDeviceId.Format( _T("%1X%02X%02X%02X"), szDeviceID[ 4 ], szDeviceID[ 5 ], szDeviceID[ 6 ], szDeviceID[ 7 ]);
 			else
 				strDeviceId.Format( _T("%02X%02X%02X"), szDeviceID[ 5 ], szDeviceID[ 6 ], szDeviceID[ 7 ]);
 
-			gszFormattedDeviceID = strDeviceId;
 			m_statID.SetWindowText( strDeviceId );
 
 			csp2GetSwVersionEx( szSwVersion, 9, nComPort );
 			strVersion.Format(_T("%S"), szSwVersion );
 			m_statOSVersion.SetWindowText( strVersion );
 			
-			SOpn200xStatus* dev = GetDeviceStatus(nComPort);
-
-			if(dev == NULL)
-			{
-				dev = AddDevice(nComPort);
-				AddToOpnListCtrl(dev);
-			}
-
 			dev->iConnected = TRUE;
 			dev->sDeviceId = strDeviceId;
 			dev->sSwVersion = strVersion;
 			dev->nReadBarcodes = lRet;
-			
-			UpdateOpnListCtrl(nComPort);
-			
+
 			// lRet contains the number of barcodes in the OPN-2001
 			long lTotalBarcodes = lRet;
 
-			m_listBcdData.ResetContent();
-			strTemp.Format( L"Read %ld Barcodes", lRet );
-			m_listBcdData.AddString( strTemp );
-			
-			if(lTotalBarcodes > 0)
+			UpdateOpnListCtrl(nComPort);
+									
+			if (lTotalBarcodes > 0)
 			{
-				HANDLE hFile = INVALID_HANDLE_VALUE;
-
 				CString SaveFile = m_strSaveFile;
-				
+
+				bool perSerialFile = (SaveFile.Find(L"#SERIAL#") >= 0);
+
 				SaveFile.Replace(L"#SERIAL#", strDeviceId);
 
 				// Format the time into a string: yyyyMMddHHmmSS
@@ -1872,62 +1989,86 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 					tstruct.tm_sec);         // Seconds
 
 				SaveFile.Replace(L"#DATETIME#", strDateTime);
-				
-				//if( m_bSaveToFile ) //Behavior change. now always creates a file regardless of save to file check box state
-				//{
-					hFile = CreateFile( SaveFile,		// path + filename 
-							GENERIC_READ | GENERIC_WRITE,	// open for reading and writing
-							0,								// do not share 
-							NULL,							// no security 
-							OPEN_ALWAYS,					// Open the file create new when not existing
-							FILE_ATTRIBUTE_NORMAL,			// normal file 
-							NULL);							// no attr. template 
-				//}
-				if( hFile != INVALID_HANDLE_VALUE )
-					SetFilePointer( hFile, 0, NULL, FILE_END); // set file pointer to end for appending
 
-				if ( m_checkShowHeader.GetCheck())			//prepend an optional header to the list.
-				{ 
-					strTemp = L"" ;
-					GenerateHeader( strTemp );
+				std::mutex* pMutex = nullptr;
 
-					m_listBcdData.AddString( strTemp );
-			/*		
-					if( hFile != INVALID_HANDLE_VALUE && firstDownload == true) //Uncomment for appending header to file
-					{
-						DWORD dwWr;
-						len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp );
-						WriteFile( hFile, szBarcode, len, &dwWr, NULL );
-						firstDownload = false;
-					}
-			*/	}
-
-				for( long lCount = 0L; lCount < lTotalBarcodes; lCount++ )
+				if (perSerialFile)
 				{
-					lRet = csp2GetPacketEx( szBarcode, lCount, sizeof( szBarcode ), nComPort);
-
-					if( lRet > 0L )
-					{
-						ConvertBarcodeToString( szBarcode, lRet-1, strTemp, lAsciiMode, lRTC, curTime);
-						CString strTemp2 = strTemp;
-						strTemp2.Replace(L"\t", L"    ");
-						m_listBcdData.AddString( strTemp2 );
-
-						if( hFile != INVALID_HANDLE_VALUE )
-						{
-							DWORD dwWr;
-							len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp.GetBuffer() );
-							WriteFile( hFile, szBarcode, len, &dwWr, NULL );
-						}
-					}
+					// Separate file per scanner
+					pMutex = &GetFileMutex(SaveFile);
+				}
+				else
+				{
+					// Shared output file
+					pMutex = &m_globalFileMutex;
 				}
 
-				if( hFile != INVALID_HANDLE_VALUE )
-					CloseHandle( hFile );
+				{
+					std::lock_guard<std::mutex> lock(*pMutex);
 
-				// remove the barcode data from the OPN
+					HANDLE hFile = CreateFile(
+						SaveFile,
+						GENERIC_READ | GENERIC_WRITE,
+						FILE_SHARE_READ,
+						NULL,
+						OPEN_ALWAYS,
+						FILE_ATTRIBUTE_NORMAL,
+						NULL);
+
+					if (hFile != INVALID_HANDLE_VALUE)
+						SetFilePointer(hFile, 0, NULL, FILE_END); // set file pointer to end for appending
+
+					if (m_checkShowHeader.GetCheck())			//prepend an optional header to the list.
+					{
+						strTemp = L"";
+						GenerateHeader(strTemp);
+
+						//m_listBcdData.AddString( strTemp );
+					}
+					// Get packet type (ASCII/Binary)
+					long lAsciiMode = csp2GetASCIIModeEx(nComPort);
+
+					// Get TimeStamp setting (on/off)
+					long lRTC = csp2GetRTCModeEx(nComPort);
+					for (long lCount = 0L; lCount < lTotalBarcodes; lCount++)
+					{
+						lRet = csp2GetPacketEx(szBarcode, lCount, sizeof(szBarcode), nComPort);
+
+						if (lRet > 0L)
+						{
+							ConvertBarcodeToString(
+								szBarcode,
+								lRet - 1,
+								strTemp,
+								lAsciiMode,
+								lRTC,
+								curTime,
+								strDeviceId);
+
+							if (hFile != INVALID_HANDLE_VALUE)
+							{
+								DWORD dwWr;
+
+								int len = sprintf_s(
+									szBarcode,
+									sizeof(szBarcode) - 1,
+									"%S\r\n",
+									strTemp.GetString());
+
+								WriteFile(hFile, szBarcode, len, &dwWr, NULL);
+							}
+						}
+					}
+
+					if (hFile != INVALID_HANDLE_VALUE)
+						CloseHandle(hFile);
+				} // <- lock_guard destructor runs here, mutex unlocks automatically
+
 				csp2ClearDataEx(nComPort);
 			}
+			
+			strTemp.Format(L"%s: Read %ld Barcodes", strDeviceId, lTotalBarcodes);
+			AddBarcodeDataLine(strTemp);
 
 			GetLocalTime( &sysTime );
 
@@ -1947,56 +2088,8 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 				wcsncpy_s(this->m_TrayData.szInfo, strTemp, 64 );
 				m_TrayData.uFlags |= NIF_INFO;
 
-				if (strVersion[0] == 'R')
-				{
-					switch (strVersion[2])
-					{
-					case 'F':	// RFF	
-						strTemp.Format(L"OPN2002/3 (ID:%s)", strDeviceId);
-						break;
-
-					case 'G':	// RFG
-						strTemp.Format(L"OPN2002 (ID:%s)", strDeviceId);
-						break;
-
-					case 'I':	// RFI
-						strTemp.Format(L"OPN2004/5/6 (ID:%s)", strDeviceId);
-						break;
-
-					case 'L':	// RFL
-						strTemp.Format(L"OPN2005 (ID:%s)", strDeviceId);
-						break;
-
-					case 'M':	// RFM
-						strTemp.Format(L"PX20 (ID:%s)", strDeviceId);
-						break;
-
-					case 'N':	// RFN
-						strTemp.Format(L"OPN2006 (ID:%s)", strDeviceId);
-						break;
-
-					default: 	// RBB
-						strTemp.Format(L"OPN2001 (ID:%s)", strDeviceId);
-						break;
-					}
-				}
-				else if (strVersion[0] == 'F')
-				{
-					switch (strVersion[2])
-					{
-					case 'M':	// FFM	
-						strTemp.Format(L"OPN6000 (ID:%s)", strDeviceId);
-						break;
-
-					case 'N':	// FFN
-						strTemp.Format(L"OPN2500 (ID:%s)", strDeviceId);
-						break;
-
-					default: 	// Fxx
-						strTemp.Format(L"OPN (ID:%s)", strDeviceId);
-						break;
-					}
-				}
+				strTemp = GetDeviceDisplayName(strVersion, strDeviceId);
+				
 				wcsncpy_s(m_TrayData.szInfoTitle, strTemp, 64);
 				m_TrayData.uTimeout = 1000;
 				m_TrayData.dwInfoFlags = 0;
@@ -2006,41 +2099,46 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
 				m_TrayData.uFlags &= ~NIF_INFO;
 			}
 
+			// 1. Wait for the lock (other threads will stop here until you are done)
+			EnterCriticalSection(&m_csLock);
+
+			size_t flen;
+			wcstombs_s(&flen, szFirmwareFile, (LPCTSTR)m_strFirmwareFile, sizeof(szFirmwareFile));
+
 			// Check if we need to update the firmware.
-			firmwareUpdateBusy = true;
-			size_t len;
-			wcstombs_s(&len, szFirmwareFile, (LPCTSTR)m_strFirmwareFile, sizeof(szFirmwareFile));
-			csp2StartFirmwareUpdateEx(szFirmwareFile, (pFirmwareProgressCallback)&FirmwareProgressCallback, TRUE, nComPort);
+			lRet = csp2StartFirmwareUpdateEx(szFirmwareFile, (pFirmwareProgressCallback)&FirmwareProgressCallback, TRUE, nComPort);
+
+			switch (lRet)
+			{
+				case STATUS_OK:
+					firmwareUpdateBusy = true;
+					break;
+
+				case TEMPORARY_ERROR:
+					// Postpone firmware update until current update is finished to avoid conflicts between multiple updates at the same time.
+					dev->iConnected = FIRMWARE_UPDATE_PENDING;
+					break;
+
+				default:
+					firmwareUpdateBusy = false;
+					break;
+			}
+
+			// 2. Release the lock so the next device can process
+			LeaveCriticalSection(&m_csLock);
 		}
 		else
 		{
-			SOpn200xStatus* dev = GetDeviceStatus(nComPort);
-
-			if(dev == NULL)
-			{
-				dev = AddDevice(nComPort);
-				AddToOpnListCtrl(dev);
-			}
-
 			dev->iConnected = FALSE;
-			UpdateOpnListCtrl(nComPort);
 		}
 	}
 	else
 	{
-		SOpn200xStatus* dev = GetDeviceStatus(nComPort);
-
-		if(dev == NULL)
-		{
-			dev = AddDevice(nComPort);
-			AddToOpnListCtrl(dev);
-		}
-
 		dev->iConnected = FALSE;
-		UpdateOpnListCtrl(nComPort);
-		
 		TRACE( L"COM%ld unplugged!!!\n", nComPort);
 	}
+
+	UpdateOpnListCtrl(nComPort);
 
 
 	PollCallBack_sem--;
@@ -2049,7 +2147,7 @@ int COPN2001_DEMODlg::HandlePollCallback( long nComPort )
     if( g_hStopWaitPollCallback != NULL) 
 		SetEvent( g_hStopWaitPollCallback ); 
 	
-	return 0L;
+	return (dev->iConnected == FIRMWARE_UPDATE_PENDING) ? 0L : 1L;		// Handled when there are no firmware updates pending
 
 }
 
@@ -2057,7 +2155,6 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 {
 	long lRet, lAsciiMode, lRTC;
 	char szBarcode[ 2500 + 1 ];
-	int len;
 	unsigned char szDeviceID[ 9 + 1 ];
 	char curTime[6] = {0};
 
@@ -2082,7 +2179,7 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 		else
 			strTemp.Format( _T("%02X%02X%02X"), szDeviceID[ 5 ], szDeviceID[ 6 ], szDeviceID[ 7 ]);
 
-		gszFormattedDeviceID = strTemp;
+		CString deviceId = strTemp;
 		strTemp.Empty();
 
 		// Get packet type (ASCII/Binary)
@@ -2094,23 +2191,15 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 		// lRet contains the number of barcodes in the OPN-2001
 		long lTotalBarcodes = lRet;
 
-		m_listBcdData.ResetContent();
-		strTemp.Format( L"Read %ld Barcodes", lRet );
-		m_listBcdData.AddString( strTemp );
+		strTemp.Format(L"Read %ld Barcodes", lTotalBarcodes);
+		AddBarcodeDataLine(strTemp, true);
 
 		HANDLE hFile = INVALID_HANDLE_VALUE;
 		if( m_bSaveToFile )
 		{
-			//CString FileName;
-			/*CFileDialog FileDlg(FALSE,_T(".txt"),NULL,0,_T("Text Files(*.txt)|*.txt||"));
-			if(FileDlg.DoModal() == IDOK)
-			{
-				m_strSaveFile = FileDlg.GetFileName();
-			}*/
-
 			CString SaveFile = m_strSaveFile;
 			
-			SaveFile.Replace(L"#SERIAL#", gszFormattedDeviceID);
+			SaveFile.Replace(L"#SERIAL#", deviceId);
 
 			// Format the time into a string: yyyyMMddHHmmSS
 			strDateTime.Format(_T("%04d%02d%02d_%02d%02d%02d"),
@@ -2143,12 +2232,12 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 			strTemp = L"" ;
 			GenerateHeader( strTemp );
 
-			m_listBcdData.AddString( strTemp );
+			AddBarcodeDataLine(strTemp);
 	/*
 			if( hFile != INVALID_HANDLE_VALUE && firstDownload == true) //uncomment to save header to the file.
 			{
 				DWORD dwWr;
-				len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp );
+				int len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp );
 				WriteFile( hFile, szBarcode, len, &dwWr, NULL );
 				firstDownload = false;
 			}
@@ -2159,14 +2248,16 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 			lRet = csp2GetPacket( szBarcode, lCount, sizeof( szBarcode ));
 			if( lRet > 0L )
 			{
-				ConvertBarcodeToString( szBarcode, lRet-1, strTemp, lAsciiMode, lRTC, curTime);
+				ConvertBarcodeToString( szBarcode, lRet-1, strTemp, lAsciiMode, lRTC, curTime, deviceId );
 				CString strTemp2 = strTemp;
 				strTemp2.Replace(L"\t", L"    ");
-				m_listBcdData.AddString( strTemp2 );
+
+				AddBarcodeDataLine(strTemp2);
+
 				if( hFile != INVALID_HANDLE_VALUE )
 				{
 					DWORD dwWr;
-					len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp.GetBuffer() );
+					int len = sprintf_s( szBarcode, sizeof( szBarcode ) -1, "%S\r\n", strTemp.GetBuffer() );
 					WriteFile( hFile, szBarcode, len, &dwWr, NULL );
 				}
 			}
@@ -2176,8 +2267,7 @@ void COPN2001_DEMODlg::OnBnClickedBtnGetBarcode()
 	}
 	else if( lRet == 0L && csp2GetTime((unsigned char*)curTime) >= 0 )
 	{
-		m_listBcdData.ResetContent();
-		m_listBcdData.AddString( L"No barcodes available" );
+		AddBarcodeDataLine( L"No barcodes available", true );
 	}
 	else
 	{
@@ -2555,7 +2645,7 @@ void COPN2001_DEMODlg::OnBnClickedBtnBrowse()
 	}
 	else// if(m_radioCSV.GetCheck())
 	{
-		CFileDialog FileDlg(FALSE,_T(".csv"),m_strSaveFile,0,_T("Comma Seperated Values (*.csv)|*.csv||"));
+		CFileDialog FileDlg(FALSE,_T(".csv"),m_strSaveFile,0,_T("Comma Separated Values (*.csv)|*.csv||"));
 		lRet = FileDlg.DoModal();
 		tmp = FileDlg.GetPathName();
 	}
@@ -2711,9 +2801,9 @@ void COPN2001_DEMODlg::OnBnClickedShowAll()
 
 	iniOpnDemo.SetPathName( m_strConfigFile );
 
+	ClearBarcodeDataTextbox();
+
 	// Fill the combobox
-	m_cmboPort.ResetContent(); // Clear the list in the combobox;
-	
 	RemoveAllDevices();
 	
 	CSerialEnum::GetSerialPorts( m_nPortArray );
@@ -2775,19 +2865,19 @@ void COPN2001_DEMODlg::OnTimer(UINT_PTR nIDEvent)
 		CStatic* dsrItem = (CStatic*)GetDlgItem(IDC_DSR_STATUS);
 		int new_dsr = csp2GetDSR();
 		
-		if( dsr != new_dsr)
+		if( g_iDSR != new_dsr)
 		{
-			dsr = new_dsr;
-			dsrItem->SetBitmap(::LoadBitmap(AfxGetResourceHandle(), MAKEINTRESOURCE( (dsr) ? IDB_CONNECTED : IDB_ERROR)));
+			g_iDSR = new_dsr;
+			dsrItem->SetBitmap(::LoadBitmap(AfxGetResourceHandle(), MAKEINTRESOURCE( (g_iDSR) ? IDB_CONNECTED : IDB_ERROR)));
 		}
 
 		CStatic* ctsItem = (CStatic*)GetDlgItem(IDC_DATA_STATUS);
 		int new_cts = csp2GetCTS();
 			
-		if( cts != new_cts)
+		if( g_iCTS != new_cts)
 		{
-			cts = new_cts;
-			ctsItem->SetBitmap(::LoadBitmap(AfxGetResourceHandle(), MAKEINTRESOURCE( (cts) ? IDB_CONNECTED : IDB_DISCONNECTED)));
+			g_iCTS = new_cts;
+			ctsItem->SetBitmap(::LoadBitmap(AfxGetResourceHandle(), MAKEINTRESOURCE( (g_iCTS) ? IDB_CONNECTED : IDB_DISCONNECTED)));
 		}
 	}
 

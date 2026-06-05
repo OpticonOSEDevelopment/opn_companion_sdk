@@ -6,9 +6,9 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="maui-package-name-placeholder" Publisher="CN=User Name" Version="0.0.0.0" />
+  <Identity Name="maui-package-name-placeholder" Publisher="CN=E=oscar.jacobse@opticon.com, Opticon Sensors Europe B.V., O=Opticon Sensors Europe B.V., STREET=Opaallaan 35, L=Hoofddorp, S=Noord-Holland, C=NL, OID.1.3.6.1.4.1.311.60.2.1.3=NL, SERIALNUMBER=34064005, OID.2.5.4.15=Private Organization" Version="0.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="F76691C8-26F9-4C46-B7E7-3F33C7630DD5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="A65A6418-AE99-4273-92B7-832BD855F787" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>$placeholder$</DisplayName>

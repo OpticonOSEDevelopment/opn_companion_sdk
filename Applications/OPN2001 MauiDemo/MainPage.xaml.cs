@@ -1,32 +1,25 @@
-﻿namespace Csp2MauiDemo
+﻿using Csp2NetMauiDemo;
+
+namespace Csp2NetMauiDemo
 {
     public partial class MainPage : ContentPage
     {
+        public static MainPage? Instance { get; private set; }
+
         public MainPage()
         {
             InitializeComponent();
+            Instance = this;
+
+            MauiProgram.Start();
         }
 
-        private bool started = false;
-        private void OnCounterClicked(object sender, EventArgs e)
+        public void AppendLog(string text)
         {
-            if (!started)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                CounterBtn.Text = $"Started!"; 
-                started = true;
-                MauiProgram.Start();
-            }
-            else
-            {
-                CounterBtn.Text = $"Not started";
-                started = false;
-                MauiProgram.Stop();
-            }
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-
-            
+                LogEditor.Text = $"{LogEditor.Text}{text}{Environment.NewLine}";
+            });
         }
     }
-
 }

@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Csp2MauiDemo
+namespace Csp2NetMauiDemo
 {
     public class Program
     {

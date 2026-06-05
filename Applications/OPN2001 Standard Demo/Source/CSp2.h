@@ -973,7 +973,7 @@ long CSP2_API csp2SetDebugMode( long nOn );
 long CSP2_API csp2StartPolling( FARPROC csp2CallBack );
 
 //-------------------------------------------------------------------------------------------------
-// long CSP2_API csp2StartPollingAll( int (FAR WINAPI *csp2CallBack)(long) );
+// long CSP2_API csp2StartPollingAll( int (FAR WINAPI *csp2CallBack)(long), bool no_interrogate = false );
 //
 // Description:	This function creates a new thread to poll for OPN-2001s.
 //				The csp2CallBack function address is called by the thread to 
@@ -981,11 +981,12 @@ long CSP2_API csp2StartPolling( FARPROC csp2CallBack );
 //
 // Argument:	csp2CallBack address of the callback function
 //				format of callback function int __stdcall csp2PollCallBack( long nCOMport )
+//				no_interrogate when true, the polling thread will not automatically execute an interrogate before calling the callback function.
 //
 // Returns:		STATUS_OK	on success
 //				< 0L		on failure
 //
-long CSP2_API csp2StartPollingAll( int (FAR WINAPI *csp2CallBack)(long) );
+long CSP2_API csp2StartPollingAll( int (FAR WINAPI *csp2CallBack)(long), bool no_interrogate = false );
 
 //-------------------------------------------------------------------------------------------------
 // long CSP2_API csp2StopPolling( void );
@@ -1046,12 +1047,12 @@ typedef void (FAR WINAPI *pFirmwareProgressCallback)( short Comport, short Perce
 //				The ProgressCallBack function address is called to notify about progress
 //
 // Argument:	Filename 	Filename of the firmware file
-//				ProgressCallback	Format of callback function void xxxxxx( short Comport, short Percentage, short Status, char *StatusMsg )
+//				ProgressCallback	Format of callback function void ( short Comport, short Percentage, short Status, char *StatusMsg )
 //				bCheckVersion		If true, the version of the file is checked with the version of the device. When the file is not compatible or the version
 //									is the same, then the firmware update is not started.
 //									
 //
-// Returns:		STATUS_OK	on su ccess
+// Returns:		STATUS_OK	on success
 //				< 0L		on failure
 //
 long CSP2_API csp2StartFirmwareUpdate(LPCSTR Filename, pFirmwareProgressCallback ProgressCallback, bool bCheckVersion );
@@ -1063,12 +1064,12 @@ long CSP2_API csp2StartFirmwareUpdate(LPCSTR Filename, pFirmwareProgressCallback
 //				The csp2FirmwareUpdateProgress CallBack function address is called to notify about progress
 //
 // Argument:	Filename 			Filename of the firmware file
-//				ProgressCallback	Format of callback function void xxxxxx( short Comport, short Percentage, short Status, char *StatusMsg )
+//				ProgressCallback	Format of callback function void ( short Comport, short Percentage, short Status, char *StatusMsg )
 //				bCheckVersion		If true, the version of the file is checked with the version of the device. When the file is not compatible or the version
 //									is the same, then the firmware update is not started.
 //				nCOMPort			serial port number
 //
-// Returns:		STATUS_OK	on su ccess
+// Returns:		STATUS_OK	on success
 //				< 0L		on failure
 //
 long CSP2_API csp2StartFirmwareUpdateEx(LPCSTR Filename, pFirmwareProgressCallback ProgressCallback, bool bCheckVersion, long nCOMPort );
@@ -1094,6 +1095,7 @@ long CSP2_API csp2GetLoadDllVersion( char szDllVersion[], long nMaxDllVersionSz 
 //
 long CSP2_API csp2GetCommInfo( long nCOMPort );
 long CSP2_API csp2SetMultiParam( char szMultiParams[], long nMaxMultiParams );
+long CSP2_API csp2SetMultiParamEx(char szString[], long nMaxLength, long nComPort);
 
 #ifdef __cplusplus
 }

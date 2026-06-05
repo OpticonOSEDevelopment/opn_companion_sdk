@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Csp2MauiDemo
+namespace Csp2NetMauiDemo
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

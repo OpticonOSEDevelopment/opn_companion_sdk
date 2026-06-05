@@ -5,6 +5,8 @@
 
 #include <list>
 #include "afxwin.h"
+#include <mutex>
+#include <map>	
 
 
 typedef struct 
@@ -15,6 +17,7 @@ typedef struct
 
 #define FIRMWARE_UPDATE				2
 #define FIRMWARE_UPDATE_FAILED		3
+#define FIRMWARE_UPDATE_PENDING		4
 
 typedef struct Opn200xStatus
 {
@@ -56,7 +59,13 @@ private:
 
 	std::list<int> m_nPortArray;
 	std::list<int>::iterator m_itPorts;
-	
+
+	std::mutex m_globalFileMutex;
+	std::map<CString, std::unique_ptr<std::mutex>> m_fileMutexes;
+	std::mutex m_fileMutexMapMutex;
+
+	CRITICAL_SECTION m_csLock;
+
 	int m_nUsedPort;
 	bool m_bMinimized;
 	RECT WindowRect;
@@ -83,8 +92,7 @@ protected:
 	void UnpackCurrentTime( char *packedTimeandDate, CString &unpackedTime);
 	void UnpackCurrentDate( char *packedTimeandDate, CString &unpackedDate);
 	void GenerateHeader( CString &strTemp );
-	//void ConvertBarcodeToString( char *szBarcode, CString &strTemp, long lAsciiMode, long lRTC);
-	void ConvertBarcodeToString( char *szBarcode, int length, CString &strTemp, long lAsciiMode, long lRTC, char *currentDatenTime);
+	void ConvertBarcodeToString( char *szBarcode, int length, CString &strTemp, long lAsciiMode, long lRTC, char *currentDatenTime, const CString& deviceId);
 	void InitFormatControls();
 	void ManipulateTimeStamp(CString& tmpRTC, CString& hour, CString& minute, CString& second, CString& ampm, CString& day, CString& month, CString& year);
 
@@ -94,11 +102,14 @@ protected:
 	void UpdateOpnListCtrl(long nComPort);
 	void UpdateOpnListCtrlCounters();
 	void AddToOpnListCtrl(SOpn200xStatus *m_itDev);
+	void ClearBarcodeDataTextbox();
+	void AddBarcodeDataLine(CString line, bool reset);
 	SOpn200xStatus *AddDevice(long nComPort);
 	void RemoveDevice(long nComPort);
 	void RemoveAllDevices(void);
 	RECT WindowRectangle(void);
 	SOpn200xStatus* GetDeviceStatus(long nComPort);
+	std::mutex& GetFileMutex(const CString& fileName);
 	
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -119,6 +130,8 @@ public:
 	static void __stdcall COPN2001_DEMODlg::FirmwareProgressCallback(short Comport, short Percentage, short Status, LPCTSTR bstrStatusMsg);
 	void HandleFirmwareProgressCallback(short Comport, short Percentage, short Status, LPCTSTR bstrStatusMsg);
 	int HandlePollCallback( long nComPort );
+	CString GetDeviceDisplayName(const CString& strVersion, const CString& strDeviceId);
+	CString GetDeviceName(const CString& strVersion);
 	int HandleDeviceChangeCallback( long nComPort );
 	int IsHandlingPollCallback(void);
 	void UpdateDeviceStatus(SOpn200xStatus *Status, bool Add);

@@ -1,4 +1,4 @@
-﻿namespace Csp2MauiDemo
+﻿namespace Csp2NetMauiDemo
 {
     public partial class AppShell : Shell
     {

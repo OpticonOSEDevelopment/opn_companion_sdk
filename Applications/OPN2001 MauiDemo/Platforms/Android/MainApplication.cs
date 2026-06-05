@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Csp2MauiDemo
+namespace Csp2NetMauiDemo
 {
     [Application]
     public class MainApplication : MauiApplication

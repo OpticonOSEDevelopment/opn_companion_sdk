@@ -1,8 +1,8 @@
+using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
-using System;
 
-namespace Csp2MauiDemo
+namespace Csp2NetMauiDemo
 {
     internal class Program : MauiApplication
     {

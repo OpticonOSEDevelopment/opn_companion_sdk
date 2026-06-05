@@ -1,23 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Csp2MauiDemo.MainPage">
+             x:Class="Csp2NetMauiDemo.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
             <Label
-                Text="Csp2.dll Maui Demo!"
+                Text="Opticon.Csp2Net Maui Demo"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Not started" 
-                SemanticProperties.Hint="Starts / stops CSP2 DLL"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+            <Editor
+                x:Name="LogEditor"
+                HeightRequest="300"
+                IsReadOnly="True"/> 
         </VerticalStackLayout>
     </ScrollView>
 
